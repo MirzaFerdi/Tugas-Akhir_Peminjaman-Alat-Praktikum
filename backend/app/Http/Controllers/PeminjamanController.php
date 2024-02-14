@@ -21,8 +21,7 @@ class PeminjamanController extends Controller
 
     public function store(Request $request){
         $peminjaman = new Peminjaman;
-        $peminjaman->admin_id = $request->admin_id;
-        $peminjaman->mahasiswa_id = $request->mahasiswa_id;
+        $peminjaman->user_id = $request->user_id;
         $peminjaman->barang_id = $request->barang_id;
         $peminjaman->keterangan = $request->keterangan;
         $peminjaman->status = $request->status;
@@ -40,8 +39,7 @@ class PeminjamanController extends Controller
 
     public function update(Request $request, $id){
         $peminjaman = Peminjaman::find($id);
-        $peminjaman->admin_id = $request->admin_id;
-        $peminjaman->mahasiswa_id = $request->mahasiswa_id;
+        $peminjaman->user_id = $request->user_id;
         $peminjaman->barang_id = $request->barang_id;
         $peminjaman->keterangan = $request->keterangan;
         $peminjaman->status = $request->status;

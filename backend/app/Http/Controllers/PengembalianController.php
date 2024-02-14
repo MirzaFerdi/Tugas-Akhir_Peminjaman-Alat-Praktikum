@@ -21,8 +21,7 @@ class PengembalianController extends Controller
 
     public function store(Request $request){
         $pengembalian = new Pengembalian;
-        $pengembalian->admin_id = $request->admin_id;
-        $pengembalian->mahasiswa_id = $request->mahasiswa_id;
+        $pengembalian->user_id = $request->user_id;
         $pengembalian->barang_id = $request->barang_id;
         $pengembalian->keterangan = $request->keterangan;
         $pengembalian->status = $request->status;
@@ -40,8 +39,7 @@ class PengembalianController extends Controller
 
     public function update(Request $request, $id){
         $pengembalian = Pengembalian::find($id);
-        $pengembalian->admin_id = $request->admin_id;
-        $pengembalian->mahasiswa_id = $request->mahasiswa_id;
+        $pengembalian->user_id = $request->user_id;
         $pengembalian->barang_id = $request->barang_id;
         $pengembalian->keterangan = $request->keterangan;
         $pengembalian->status = $request->status;

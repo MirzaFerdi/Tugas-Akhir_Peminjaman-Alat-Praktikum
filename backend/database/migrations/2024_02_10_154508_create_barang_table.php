@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('kategori_id')->constrained('kategori')->onDelete('cascade');
             $table->string('nama_barang');
             $table->integer('jumlah_barang');
-            $table->timestamps();
         });
     }
 

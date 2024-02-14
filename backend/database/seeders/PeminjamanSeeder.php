@@ -14,12 +14,18 @@ class PeminjamanSeeder extends Seeder
     public function run(): void
     {
         DB::table('peminjaman')->insert([
-            'admin_id' => 1,
-            'mahasiswa_id' => 1,
+            'user_id' => 2,
             'barang_id' => 1,
-            'keterangan' => 'barang dengan keadaan baik',
-            'status' => 'pending',
-            'tanggal_peminjaman' => date('d-m-Y'),
+            'keterangan' => 'Peminjaman barang untuk keperluan tugas akhir',
+            'status' => 'Pending',
+            'tanggal_peminjaman' => '2021-08-01',
+        ]);
+        DB::table('peminjaman')->insert([
+            'user_id' => 3,
+            'barang_id' => 2,
+            'keterangan' => 'Peminjaman barang untuk keperluan praktikum',
+            'status' => 'Pending',
+            'tanggal_peminjaman' => '2021-08-05',
         ]);
     }
 }

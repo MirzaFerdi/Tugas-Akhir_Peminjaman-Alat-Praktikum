@@ -15,9 +15,16 @@ class BarangSeeder extends Seeder
     public function run(): void
     {
         DB::table('barang')->insert([
-            'kategori_id' => 1 || 2,
-            'nama_barang' => Str::random(10),
-            'jumlah_barang' => Int::random(3),
+            'kategori_id' => 1,
+            'nama_barang' => 'Gerinda',
+            'jumlah_barang' => 10,
+        ]);
+        DB::table('barang')->insert([
+            'kategori_id' => 1,
+            'nama_barang' => 'Avo Analog',
+            'jumlah_barang' => 3,
         ]);
     }
+
+
 }

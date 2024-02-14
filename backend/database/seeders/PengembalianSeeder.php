@@ -13,13 +13,19 @@ class PengembalianSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('peminjaman')->insert([
-            'admin_id' => 1,
-            'mahasiswa_id' => 1,
+        DB::table('pengembalian')->insert([
+            'user_id' => 2,
             'barang_id' => 1,
-            'keterangan' => 'barang dengan keadaan baik',
-            'status' => 'pending',
-            'tanggal_pengembalian' => date('d-m-Y'),
+            'keterangan' => 'keadaan baik',
+            'status' => 'Pending',
+            'tanggal_pengembalian' => '2021-08-03',
+        ]);
+        DB::table('pengembalian')->insert([
+            'user_id' => 3,
+            'barang_id' => 2,
+            'keterangan' => 'rusak',
+            'status' => 'Pending',
+            'tanggal_pengembalian' => '2021-08-06',
         ]);
     }
 }
