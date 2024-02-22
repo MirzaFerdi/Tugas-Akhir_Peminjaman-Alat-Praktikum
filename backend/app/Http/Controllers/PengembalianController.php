@@ -67,4 +67,32 @@ class PengembalianController extends Controller
             ]);
         }
     }
+
+    public function approve($id){
+        $pengembalian = Pengembalian::find($id);
+        $pengembalian->status = 'Diterima';
+        $pengembalian->update();
+
+        if($pengembalian){
+            return response()->json([
+                'success' => true,
+                'message' => 'Pengembalian berhasil diterima!',
+                'data' => $pengembalian
+            ]);
+        }
+    }
+
+    public function reject($id){
+        $pengembalian = Pengembalian::find($id);
+        $pengembalian->status = 'Ditolak';
+        $pengembalian->update();
+
+        if($pengembalian){
+            return response()->json([
+                'success' => true,
+                'message' => 'Pengembalian berhasil ditolak!',
+                'data' => $pengembalian
+            ]);
+        }
+    }
 }

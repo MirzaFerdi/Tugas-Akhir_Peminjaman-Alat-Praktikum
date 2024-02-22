@@ -25,14 +25,11 @@ use Illuminate\Support\Facades\Route;
 // Accept:application/json
 
 
-// Route::post('/logout', LogoutController::class);
-
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 
 
 Route::middleware('auth:api', 'role:Admin')->group(function(){
-    // Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     // Role
     Route::get('/role', [RoleController::class, 'index'])->name('role.index');
@@ -62,26 +59,6 @@ Route::middleware('auth:api', 'role:Admin')->group(function(){
     Route::put('/kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
     Route::delete('/kategori/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
 
-    // // Barang
-    // Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
-    // Route::get('/barang/{id}', [BarangController::class, 'show'])->name('barang.show');
-    // Route::post('/barang', [BarangController::class, 'store'])->name('barang.store');
-    // Route::put('/barang/{id}', [BarangController::class, 'update'])->name('barang.update');
-    // Route::delete('/barang/{id}', [BarangController::class, 'destroy'])->name('barang.destroy');
-
-    // // Peminjaman
-    // Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman.index');
-    // Route::get('/peminjaman/{id}', [PeminjamanController::class, 'show'])->name('peminjaman.show');
-    // Route::post('/peminjaman', [PeminjamanController::class, 'store'])->name('peminjaman.store');
-    // Route::put('/peminjaman/{id}', [PeminjamanController::class, 'update'])->name('peminjaman.update');
-    // Route::delete('/peminjaman/{id}', [PeminjamanController::class, 'destroy'])->name('peminjaman.destroy');
-
-    // // Pengembalian
-    // Route::get('/pengembalian', [PengembalianController::class, 'index'])->name('pengembalian.index');
-    // Route::get('/pengembalian/{id}', [PengembalianController::class, 'show'])->name('pengembalian.show');
-    // Route::post('/pengembalian', [PengembalianController::class, 'store'])->name('pengembalian.store');
-    // Route::put('/pengembalian/{id}', [PengembalianController::class, 'update'])->name('pengembalian.update');
-    // Route::delete('/pengembalian/{id}', [PengembalianController::class, 'destroy'])->name('pengembalian.destroy');
 });
 
 Route::middleware('auth:api', 'role:Admin|Mahasiswa')->group(function(){
@@ -100,6 +77,8 @@ Route::middleware('auth:api', 'role:Admin|Mahasiswa')->group(function(){
     Route::post('/peminjaman', [PeminjamanController::class, 'store'])->name('peminjaman.store');
     Route::put('/peminjaman/{id}', [PeminjamanController::class, 'update'])->name('peminjaman.update');
     Route::delete('/peminjaman/{id}', [PeminjamanController::class, 'destroy'])->name('peminjaman.destroy');
+    Route::put('/peminjaman/approve/{id}', [PeminjamanController::class, 'approve'])->name('peminjaman.approve');
+    Route::put('/peminjaman/reject/{id}', [PeminjamanController::class, 'reject'])->name('peminjaman.reject');
 
     // Pengembalian
     Route::get('/pengembalian', [PengembalianController::class, 'index'])->name('pengembalian.index');
@@ -107,6 +86,8 @@ Route::middleware('auth:api', 'role:Admin|Mahasiswa')->group(function(){
     Route::post('/pengembalian', [PengembalianController::class, 'store'])->name('pengembalian.store');
     Route::put('/pengembalian/{id}', [PengembalianController::class, 'update'])->name('pengembalian.update');
     Route::delete('/pengembalian/{id}', [PengembalianController::class, 'destroy'])->name('pengembalian.destroy');
+    Route::put('/pengembalian/approve/{id}', [PengembalianController::class, 'approve'])->name('pengembalian.approve');
+    Route::put('/pengembalian/reject/{id}', [PengembalianController::class, 'reject'])->name('pengembalian.reject');
 
 });
 

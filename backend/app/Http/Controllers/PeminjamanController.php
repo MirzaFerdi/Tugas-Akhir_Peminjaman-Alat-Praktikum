@@ -68,4 +68,32 @@ class PeminjamanController extends Controller
         }
     }
 
+    public function approve($id){
+        $peminjaman = Peminjaman::find($id);
+        $peminjaman->status = 'Diterima';
+        $peminjaman->update();
+
+        if($peminjaman){
+            return response()->json([
+                'success' => true,
+                'message' => 'Peminjaman berhasil diapprove!',
+                'data' => $peminjaman
+            ]);
+        }
+    }
+
+    public function reject($id){
+        $peminjaman = Peminjaman::find($id);
+        $peminjaman->status = 'Ditolak';
+        $peminjaman->update();
+
+        if($peminjaman){
+            return response()->json([
+                'success' => true,
+                'message' => 'Peminjaman berhasil direject!',
+                'data' => $peminjaman
+            ]);
+        }
+    }
+
 }
