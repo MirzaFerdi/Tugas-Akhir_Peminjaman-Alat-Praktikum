@@ -29,7 +29,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 
 
-Route::middleware('auth:api', 'role:Admin')->group(function(){
+Route::middleware('auth:api', 'role:Admin')->group(function () {
 
     // Role
     Route::get('/role', [RoleController::class, 'index'])->name('role.index');
@@ -41,6 +41,8 @@ Route::middleware('auth:api', 'role:Admin')->group(function(){
     // User
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
     Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
+    Route::get('/user/kelas/{id}', [UserController::class, 'showByKelas'])->name('user.showByKelas');
+    Route::get('/user/search/mahasiswa/{keywords}', [UserController::class, 'searchMahasiswa'])->name('user.searchMahasiswa');
     Route::post('/user', [UserController::class, 'store'])->name('user.store');
     Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
     Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
@@ -58,15 +60,19 @@ Route::middleware('auth:api', 'role:Admin')->group(function(){
     Route::post('/kategori', [KategoriController::class, 'store'])->name('kategori.store');
     Route::put('/kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
     Route::delete('/kategori/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
-
 });
 
-Route::middleware('auth:api', 'role:Admin|Mahasiswa')->group(function(){
+Route::middleware('auth:api', 'role:Admin|Mahasiswa')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     // Barang
     Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
     Route::get('/barang/{id}', [BarangController::class, 'show'])->name('barang.show');
+    Route::get('/barang/pagination/alat/{limit}', [BarangController::class, 'paginationAlat'])->name('barang.paginationAlat');
+    Route::get('/barang/pagination/bahan/{limit}', [BarangController::class, 'paginationBahan'])->name('barang.paginationBahan');
+    Route::get('/barang/kategori/{id}', [BarangController::class, 'showByKategori'])->name('barang.showByKategori');
+    Route::get('/barang/search/alat/{keywords}', [BarangController::class, 'searchAlat'])->name('barang.searchAlat');
+    Route::get('/barang/search/bahan/{keywords}', [BarangController::class, 'searchBahan'])->name('barang.searchBahan');
     Route::post('/barang', [BarangController::class, 'store'])->name('barang.store');
     Route::put('/barang/{id}', [BarangController::class, 'update'])->name('barang.update');
     Route::delete('/barang/{id}', [BarangController::class, 'destroy'])->name('barang.destroy');
@@ -88,8 +94,4 @@ Route::middleware('auth:api', 'role:Admin|Mahasiswa')->group(function(){
     Route::delete('/pengembalian/{id}', [PengembalianController::class, 'destroy'])->name('pengembalian.destroy');
     Route::put('/pengembalian/approve/{id}', [PengembalianController::class, 'approve'])->name('pengembalian.approve');
     Route::put('/pengembalian/reject/{id}', [PengembalianController::class, 'reject'])->name('pengembalian.reject');
-
 });
-
-
-

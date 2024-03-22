@@ -27,17 +27,11 @@
 					]
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/login",
-					"protocol": "http",
+					"raw": "{{Base URL}}/login",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"login"
 					]
 				}
@@ -61,22 +55,16 @@
 					},
 					{
 						"key": "Authorization",
-						"value": "Bearer",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS5zaXBlbWluamFtLmluZG9uZXNpYWRpZ2l0YWxzb2x1dGlvbnMuY29tL2FwaS9sb2dpbiIsImlhdCI6MTcwODY1ODc3MywiZXhwIjoxNzA4NjYyMzczLCJuYmYiOjE3MDg2NTg3NzMsImp0aSI6IlRTV0JIanR2aW5sbklBeXkiLCJzdWIiOiIxIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyIsIm5hbWEiOiJBYmR1bCBBeml6IiwidXNlcm5hbWUiOiIyMTIxNzQwMDEyIiwiZW1haWwiOiJhYmR1bEBnbWFpbC5jb20iLCJub2hwIjoiMDgxMjM0NTY3ODkwIiwicm9sZSI6eyJpZCI6MSwibmFtZSI6IkFkbWluIiwiZ3VhcmRfbmFtZSI6ImFwaSIsImNyZWF0ZWRfYXQiOiIyMDI0LTAyLTIyVDE0OjMwOjU0LjAwMDAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNC0wMi0yMlQxNDozMDo1NC4wMDAwMDBaIn19.yTXGXd0jtn38okL00U67hYLhKIuI4BG1MmLH3xyQ1L4",
 						"type": "text"
 					}
 				],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/logout",
-					"protocol": "http",
+					"raw": "{{Base URL}}/logout",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"logout"
 					]
 				}
@@ -89,17 +77,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/kategori",
-					"protocol": "http",
+					"raw": "{{Base URL}}/kategori",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"kategori"
 					]
 				}
@@ -112,17 +94,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/kategori/{id}",
-					"protocol": "http",
+					"raw": "{{Base URL}}/kategori/{id}",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"kategori",
 						"{id}"
 					]
@@ -146,17 +122,11 @@
 					]
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/kategori",
-					"protocol": "http",
+					"raw": "{{Base URL}}/kategori",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"kategori"
 					]
 				}
@@ -179,17 +149,11 @@
 					]
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/kategori/{id}",
-					"protocol": "http",
+					"raw": "{{Base URL}}/kategori/{id}",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"kategori",
 						"{id}"
 					]
@@ -213,17 +177,11 @@
 					]
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/kategori/{id}",
-					"protocol": "http",
+					"raw": "{{Base URL}}/kategori/{id}",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"kategori",
 						"{id}"
 					]
@@ -235,19 +193,29 @@
 			"name": "Get Barang",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS5zaXBlbWluamFtLmluZG9uZXNpYWRpZ2l0YWxzb2x1dGlvbnMuY29tL2FwaS9sb2dpbiIsImlhdCI6MTcwODk1NjQ1NSwiZXhwIjoxNzE0OTU2Mzk1LCJuYmYiOjE3MDg5NTY0NTUsImp0aSI6Ik9oblp1cEd1NG03RkJYVHIiLCJzdWIiOiIxIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyIsIm5hbWEiOiJBYmR1bCBBeml6IiwidXNlcm5hbWUiOiIyMTIxNzQwMDEyIiwiZW1haWwiOiJhYmR1bEBnbWFpbC5jb20iLCJub2hwIjoiMDgxMjM0NTY3ODkwIiwia2VsYXMiOm51bGwsInJvbGUiOnsiaWQiOjEsIm5hbWUiOiJBZG1pbiIsImd1YXJkX25hbWUiOiJhcGkiLCJjcmVhdGVkX2F0IjoiMjAyNC0wMi0yNVQxNDozMjowMy4wMDAwMDBaIiwidXBkYXRlZF9hdCI6IjIwMjQtMDItMjVUMTQ6MzI6MDMuMDAwMDAwWiJ9fQ.c5sXyQdq4u0MYYCPI2hwN6BOPFNXlAFdR6KwrSDBZYc",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/barang",
-					"protocol": "http",
+					"raw": "{{Base URL}}/barang",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"barang"
 					]
 				}
@@ -260,19 +228,192 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/barang/{id}",
-					"protocol": "http",
+					"raw": "{{Base URL}}/barang/{id}",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"barang",
 						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Barang PaginationAlat",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS5zaXBlbWluamFtLmluZG9uZXNpYWRpZ2l0YWxzb2x1dGlvbnMuY29tL2FwaS9sb2dpbiIsImlhdCI6MTcwODk1NjQ1NSwiZXhwIjoxNzE0OTU2Mzk1LCJuYmYiOjE3MDg5NTY0NTUsImp0aSI6Ik9oblp1cEd1NG03RkJYVHIiLCJzdWIiOiIxIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyIsIm5hbWEiOiJBYmR1bCBBeml6IiwidXNlcm5hbWUiOiIyMTIxNzQwMDEyIiwiZW1haWwiOiJhYmR1bEBnbWFpbC5jb20iLCJub2hwIjoiMDgxMjM0NTY3ODkwIiwia2VsYXMiOm51bGwsInJvbGUiOnsiaWQiOjEsIm5hbWUiOiJBZG1pbiIsImd1YXJkX25hbWUiOiJhcGkiLCJjcmVhdGVkX2F0IjoiMjAyNC0wMi0yNVQxNDozMjowMy4wMDAwMDBaIiwidXBkYXRlZF9hdCI6IjIwMjQtMDItMjVUMTQ6MzI6MDMuMDAwMDAwWiJ9fQ.c5sXyQdq4u0MYYCPI2hwN6BOPFNXlAFdR6KwrSDBZYc",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{Base URL}}/barang/pagination/alat/{limit}",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"barang",
+						"pagination",
+						"alat",
+						"{limit}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Barang PaginationBahan",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS5zaXBlbWluamFtLmluZG9uZXNpYWRpZ2l0YWxzb2x1dGlvbnMuY29tL2FwaS9sb2dpbiIsImlhdCI6MTcwODk1NjQ1NSwiZXhwIjoxNzE0OTU2Mzk1LCJuYmYiOjE3MDg5NTY0NTUsImp0aSI6Ik9oblp1cEd1NG03RkJYVHIiLCJzdWIiOiIxIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyIsIm5hbWEiOiJBYmR1bCBBeml6IiwidXNlcm5hbWUiOiIyMTIxNzQwMDEyIiwiZW1haWwiOiJhYmR1bEBnbWFpbC5jb20iLCJub2hwIjoiMDgxMjM0NTY3ODkwIiwia2VsYXMiOm51bGwsInJvbGUiOnsiaWQiOjEsIm5hbWUiOiJBZG1pbiIsImd1YXJkX25hbWUiOiJhcGkiLCJjcmVhdGVkX2F0IjoiMjAyNC0wMi0yNVQxNDozMjowMy4wMDAwMDBaIiwidXBkYXRlZF9hdCI6IjIwMjQtMDItMjVUMTQ6MzI6MDMuMDAwMDAwWiJ9fQ.c5sXyQdq4u0MYYCPI2hwN6BOPFNXlAFdR6KwrSDBZYc",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{Base URL}}/barang/pagination/bahan/{limit}",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"barang",
+						"pagination",
+						"bahan",
+						"{limit}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Barang ByKategori",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS5zaXBlbWluamFtLmluZG9uZXNpYWRpZ2l0YWxzb2x1dGlvbnMuY29tL2FwaS9sb2dpbiIsImlhdCI6MTcwODk1NjQ1NSwiZXhwIjoxNzE0OTU2Mzk1LCJuYmYiOjE3MDg5NTY0NTUsImp0aSI6Ik9oblp1cEd1NG03RkJYVHIiLCJzdWIiOiIxIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyIsIm5hbWEiOiJBYmR1bCBBeml6IiwidXNlcm5hbWUiOiIyMTIxNzQwMDEyIiwiZW1haWwiOiJhYmR1bEBnbWFpbC5jb20iLCJub2hwIjoiMDgxMjM0NTY3ODkwIiwia2VsYXMiOm51bGwsInJvbGUiOnsiaWQiOjEsIm5hbWUiOiJBZG1pbiIsImd1YXJkX25hbWUiOiJhcGkiLCJjcmVhdGVkX2F0IjoiMjAyNC0wMi0yNVQxNDozMjowMy4wMDAwMDBaIiwidXBkYXRlZF9hdCI6IjIwMjQtMDItMjVUMTQ6MzI6MDMuMDAwMDAwWiJ9fQ.c5sXyQdq4u0MYYCPI2hwN6BOPFNXlAFdR6KwrSDBZYc",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{Base URL}}/barang/kategori/{id}",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"barang",
+						"kategori",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Barang BySearchAlat",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS5zaXBlbWluamFtLmluZG9uZXNpYWRpZ2l0YWxzb2x1dGlvbnMuY29tL2FwaS9sb2dpbiIsImlhdCI6MTcwODk1NjQ1NSwiZXhwIjoxNzE0OTU2Mzk1LCJuYmYiOjE3MDg5NTY0NTUsImp0aSI6Ik9oblp1cEd1NG03RkJYVHIiLCJzdWIiOiIxIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyIsIm5hbWEiOiJBYmR1bCBBeml6IiwidXNlcm5hbWUiOiIyMTIxNzQwMDEyIiwiZW1haWwiOiJhYmR1bEBnbWFpbC5jb20iLCJub2hwIjoiMDgxMjM0NTY3ODkwIiwia2VsYXMiOm51bGwsInJvbGUiOnsiaWQiOjEsIm5hbWUiOiJBZG1pbiIsImd1YXJkX25hbWUiOiJhcGkiLCJjcmVhdGVkX2F0IjoiMjAyNC0wMi0yNVQxNDozMjowMy4wMDAwMDBaIiwidXBkYXRlZF9hdCI6IjIwMjQtMDItMjVUMTQ6MzI6MDMuMDAwMDAwWiJ9fQ.c5sXyQdq4u0MYYCPI2hwN6BOPFNXlAFdR6KwrSDBZYc",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{Base URL}}/barang/search/alat/{keywords}",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"barang",
+						"search",
+						"alat",
+						"{keywords}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Barang BySearchBarang",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS5zaXBlbWluamFtLmluZG9uZXNpYWRpZ2l0YWxzb2x1dGlvbnMuY29tL2FwaS9sb2dpbiIsImlhdCI6MTcwODk1NjQ1NSwiZXhwIjoxNzE0OTU2Mzk1LCJuYmYiOjE3MDg5NTY0NTUsImp0aSI6Ik9oblp1cEd1NG03RkJYVHIiLCJzdWIiOiIxIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyIsIm5hbWEiOiJBYmR1bCBBeml6IiwidXNlcm5hbWUiOiIyMTIxNzQwMDEyIiwiZW1haWwiOiJhYmR1bEBnbWFpbC5jb20iLCJub2hwIjoiMDgxMjM0NTY3ODkwIiwia2VsYXMiOm51bGwsInJvbGUiOnsiaWQiOjEsIm5hbWUiOiJBZG1pbiIsImd1YXJkX25hbWUiOiJhcGkiLCJjcmVhdGVkX2F0IjoiMjAyNC0wMi0yNVQxNDozMjowMy4wMDAwMDBaIiwidXBkYXRlZF9hdCI6IjIwMjQtMDItMjVUMTQ6MzI6MDMuMDAwMDAwWiJ9fQ.c5sXyQdq4u0MYYCPI2hwN6BOPFNXlAFdR6KwrSDBZYc",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{Base URL}}/barang/search/barang/{keywords}",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"barang",
+						"search",
+						"barang",
+						"{keywords}"
 					]
 				}
 			},
@@ -309,17 +450,11 @@
 					]
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/barang",
-					"protocol": "http",
+					"raw": "{{Base URL}}/barang",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"barang"
 					]
 				}
@@ -357,17 +492,11 @@
 					]
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/barang/{id}",
-					"protocol": "http",
+					"raw": "{{Base URL}}/barang/{id}",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"barang",
 						"{id}"
 					]
@@ -381,17 +510,11 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/barang/{id}",
-					"protocol": "http",
+					"raw": "{{Base URL}}/barang/{id}",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"barang",
 						"{id}"
 					]
@@ -403,19 +526,29 @@
 			"name": "Get User",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS5zaXBlbWluamFtLmluZG9uZXNpYWRpZ2l0YWxzb2x1dGlvbnMuY29tL2FwaS9sb2dpbiIsImlhdCI6MTcwODk1NjQ1NSwiZXhwIjoxNzE0OTU2Mzk1LCJuYmYiOjE3MDg5NTY0NTUsImp0aSI6Ik9oblp1cEd1NG03RkJYVHIiLCJzdWIiOiIxIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyIsIm5hbWEiOiJBYmR1bCBBeml6IiwidXNlcm5hbWUiOiIyMTIxNzQwMDEyIiwiZW1haWwiOiJhYmR1bEBnbWFpbC5jb20iLCJub2hwIjoiMDgxMjM0NTY3ODkwIiwia2VsYXMiOm51bGwsInJvbGUiOnsiaWQiOjEsIm5hbWUiOiJBZG1pbiIsImd1YXJkX25hbWUiOiJhcGkiLCJjcmVhdGVkX2F0IjoiMjAyNC0wMi0yNVQxNDozMjowMy4wMDAwMDBaIiwidXBkYXRlZF9hdCI6IjIwMjQtMDItMjVUMTQ6MzI6MDMuMDAwMDAwWiJ9fQ.c5sXyQdq4u0MYYCPI2hwN6BOPFNXlAFdR6KwrSDBZYc",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/user",
-					"protocol": "http",
+					"raw": "{{Base URL}}/user",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"user"
 					]
 				}
@@ -428,18 +561,47 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/user/{id}",
-					"protocol": "http",
+					"raw": "{{Base URL}}/user/{id}",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"user",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User ByKelas",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS5zaXBlbWluamFtLmluZG9uZXNpYWRpZ2l0YWxzb2x1dGlvbnMuY29tL2FwaS9sb2dpbiIsImlhdCI6MTcwODk1NjQ1NSwiZXhwIjoxNzE0OTU2Mzk1LCJuYmYiOjE3MDg5NTY0NTUsImp0aSI6Ik9oblp1cEd1NG03RkJYVHIiLCJzdWIiOiIxIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyIsIm5hbWEiOiJBYmR1bCBBeml6IiwidXNlcm5hbWUiOiIyMTIxNzQwMDEyIiwiZW1haWwiOiJhYmR1bEBnbWFpbC5jb20iLCJub2hwIjoiMDgxMjM0NTY3ODkwIiwia2VsYXMiOm51bGwsInJvbGUiOnsiaWQiOjEsIm5hbWUiOiJBZG1pbiIsImd1YXJkX25hbWUiOiJhcGkiLCJjcmVhdGVkX2F0IjoiMjAyNC0wMi0yNVQxNDozMjowMy4wMDAwMDBaIiwidXBkYXRlZF9hdCI6IjIwMjQtMDItMjVUMTQ6MzI6MDMuMDAwMDAwWiJ9fQ.c5sXyQdq4u0MYYCPI2hwN6BOPFNXlAFdR6KwrSDBZYc",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{Base URL}}/user/kelas/{id}",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"user",
+						"kelas",
 						"{id}"
 					]
 				}
@@ -487,17 +649,11 @@
 					]
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/user",
-					"protocol": "http",
+					"raw": "{{Base URL}}/user",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"user"
 					]
 				}
@@ -545,18 +701,12 @@
 					]
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/admin/{id}",
-					"protocol": "http",
+					"raw": "{{Base URL}}/user/{id}",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
-						"admin",
+						"user",
 						"{id}"
 					]
 				}
@@ -569,18 +719,413 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/admin/{id}",
-					"protocol": "http",
+					"raw": "{{Base URL}}/user/{id}",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
-						"admin",
+						"user",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Kelas",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzA4NjEyNjk2LCJleHAiOjE3MDg2MTYyOTYsIm5iZiI6MTcwODYxMjY5NiwianRpIjoibmd4VDlkZnhic2p0WlhBQSIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3IiwibmFtYSI6IkFiZHVsIEF6aXoiLCJ1c2VybmFtZSI6IjIxMjE3NDAwMTIiLCJlbWFpbCI6ImFiZHVsQGdtYWlsLmNvbSIsIm5vaHAiOiIwODEyMzQ1Njc4OTAiLCJyb2xlIjp7ImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJndWFyZF9uYW1lIjoiYXBpIiwiY3JlYXRlZF9hdCI6IjIwMjQtMDItMjFUMTU6MTI6NDguMDAwMDAwWiIsInVwZGF0ZWRfYXQiOiIyMDI0LTAyLTIxVDE1OjEyOjQ4LjAwMDAwMFoifX0.YNm2DcAUq_veafbt4nJfxDRcfcmq3LFf3l6OlkJACkA",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{Base URL}}/kelas",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"kelas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Kelas ById",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzA4NjEyNjk2LCJleHAiOjE3MDg2MTYyOTYsIm5iZiI6MTcwODYxMjY5NiwianRpIjoibmd4VDlkZnhic2p0WlhBQSIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3IiwibmFtYSI6IkFiZHVsIEF6aXoiLCJ1c2VybmFtZSI6IjIxMjE3NDAwMTIiLCJlbWFpbCI6ImFiZHVsQGdtYWlsLmNvbSIsIm5vaHAiOiIwODEyMzQ1Njc4OTAiLCJyb2xlIjp7ImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJndWFyZF9uYW1lIjoiYXBpIiwiY3JlYXRlZF9hdCI6IjIwMjQtMDItMjFUMTU6MTI6NDguMDAwMDAwWiIsInVwZGF0ZWRfYXQiOiIyMDI0LTAyLTIxVDE1OjEyOjQ4LjAwMDAwMFoifX0.YNm2DcAUq_veafbt4nJfxDRcfcmq3LFf3l6OlkJACkA",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{Base URL}}/kelas/{id}",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"kelas",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Kelas",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzA4NjEyNjk2LCJleHAiOjE3MDg2MTYyOTYsIm5iZiI6MTcwODYxMjY5NiwianRpIjoibmd4VDlkZnhic2p0WlhBQSIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3IiwibmFtYSI6IkFiZHVsIEF6aXoiLCJ1c2VybmFtZSI6IjIxMjE3NDAwMTIiLCJlbWFpbCI6ImFiZHVsQGdtYWlsLmNvbSIsIm5vaHAiOiIwODEyMzQ1Njc4OTAiLCJyb2xlIjp7ImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJndWFyZF9uYW1lIjoiYXBpIiwiY3JlYXRlZF9hdCI6IjIwMjQtMDItMjFUMTU6MTI6NDguMDAwMDAwWiIsInVwZGF0ZWRfYXQiOiIyMDI0LTAyLTIxVDE1OjEyOjQ4LjAwMDAwMFoifX0.YNm2DcAUq_veafbt4nJfxDRcfcmq3LFf3l6OlkJACkA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "kelas",
+							"value": "3",
+							"type": "text"
+						},
+						{
+							"key": "user_id",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{Base URL}}/kelas",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"kelas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Kelas",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzA4NjEyNjk2LCJleHAiOjE3MDg2MTYyOTYsIm5iZiI6MTcwODYxMjY5NiwianRpIjoibmd4VDlkZnhic2p0WlhBQSIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3IiwibmFtYSI6IkFiZHVsIEF6aXoiLCJ1c2VybmFtZSI6IjIxMjE3NDAwMTIiLCJlbWFpbCI6ImFiZHVsQGdtYWlsLmNvbSIsIm5vaHAiOiIwODEyMzQ1Njc4OTAiLCJyb2xlIjp7ImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJndWFyZF9uYW1lIjoiYXBpIiwiY3JlYXRlZF9hdCI6IjIwMjQtMDItMjFUMTU6MTI6NDguMDAwMDAwWiIsInVwZGF0ZWRfYXQiOiIyMDI0LTAyLTIxVDE1OjEyOjQ4LjAwMDAwMFoifX0.YNm2DcAUq_veafbt4nJfxDRcfcmq3LFf3l6OlkJACkA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "kelas",
+							"value": "4",
+							"type": "text"
+						},
+						{
+							"key": "user_id",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{Base URL}}/kelas/{id}",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"kelas",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Del Kelas",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzA4NjEyNjk2LCJleHAiOjE3MDg2MTYyOTYsIm5iZiI6MTcwODYxMjY5NiwianRpIjoibmd4VDlkZnhic2p0WlhBQSIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3IiwibmFtYSI6IkFiZHVsIEF6aXoiLCJ1c2VybmFtZSI6IjIxMjE3NDAwMTIiLCJlbWFpbCI6ImFiZHVsQGdtYWlsLmNvbSIsIm5vaHAiOiIwODEyMzQ1Njc4OTAiLCJyb2xlIjp7ImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJndWFyZF9uYW1lIjoiYXBpIiwiY3JlYXRlZF9hdCI6IjIwMjQtMDItMjFUMTU6MTI6NDguMDAwMDAwWiIsInVwZGF0ZWRfYXQiOiIyMDI0LTAyLTIxVDE1OjEyOjQ4LjAwMDAwMFoifX0.YNm2DcAUq_veafbt4nJfxDRcfcmq3LFf3l6OlkJACkA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "kelas",
+							"value": "4",
+							"type": "text"
+						},
+						{
+							"key": "user_id",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{Base URL}}/kelas/{id}",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"kelas",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Role",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzA4NjEyNjk2LCJleHAiOjE3MDg2MTYyOTYsIm5iZiI6MTcwODYxMjY5NiwianRpIjoibmd4VDlkZnhic2p0WlhBQSIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3IiwibmFtYSI6IkFiZHVsIEF6aXoiLCJ1c2VybmFtZSI6IjIxMjE3NDAwMTIiLCJlbWFpbCI6ImFiZHVsQGdtYWlsLmNvbSIsIm5vaHAiOiIwODEyMzQ1Njc4OTAiLCJyb2xlIjp7ImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJndWFyZF9uYW1lIjoiYXBpIiwiY3JlYXRlZF9hdCI6IjIwMjQtMDItMjFUMTU6MTI6NDguMDAwMDAwWiIsInVwZGF0ZWRfYXQiOiIyMDI0LTAyLTIxVDE1OjEyOjQ4LjAwMDAwMFoifX0.YNm2DcAUq_veafbt4nJfxDRcfcmq3LFf3l6OlkJACkA",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{Base URL}}/role",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"role"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Role ById",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzA4NjEyNjk2LCJleHAiOjE3MDg2MTYyOTYsIm5iZiI6MTcwODYxMjY5NiwianRpIjoibmd4VDlkZnhic2p0WlhBQSIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3IiwibmFtYSI6IkFiZHVsIEF6aXoiLCJ1c2VybmFtZSI6IjIxMjE3NDAwMTIiLCJlbWFpbCI6ImFiZHVsQGdtYWlsLmNvbSIsIm5vaHAiOiIwODEyMzQ1Njc4OTAiLCJyb2xlIjp7ImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJndWFyZF9uYW1lIjoiYXBpIiwiY3JlYXRlZF9hdCI6IjIwMjQtMDItMjFUMTU6MTI6NDguMDAwMDAwWiIsInVwZGF0ZWRfYXQiOiIyMDI0LTAyLTIxVDE1OjEyOjQ4LjAwMDAwMFoifX0.YNm2DcAUq_veafbt4nJfxDRcfcmq3LFf3l6OlkJACkA",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{Base URL}}/role/{id}",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"role",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Role",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzA4NjEyNjk2LCJleHAiOjE3MDg2MTYyOTYsIm5iZiI6MTcwODYxMjY5NiwianRpIjoibmd4VDlkZnhic2p0WlhBQSIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3IiwibmFtYSI6IkFiZHVsIEF6aXoiLCJ1c2VybmFtZSI6IjIxMjE3NDAwMTIiLCJlbWFpbCI6ImFiZHVsQGdtYWlsLmNvbSIsIm5vaHAiOiIwODEyMzQ1Njc4OTAiLCJyb2xlIjp7ImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJndWFyZF9uYW1lIjoiYXBpIiwiY3JlYXRlZF9hdCI6IjIwMjQtMDItMjFUMTU6MTI6NDguMDAwMDAwWiIsInVwZGF0ZWRfYXQiOiIyMDI0LTAyLTIxVDE1OjEyOjQ4LjAwMDAwMFoifX0.YNm2DcAUq_veafbt4nJfxDRcfcmq3LFf3l6OlkJACkA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Users",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{Base URL}}/role",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"role"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Role",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzA4NjEyNjk2LCJleHAiOjE3MDg2MTYyOTYsIm5iZiI6MTcwODYxMjY5NiwianRpIjoibmd4VDlkZnhic2p0WlhBQSIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3IiwibmFtYSI6IkFiZHVsIEF6aXoiLCJ1c2VybmFtZSI6IjIxMjE3NDAwMTIiLCJlbWFpbCI6ImFiZHVsQGdtYWlsLmNvbSIsIm5vaHAiOiIwODEyMzQ1Njc4OTAiLCJyb2xlIjp7ImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJndWFyZF9uYW1lIjoiYXBpIiwiY3JlYXRlZF9hdCI6IjIwMjQtMDItMjFUMTU6MTI6NDguMDAwMDAwWiIsInVwZGF0ZWRfYXQiOiIyMDI0LTAyLTIxVDE1OjEyOjQ4LjAwMDAwMFoifX0.YNm2DcAUq_veafbt4nJfxDRcfcmq3LFf3l6OlkJACkA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "unknown",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{Base URL}}/role/{id}",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"role",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Del Role",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzA4NjEyNjk2LCJleHAiOjE3MDg2MTYyOTYsIm5iZiI6MTcwODYxMjY5NiwianRpIjoibmd4VDlkZnhic2p0WlhBQSIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3IiwibmFtYSI6IkFiZHVsIEF6aXoiLCJ1c2VybmFtZSI6IjIxMjE3NDAwMTIiLCJlbWFpbCI6ImFiZHVsQGdtYWlsLmNvbSIsIm5vaHAiOiIwODEyMzQ1Njc4OTAiLCJyb2xlIjp7ImlkIjoxLCJuYW1lIjoiQWRtaW4iLCJndWFyZF9uYW1lIjoiYXBpIiwiY3JlYXRlZF9hdCI6IjIwMjQtMDItMjFUMTU6MTI6NDguMDAwMDAwWiIsInVwZGF0ZWRfYXQiOiIyMDI0LTAyLTIxVDE1OjEyOjQ4LjAwMDAwMFoifX0.YNm2DcAUq_veafbt4nJfxDRcfcmq3LFf3l6OlkJACkA",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{Base URL}}/role/{id}",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"role",
 						"{id}"
 					]
 				}
@@ -593,17 +1138,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/peminjaman",
-					"protocol": "http",
+					"raw": "{{Base URL}}/peminjaman",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"peminjaman"
 					]
 				}
@@ -616,17 +1155,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/peminjaman/{id}",
-					"protocol": "http",
+					"raw": "{{Base URL}}/peminjaman/{id}",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"peminjaman",
 						"{id}"
 					]
@@ -670,18 +1203,50 @@
 					]
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/peminjaman",
-					"protocol": "http",
+					"raw": "{{Base URL}}/peminjaman",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"peminjaman"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Approve Peminjaman",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{Base URL}}/peminjaman/approve/{id}",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"peminjaman",
+						"approve",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reject Peminjaman",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{Base URL}}/Peminjaman/reject/{id}",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"Peminjaman",
+						"reject",
+						"{id}"
 					]
 				}
 			},
@@ -723,17 +1288,11 @@
 					]
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/peminjaman/{id}",
-					"protocol": "http",
+					"raw": "{{Base URL}}/peminjaman/{id}",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"peminjaman",
 						"{id}"
 					]
@@ -747,17 +1306,11 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/peminjaman/{id}",
-					"protocol": "http",
+					"raw": "{{Base URL}}/peminjaman/{id}",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"peminjaman",
 						"{id}"
 					]
@@ -771,17 +1324,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/pengembalian",
-					"protocol": "http",
+					"raw": "{{Base URL}}/pengembalian",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"pengembalian"
 					]
 				}
@@ -794,17 +1341,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/pengembalian/{id}",
-					"protocol": "http",
+					"raw": "{{Base URL}}/pengembalian/{id}",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"pengembalian",
 						"{id}"
 					]
@@ -848,18 +1389,50 @@
 					]
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/pengembalian",
-					"protocol": "http",
+					"raw": "{{Base URL}}/pengembalian",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"pengembalian"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Approve Pengembalian",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{Base URL}}/pengembalian/approve/{id}",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"pengembalian",
+						"approve",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reject Pengembalian",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{Base URL}}/pengembalian/reject/{id}",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"pengembalian",
+						"reject",
+						"{id}"
 					]
 				}
 			},
@@ -901,17 +1474,11 @@
 					]
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/pengembalian/{id}",
-					"protocol": "http",
+					"raw": "{{Base URL}}/pengembalian/{id}",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"pengembalian",
 						"{id}"
 					]
@@ -925,23 +1492,23 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/pengembalian/{id}",
-					"protocol": "http",
+					"raw": "{{Base URL}}/pengembalian/{id}",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{Base URL}}"
 					],
-					"port": "8000",
 					"path": [
-						"api",
 						"pengembalian",
 						"{id}"
 					]
 				}
 			},
 			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "Base URL",
+			"value": "https://api.sipeminjam.indonesiadigitalsolutions.com/api"
 		}
 	]
 }

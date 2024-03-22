@@ -55,7 +55,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Role::class);
     }
     public function kelas(){
-        return $this->hasMany(Kelas::class);
+        return $this->belongsTo(Kelas::class);
     }
 
     public function getJWTIdentifier()
@@ -69,6 +69,7 @@ class User extends Authenticatable implements JWTSubject
             'username' => $this->username,
             'email' => $this->email,
             'nohp' => $this->nohp,
+            'kelas' => $this->kelas,
             'role' => $this->role,
         ];
     }

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
@@ -22,6 +22,7 @@ class RoleController extends Controller
     public function store(Request $request){
         $role = new Role;
         $role->name = $request->name;
+        $role->guard_name = 'api';
         $role->save();
 
         if($role){
@@ -36,6 +37,7 @@ class RoleController extends Controller
     public function update(Request $request, $id){
         $role = Role::find($id);
         $role->name = $request->name;
+        $role->guard_name = 'api';
         $role->update();
 
         if($role){

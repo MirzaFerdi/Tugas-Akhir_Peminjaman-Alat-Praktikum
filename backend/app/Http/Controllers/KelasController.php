@@ -22,6 +22,8 @@ class KelasController extends Controller
     public function store(Request $request){
         $kelas = new Kelas;
         $kelas->kelas = $request->kelas;
+        $kelas->dosen_pembimbing_akademik = $request->dosen_pembimbing_akademik;
+        $kelas->tahun_ajaran = $request->tahun_ajaran;
         $kelas->user_id = $request->user_id;
         $kelas->save();
 
@@ -37,6 +39,8 @@ class KelasController extends Controller
     public function update(Request $request, $id){
         $kelas = Kelas::find($id);
         $kelas->kelas = $request->kelas;
+        $kelas->dosen_pembimbing_akademik = $request->dosen_pembimbing_akademik;
+        $kelas->tahun_ajaran = $request->tahun_ajaran;
         $kelas->user_id = $request->user_id;
         $kelas->update();
 

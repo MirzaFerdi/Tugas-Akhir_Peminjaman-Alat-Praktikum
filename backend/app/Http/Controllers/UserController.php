@@ -9,13 +9,27 @@ class UserController extends Controller
 {
 
     public function index(){
-        $user = User::all();
+        // $user = User::all();
+        $user = User::with('kelas','role')->get();
+        // $role = User::with('role')->get();
 
         return response()->json($user);
     }
 
     public function show($id){
         $user = User::find($id);
+
+        return response()->json($user);
+    }
+
+    public function showByKelas($id){
+        $user = User::where('kelas_id', $id)->get();
+
+        return response()->json($user);
+    }
+
+    public function searchMahasiswa($keywords){
+        $user = User::where('role_id', 2)->where('nama', 'like', "%$keywords%")->get();
 
         return response()->json($user);
     }
@@ -27,6 +41,7 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->nohp = $request->nohp;
+        $user->kelas_id = $request->kelas_id;
         $user->role_id = $request->role_id;
         $user->save();
 
@@ -46,6 +61,7 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->nohp = $request->nohp;
+        $user->kelas_id = $request->kelas_id;
         $user->role_id = $request->role_id;
         $user->update();
 

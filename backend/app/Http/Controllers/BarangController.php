@@ -19,6 +19,36 @@ class BarangController extends Controller
         return response()->json($barang);
     }
 
+    public function showByKategori($id){
+        $barang = Barang::where('kategori_id', $id)->get();
+
+        return response()->json($barang);
+    }
+
+    public function searchAlat($keywords){
+        $barang = Barang::where('kategori_id', 1)->where('nama_barang', 'like', "%$keywords%")->get();
+
+        return response()->json($barang);
+    }
+
+    public function searchBahan($keywords){
+        $barang = Barang::where('kategori_id', 2)->where('nama_barang', 'like', "%$keywords%")->get();
+
+        return response()->json($barang);
+    }
+
+    public function paginationAlat($limit){
+        $barang = Barang::where('kategori_id', 1)->paginate($limit);
+
+        return response()->json($barang);
+    }
+
+    public function paginationBahan($limit){
+        $barang = Barang::where('kategori_id', 2)->paginate($limit);
+
+        return response()->json($barang);
+    }
+
     public function store(Request $request){
         $barang = new Barang;
         $barang->kategori_id = $request->kategori_id;

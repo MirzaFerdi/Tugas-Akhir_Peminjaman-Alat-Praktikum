@@ -48,7 +48,8 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
         }
 
-        return response()->json(compact('token'));
+        $user = $request->user();
+        return response()->json(compact('user','token'));
     }
 
 

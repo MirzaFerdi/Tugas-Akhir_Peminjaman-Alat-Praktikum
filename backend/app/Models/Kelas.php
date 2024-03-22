@@ -15,9 +15,11 @@ class Kelas extends Model
 
     protected $fillable = [
         'kelas',
+        'dosen_pembimbing_akademik',
+        'tahun_ajaran',
     ];
 
     public function user(){
-        return $this->belongsTo(User::class);
+        return $this->hasMany(User::class);
     }
 }
