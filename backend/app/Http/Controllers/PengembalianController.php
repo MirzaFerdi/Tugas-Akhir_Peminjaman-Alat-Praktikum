@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
 use App\Models\Pengembalian;
 use Illuminate\Http\Request;
 
@@ -27,6 +28,10 @@ class PengembalianController extends Controller
         $pengembalian->status = $request->status;
         $pengembalian->tanggal_pengembalian = $request->tanggal_pengembalian;
         $pengembalian->save();
+
+        $barang = Barang::find($request->barang_id);
+        $barang->jumlah_barang = $barang->jumlah_barang + 1;
+        $barang->update();
 
         if($pengembalian){
             return response()->json([

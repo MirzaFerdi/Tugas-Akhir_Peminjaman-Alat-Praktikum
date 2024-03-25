@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
 use App\Models\Peminjaman;
 use Illuminate\Http\Request;
 
 class PeminjamanController extends Controller
 {
     public function index(){
-        $peminjaman = Peminjaman::all();
+        // $peminjaman = Peminjaman::all();
+        $peminjaman = Peminjaman::with('user','barang')->get();;
 
         return response()->json($peminjaman);
     }
@@ -27,6 +29,10 @@ class PeminjamanController extends Controller
         $peminjaman->status = $request->status;
         $peminjaman->tanggal_peminjaman = $request->tanggal_peminjaman;
         $peminjaman->save();
+
+        $barang = Barang::find($request->barang_id);
+        $barang->jumlah_barang = $barang->jumlah_barang - 1;
+        $barang->update();
 
         if($peminjaman){
             return response()->json([
@@ -58,6 +64,10 @@ class PeminjamanController extends Controller
     public function destroy($id){
         $peminjaman = Peminjaman::find($id);
         $peminjaman->delete();
+
+        $barang = Barang::find($peminjaman->barang_id);
+        $barang->jumlah_barang = $barang->jumlah_barang + 1;
+        $barang->update();
 
         if($peminjaman){
             $peminjaman = Peminjaman::find($id);

@@ -5,18 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Kelas extends Model
+class Role extends Model
 {
     use HasFactory;
 
     public $timestamps = false;
 
-    protected $table = 'kelas';
+    protected $table = 'roles';
 
     protected $fillable = [
-        'kelas',
-        'dpa',
-        'tahun_ajaran',
+        'name',
     ];
 
     public function user(){
