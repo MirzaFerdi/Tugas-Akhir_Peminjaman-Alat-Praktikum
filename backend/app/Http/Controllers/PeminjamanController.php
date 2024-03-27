@@ -106,4 +106,22 @@ class PeminjamanController extends Controller
         }
     }
 
+    public function sortTimestamps($keywords){
+        // Retrieve timestamps from the database
+        $peminjaman = Peminjaman::with('user','barang')->get();;
+
+        // Sort timestamps based on the specified order
+        if ($keywords === 'asc') {
+            $peminjaman = $peminjaman->sort();
+        } elseif ($keywords === 'desc') {
+            $peminjaman = $peminjaman->sortDesc();
+        } else {
+            return response()->json(['message' => 'Invalid order parameter. Use "asc" or "desc"'], 400);
+        }
+
+        // Return sorted timestamps as JSON response
+        return response()->json($peminjaman);
+    }
+
+
 }

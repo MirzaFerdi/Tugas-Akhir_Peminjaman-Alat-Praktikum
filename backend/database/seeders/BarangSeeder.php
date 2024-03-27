@@ -88,7 +88,7 @@ class BarangSeeder extends Seeder
             'Mur',
             'Ring',
             'Paku',
-            'lem',
+            'Lem',
             'Kabel',
             'Kunci',
             'Paku',

@@ -28,8 +28,8 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    public function searchMahasiswa($keywords){
-        $user = User::where('role_id', 2)->where('nama', 'like', "%$keywords%")->get();
+    public function searchMahasiswa($kelasid,$keywords){
+        $user = User::where('role_id', 2)->where('kelas_id',$kelasid)->where('nama', 'like', "%$keywords%")->get();
 
         return response()->json($user);
     }

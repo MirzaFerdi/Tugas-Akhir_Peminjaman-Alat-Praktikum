@@ -18,14 +18,14 @@ class PengembalianSeeder extends Seeder
             'barang_id' => 1,
             'keterangan' => 'keadaan baik',
             'status' => 'Pending',
-            'tanggal_pengembalian' => '2021-08-03',
+            'tanggal_pengembalian' => '2023-10-15 12:00:45',
         ]);
         DB::table('pengembalian')->insert([
             'user_id' => 3,
             'barang_id' => 2,
             'keterangan' => 'rusak',
             'status' => 'Pending',
-            'tanggal_pengembalian' => '2021-08-06',
+            'tanggal_pengembalian' => '2024-01-11 05:10:23',
         ]);
     }
 }

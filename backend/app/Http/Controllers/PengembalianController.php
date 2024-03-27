@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class PengembalianController extends Controller
 {
     public function index(){
-        $pengembalian = Pengembalian::all();
+        $pengembalian = Pengembalian::with('user','barang')->get();
 
         return response()->json($pengembalian);
     }
@@ -99,5 +99,23 @@ class PengembalianController extends Controller
                 'data' => $pengembalian
             ]);
         }
+    }
+
+
+    public function sortTimestamps($keywords){
+        // Retrieve timestamps from the database
+        $pengembalian = Pengembalian::with('user','barang')->get();
+
+        // Sort timestamps based on the specified order
+        if ($keywords === 'asc') {
+            $pengembalian = $pengembalian->sort();
+        } elseif ($keywords === 'desc') {
+            $pengembalian = $pengembalian->sortDesc();
+        } else {
+            return response()->json(['message' => 'Invalid order parameter. Use "asc" or "desc"'], 400);
+        }
+
+        // Return sorted timestamps as JSON response
+        return response()->json($pengembalian);
     }
 }

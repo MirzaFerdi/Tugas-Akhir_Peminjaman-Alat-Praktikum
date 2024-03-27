@@ -42,7 +42,7 @@ Route::middleware('auth:api', 'role:Admin')->group(function () {
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
     Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
     Route::get('/user/kelas/{id}', [UserController::class, 'showByKelas'])->name('user.showByKelas');
-    Route::get('/user/search/mahasiswa/{keywords}', [UserController::class, 'searchMahasiswa'])->name('user.searchMahasiswa');
+    Route::get('/user/search/mahasiswa/{kelasid}/{keywords}', [UserController::class, 'searchMahasiswa'])->name('user.searchMahasiswa');
     Route::post('/user', [UserController::class, 'store'])->name('user.store');
     Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
     Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
@@ -85,6 +85,7 @@ Route::middleware('auth:api', 'role:Admin|Mahasiswa')->group(function () {
     Route::delete('/peminjaman/{id}', [PeminjamanController::class, 'destroy'])->name('peminjaman.destroy');
     Route::put('/peminjaman/approve/{id}', [PeminjamanController::class, 'approve'])->name('peminjaman.approve');
     Route::put('/peminjaman/reject/{id}', [PeminjamanController::class, 'reject'])->name('peminjaman.reject');
+    Route::get('/peminjaman/sort/{keywords}', [PeminjamanController::class,'sortTimestamps'])->name('peminjaman.sort');
 
     // Pengembalian
     Route::get('/pengembalian', [PengembalianController::class, 'index'])->name('pengembalian.index');
@@ -94,4 +95,5 @@ Route::middleware('auth:api', 'role:Admin|Mahasiswa')->group(function () {
     Route::delete('/pengembalian/{id}', [PengembalianController::class, 'destroy'])->name('pengembalian.destroy');
     Route::put('/pengembalian/approve/{id}', [PengembalianController::class, 'approve'])->name('pengembalian.approve');
     Route::put('/pengembalian/reject/{id}', [PengembalianController::class, 'reject'])->name('pengembalian.reject');
+    Route::get('/pengembalian/sort/{keywords}', [PengembalianController::class,'sortTimestamps'])->name('pengembalian.sort');
 });

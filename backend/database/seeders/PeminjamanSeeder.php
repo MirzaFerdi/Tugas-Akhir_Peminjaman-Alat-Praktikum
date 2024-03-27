@@ -18,14 +18,14 @@ class PeminjamanSeeder extends Seeder
             'barang_id' => 1,
             'keterangan' => 'Peminjaman barang untuk keperluan tugas akhir',
             'status' => 'Pending',
-            'tanggal_peminjaman' => '2021-08-01',
+            'tanggal_peminjaman' => '2024-02-10 14:53:53',
         ]);
         DB::table('peminjaman')->insert([
             'user_id' => 3,
             'barang_id' => 2,
             'keterangan' => 'Peminjaman barang untuk keperluan praktikum',
             'status' => 'Pending',
-            'tanggal_peminjaman' => '2021-08-05',
+            'tanggal_peminjaman' => '2024-05-15 10:50:00',
         ]);
     }
 }
