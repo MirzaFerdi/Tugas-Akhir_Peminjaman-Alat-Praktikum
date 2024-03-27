@@ -16,7 +16,7 @@ class PeminjamanController extends Controller
     }
 
     public function show($id){
-        $peminjaman = Peminjaman::find($id)->with('user','barang')->get();
+        $peminjaman = Peminjaman::with('user','barang')->find($id);
 
         return response()->json($peminjaman);
     }

@@ -15,7 +15,7 @@ class PengembalianController extends Controller
     }
 
     public function show($id){
-        $pengembalian = Pengembalian::find($id)->with('user','barang')->get();
+        $pengembalian = Pengembalian::with('user','barang')->find($id);
 
         return response()->json($pengembalian);
     }
