@@ -96,6 +96,15 @@ class UserSeeder extends Seeder
             'kelas_id' => 4,
             'role_id' => 2
         ]);
+        DB::table('users')->insert([
+            'nama' => 'Boris',
+            'username' => '2131740018',
+            'email' => 'borisis404@gmail.com',
+            'password' => bcrypt('boris123'),
+            'nohp' => '081234567890',
+            'kelas_id' => 4,
+            'role_id' => 2
+        ]);
 
     }
 }

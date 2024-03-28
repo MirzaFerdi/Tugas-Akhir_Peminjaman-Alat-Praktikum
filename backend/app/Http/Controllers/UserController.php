@@ -23,7 +23,7 @@ class UserController extends Controller
     }
 
     public function showByKelas($id){
-        $user = User::where('kelas_id', $id)->get();
+        $user = User::where('kelas_id', $id)->with('kelas')->get();
 
         return response()->json($user);
     }
