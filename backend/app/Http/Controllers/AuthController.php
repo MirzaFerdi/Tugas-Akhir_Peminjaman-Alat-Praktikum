@@ -69,7 +69,7 @@ class AuthController extends Controller
         $email = new SendEmail($token);
         Mail::to($request->email)->send($email);
 
-        return response()->json(['success' => true, 'message' => 'Password reset token sent to your email']);
+        return response()->json(['success' => true, 'message' => 'Password reset token sent to your email', 'email' => $user->email]);
     }
     public function resetPassword(Request $request){
         // Validate the request data

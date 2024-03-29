@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('barang_id')->constrained('barang')->onDelete('cascade');
             $table->string('keterangan');
             $table->string('status');
-            $table->timestamp('tanggal_pengembalian');
+            $table->timestamp('tanggal_pengembalian')->nullable()->default(null);;
         });
     }
 
