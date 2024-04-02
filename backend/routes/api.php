@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 // Accept:application/json
 
 
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 
 
@@ -63,7 +64,6 @@ Route::middleware('auth:api', 'role:Admin')->group(function () {
 });
 
 Route::middleware('auth:api', 'role:Admin|Mahasiswa')->group(function () {
-    Route::post('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgotPassword');
     Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('resetPassword');
