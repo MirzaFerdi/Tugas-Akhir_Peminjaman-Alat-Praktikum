@@ -32,6 +32,7 @@ class RoleSeeder extends Seeder
 
         $Admin = User::query()->where('role_id', 1)->get();
         $Mahasiswa = User::query()->where('role_id', 2)->get();
+        $Alumni = User::query()->where('role_id', 3)->get();
 
         foreach ($Admin as $admin) {
             $admin->assignRole('Admin');
@@ -39,6 +40,10 @@ class RoleSeeder extends Seeder
 
         foreach ($Mahasiswa as $mahasiswa) {
             $mahasiswa->assignRole('Mahasiswa');
+        }
+
+        foreach ($Alumni as $alumni) {
+            $alumni->assignRole('Alumni');
         }
     }
 }

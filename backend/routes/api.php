@@ -26,8 +26,6 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgotPassword');
-Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('resetPassword');
 
 
 
@@ -67,6 +65,8 @@ Route::middleware('auth:api', 'role:Admin')->group(function () {
 
 Route::middleware('auth:api', 'role:Admin|Mahasiswa')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgotPassword');
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('resetPassword');
 
     // Barang
     Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
