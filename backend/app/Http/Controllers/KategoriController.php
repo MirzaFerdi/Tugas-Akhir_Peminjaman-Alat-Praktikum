@@ -11,11 +11,25 @@ class KategoriController extends Controller
     public function index(){
         $kategori = Kategori::all();
 
+        if(!$kategori){
+            return response()->json([
+                'success' => false,
+                'message' => 'Data kategori tidak ditemukan!',
+            ]);
+        }
+
         return response()->json($kategori);
     }
 
     public function show($id){
         $kategori = Kategori::find($id);
+
+        if(!$kategori){
+            return response()->json([
+                'success' => false,
+                'message' => 'Data kategori tidak ditemukan!',
+            ]);
+        }
 
         return response()->json($kategori);
     }
@@ -31,7 +45,11 @@ class KategoriController extends Controller
                 'message' => 'Kategori berhasil ditambahkan!',
                 'data' => $kategori
             ]);
-
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Kategori gagal ditambahkan!',
+            ]);
         }
     }
 
@@ -47,7 +65,11 @@ class KategoriController extends Controller
                 'message' => 'Kategori berhasil diupdate!',
                 'data' => $kategori
             ]);
-
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Kategori gagal diupdate!',
+            ]);
         }
     }
 
@@ -61,7 +83,11 @@ class KategoriController extends Controller
                 'success' => true,
                 'message' => 'Kategori berhasil dihapus!',
             ]);
-
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Kategori gagal dihapus!',
+            ]);
         }
     }
 }

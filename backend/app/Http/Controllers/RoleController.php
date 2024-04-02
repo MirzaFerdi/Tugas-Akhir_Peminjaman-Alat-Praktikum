@@ -11,11 +11,25 @@ class RoleController extends Controller
     public function index(){
         $role = Role::all();
 
+        if(!$role){
+            return response()->json([
+                'success' => false,
+                'message' => 'Data role tidak ditemukan!',
+            ]);
+        }
+
         return response()->json($role);
     }
 
     public function show($id){
         $role = Role::find($id);
+
+        if(!$role){
+            return response()->json([
+                'success' => false,
+                'message' => 'Data role tidak ditemukan!',
+            ]);
+        }
 
         return response()->json($role);
     }
@@ -32,6 +46,11 @@ class RoleController extends Controller
                 'message' => 'Role berhasil ditambahkan!',
                 'data' => $role
             ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Role gagal ditambahkan!',
+            ]);
         }
     }
 
@@ -47,6 +66,11 @@ class RoleController extends Controller
                 'message' => 'Role berhasil diupdate!',
                 'data' => $role
             ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Role gagal diupdate!',
+            ]);
         }
     }
 
@@ -60,6 +84,11 @@ class RoleController extends Controller
                 'success' => true,
                 'message' => 'Role berhasil dihapus!',
                 'data' => $role
+            ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Role gagal dihapus!',
             ]);
         }
     }

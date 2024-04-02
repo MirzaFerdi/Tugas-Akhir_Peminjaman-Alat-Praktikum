@@ -10,11 +10,25 @@ class KelasController extends Controller
     public function index(){
         $kelas = Kelas::all();
 
+        if(!$kelas){
+            return response()->json([
+                'success' => false,
+                'message' => 'Data kelas tidak ditemukan!',
+            ]);
+        }
+
         return response()->json($kelas);
     }
 
     public function show($id){
         $kelas = Kelas::find($id);
+
+        if(!$kelas){
+            return response()->json([
+                'success' => false,
+                'message' => 'Data kelas tidak ditemukan!',
+            ]);
+        }
 
         return response()->json($kelas);
     }
@@ -33,6 +47,11 @@ class KelasController extends Controller
                 'message' => 'Kelas berhasil ditambahkan!',
                 'data' => $kelas
             ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Kelas gagal ditambahkan!',
+            ]);
         }
     }
 
@@ -50,6 +69,11 @@ class KelasController extends Controller
                 'message' => 'Kelas berhasil diupdate!',
                 'data' => $kelas
             ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Kelas gagal diupdate!',
+            ]);
         }
     }
 
@@ -63,6 +87,11 @@ class KelasController extends Controller
                 'success' => true,
                 'message' => 'Kelas berhasil dihapus!',
                 'data' => $kelas
+            ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Kelas gagal dihapus!',
             ]);
         }
     }

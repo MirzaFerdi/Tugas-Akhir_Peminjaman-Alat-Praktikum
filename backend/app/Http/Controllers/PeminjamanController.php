@@ -12,11 +12,25 @@ class PeminjamanController extends Controller
         // $peminjaman = Peminjaman::all();
         $peminjaman = Peminjaman::with('user','barang')->get();;
 
+        if(!$peminjaman){
+            return response()->json([
+                'success' => false,
+                'message' => 'Data peminjaman tidak ditemukan!',
+            ]);
+        }
+
         return response()->json($peminjaman);
     }
 
     public function show($id){
         $peminjaman = Peminjaman::with('user','barang')->find($id);
+
+        if(!$peminjaman){
+            return response()->json([
+                'success' => false,
+                'message' => 'Data peminjaman tidak ditemukan',
+            ]);
+        }
 
         return response()->json($peminjaman);
     }
@@ -40,6 +54,11 @@ class PeminjamanController extends Controller
                 'message' => 'Peminjaman berhasil ditambahkan!',
                 'data' => $peminjaman
             ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Peminjaman gagal ditambahkan!',
+            ]);
         }
     }
 
@@ -58,6 +77,11 @@ class PeminjamanController extends Controller
                 'message' => 'Peminjaman berhasil diupdate!',
                 'data' => $peminjaman
             ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Peminjaman gagal diupdate!',
+            ]);
         }
     }
 
@@ -75,6 +99,11 @@ class PeminjamanController extends Controller
                 'success' => true,
                 'message' => 'Peminjaman berhasil dihapus!',
             ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Peminjaman gagal dihapus!',
+            ]);
         }
     }
 
@@ -89,6 +118,11 @@ class PeminjamanController extends Controller
                 'message' => 'Peminjaman berhasil diapprove!',
                 'data' => $peminjaman
             ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Peminjaman gagal diapprove!',
+            ]);
         }
     }
 
@@ -100,8 +134,13 @@ class PeminjamanController extends Controller
         if($peminjaman){
             return response()->json([
                 'success' => true,
-                'message' => 'Peminjaman berhasil direject!',
+                'message' => 'Peminjaman berhasil ditolak!',
                 'data' => $peminjaman
+            ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Peminjaman gagal ditolak!',
             ]);
         }
     }
@@ -116,7 +155,7 @@ class PeminjamanController extends Controller
         } elseif ($keywords === 'desc') {
             $peminjaman = $peminjaman->sortDesc();
         } else {
-            return response()->json(['message' => 'Invalid order parameter. Use "asc" or "desc"'], 400);
+            return response()->json(['message' => 'Parameter salah. Gunakan "asc" atau "desc"'], 400);
         }
 
         // Return sorted timestamps as JSON response

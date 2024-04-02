@@ -9,9 +9,14 @@ class UserController extends Controller
 {
 
     public function index(){
-        // $user = User::all();
         $user = User::with('kelas','role')->get();
-        // $role = User::with('role')->get();
+
+        if(!$user){
+            return response()->json([
+                'success' => false,
+                'message' => 'Data user tidak ditemukan!',
+            ]);
+        }
 
         return response()->json($user);
     }
@@ -19,17 +24,38 @@ class UserController extends Controller
     public function show($id){
         $user = User::find($id);
 
+        if(!$user){
+            return response()->json([
+                'success' => false,
+                'message' => 'Data user tidak ditemukan!',
+            ]);
+        }
+
         return response()->json($user);
     }
 
     public function showByKelas($id){
         $user = User::where('kelas_id', $id)->with('kelas')->get();
 
+        if(!$user){
+            return response()->json([
+                'success' => false,
+                'message' => 'Data user dengan kelas tersebut tidak ditemukan!',
+            ]);
+        }
+
         return response()->json($user);
     }
 
     public function searchMahasiswa($kelasid,$keywords){
         $user = User::where('role_id', 2)->where('kelas_id',$kelasid)->where('nama', 'like', "%$keywords%")->get();
+
+        if(!$user){
+            return response()->json([
+                'success' => false,
+                'message' => 'Mahasiswa tidak ditemukan!',
+            ]);
+        }
 
         return response()->json($user);
     }
@@ -51,6 +77,11 @@ class UserController extends Controller
                 'message' => 'User berhasil ditambahkan!',
                 'data' => $user
             ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'User gagal ditambahkan!',
+            ]);
         }
     }
 
@@ -71,7 +102,39 @@ class UserController extends Controller
                 'message' => 'User berhasil diupdate!',
                 'data' => $user
             ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'User gagal diupdate!',
+            ]);
         }
+    }
+
+    public function naikKelas($kelasid){
+
+        if($kelasid == 4){
+            // $user->update(['role_id' => 3, 'kelas_id' => $kelasid+1]);
+            $user = User::where('kelas_id', $kelasid)->update(['role_id' => 3, 'kelas_id' => $kelasid+1]);
+            return response()->json([
+                'success' => true,
+                'message' => 'User berhasil menjadi alumni!!!',
+                'data' => $user
+            ]);
+        }elseif($kelasid == 5){
+
+            return response()->json([
+                'success' => false,
+                'message' => 'User sudah menjadi alumni!!!',
+            ],400);
+        }else{
+            $user = User::where('kelas_id', $kelasid)->update(['kelas_id' => $kelasid+1]);
+            return response()->json([
+                'success' => true,
+                'message' => 'User berhasil naik Kelas!!!',
+                'data' => $user
+            ]);
+        }
+
     }
 
     public function destroy($id){
@@ -84,6 +147,11 @@ class UserController extends Controller
                 'success' => true,
                 'message' => 'User berhasil dihapus!',
                 'data' => $user
+            ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'User gagal dihapus!',
             ]);
         }
     }

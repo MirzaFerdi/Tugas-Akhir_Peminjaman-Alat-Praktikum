@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('kelas', function (Blueprint $table) {
             $table->id();
             $table->string('kelas');
-            $table->string('dpa');
-            $table->string('tahun_ajaran');
+            $table->string('dpa')->nullable();
+            $table->string('tahun_ajaran')->nullable();
         });
     }
 

@@ -11,11 +11,25 @@ class PengembalianController extends Controller
     public function index(){
         $pengembalian = Pengembalian::with('user','barang')->get();
 
+        if(!$pengembalian){
+            return response()->json([
+                'success' => false,
+                'message' => 'Data pengembalian tidak ditemukan!',
+            ]);
+        }
+
         return response()->json($pengembalian);
     }
 
     public function show($id){
         $pengembalian = Pengembalian::with('user','barang')->find($id);
+
+        if(!$pengembalian){
+            return response()->json([
+                'success' => false,
+                'message' => 'Data pengembalian tidak ditemukan',
+            ]);
+        }
 
         return response()->json($pengembalian);
     }
@@ -39,6 +53,11 @@ class PengembalianController extends Controller
                 'message' => 'Pengembalian berhasil ditambahkan!',
                 'data' => $pengembalian
             ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Pengembalian gagal ditambahkan!',
+            ]);
         }
     }
 
@@ -57,6 +76,11 @@ class PengembalianController extends Controller
                 'message' => 'Pengembalian berhasil diupdate!',
                 'data' => $pengembalian
             ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Pengembalian gagal diupdate!',
+            ]);
         }
     }
 
@@ -69,6 +93,11 @@ class PengembalianController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Pengembalian berhasil dihapus!',
+            ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Pengembalian gagal dihapus!',
             ]);
         }
     }
@@ -84,6 +113,11 @@ class PengembalianController extends Controller
                 'message' => 'Pengembalian berhasil diterima!',
                 'data' => $pengembalian
             ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Pengembalian gagal diterima!',
+            ]);
         }
     }
 
@@ -97,6 +131,11 @@ class PengembalianController extends Controller
                 'success' => true,
                 'message' => 'Pengembalian berhasil ditolak!',
                 'data' => $pengembalian
+            ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Pengembalian gagal ditolak!',
             ]);
         }
     }
@@ -112,7 +151,7 @@ class PengembalianController extends Controller
         } elseif ($keywords === 'desc') {
             $pengembalian = $pengembalian->sortDesc();
         } else {
-            return response()->json(['message' => 'Invalid order parameter. Use "asc" or "desc"'], 400);
+            return response()->json(['message' => 'Parameter salah. Gunakan "asc" atau "desc"'], 400);
         }
 
         // Return sorted timestamps as JSON response

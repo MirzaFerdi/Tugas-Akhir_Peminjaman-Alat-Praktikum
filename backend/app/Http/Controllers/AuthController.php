@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
@@ -19,6 +20,16 @@ class AuthController extends Controller
         $credentials = $request->only('username', 'password');
 
         if(!$token = JWTAuth::attempt($credentials)){
+            $user = User::where('username', $request->username)->first();
+
+            if(!$user){
+                return response()->json(['error' => 'Username tidak ditemukan!!!'], Response::HTTP_NOT_FOUND);
+            }
+
+            if (!Hash::check($request->password, $user->password)) {
+                return response()->json(['error' => 'Password salah!!!'], Response::HTTP_UNAUTHORIZED);
+            }
+
             return response()->json(['error' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
         }
 

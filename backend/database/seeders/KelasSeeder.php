@@ -33,5 +33,10 @@ class KelasSeeder extends Seeder
             'dpa' => 'Rahmat Hidayat, S.Kom, M.Kom',
             'tahun_ajaran' => '2020/2021',
         ]);
+        DB::table('kelas')->insert([
+            'kelas' => 5,
+            'dpa' => 'Alumni',
+            'tahun_ajaran' => '2023/2024',
+        ]);
     }
 }

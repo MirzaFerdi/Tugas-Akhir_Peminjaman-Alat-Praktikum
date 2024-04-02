@@ -24,6 +24,10 @@ class RoleSeeder extends Seeder
             'name' => 'Mahasiswa',
         ]);
 
+        $alumni = Role::updateOrCreate([
+            'name' => 'Alumni',
+        ]);
+
 
 
         $Admin = User::query()->where('role_id', 1)->get();
