@@ -50,7 +50,20 @@ class UserController extends Controller
     public function searchMahasiswa($kelasid,$keywords){
         $user = User::where('role_id', 2)->where('kelas_id',$kelasid)->where('nama', 'like', "%$keywords%")->get();
 
-        if(!$user){
+        if($user->isEmpty()){
+            return response()->json([
+                'success' => false,
+                'message' => 'Mahasiswa tidak ditemukan!',
+            ]);
+        }
+
+        return response()->json($user);
+    }
+
+    public function mahasiswaByKelasId($kelasid, $id) {
+        $user = User::where('role_id', 2)->where('kelas_id', $kelasid)->where('id', $id)->get();
+
+        if ($user->isEmpty()) {
             return response()->json([
                 'success' => false,
                 'message' => 'Mahasiswa tidak ditemukan!',

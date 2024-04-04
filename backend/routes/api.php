@@ -43,6 +43,7 @@ Route::middleware('auth:api', 'role:Admin')->group(function () {
     Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
     Route::get('/user/kelas/{id}', [UserController::class, 'showByKelas'])->name('user.showByKelas');
     Route::get('/user/search/mahasiswa/{kelasid}/{keywords}', [UserController::class, 'searchMahasiswa'])->name('user.searchMahasiswa');
+    Route::get('/user/mahasiswa/{kelasid}/{id}', [UserController::class, 'mahasiswaByKelasId'])->name('user.mahasiswaByKelasId');
     Route::post('/user', [UserController::class, 'store'])->name('user.store');
     Route::put('user/naikkelas/{kelasid}',[UserController::class, 'naikKelas'])->name('user.lulus');
     Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
