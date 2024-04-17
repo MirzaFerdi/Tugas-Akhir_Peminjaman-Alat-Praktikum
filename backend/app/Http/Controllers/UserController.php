@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Barang;
+use App\Models\Peminjaman;
+use App\Models\Pengembalian;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -48,7 +51,11 @@ class UserController extends Controller
     }
 
     public function searchMahasiswa($kelasid,$keywords){
-        $user = User::where('role_id', 2)->where('kelas_id',$kelasid)->where('nama', 'like', "%$keywords%")->get();
+        $user = User::where('role_id', 2)->where('kelas_id',$kelasid)->where(function ($query) use ($keywords){
+            $query->where('nama', 'like', '%'.$keywords.'%')
+                ->orWhere('username', 'like', '%'.$keywords.'%')
+                ->orWhere('email', 'like', '%'.$keywords.'%');
+        })->get();
 
         if($user->isEmpty()){
             return response()->json([
@@ -71,6 +78,29 @@ class UserController extends Controller
         }
 
         return response()->json($user);
+    }
+
+
+    public function countAll(){
+        $user = User::where('role_id', 2)->count();
+        $barang = Barang::count();
+        $peminjaman = Peminjaman::count();
+        $pengembalian = Pengembalian::count();
+
+        if(!$user){
+            return response()->json([
+                'success' => false,
+                'message' => 'Data user tidak ditemukan!',
+            ]);
+        }
+
+        return response()->json([
+            'User: ' => $user,
+            'Barang: ' => $barang,
+            'Peminjaman: ' => $peminjaman,
+            'Pengembalian: ' => $pengembalian
+
+        ]);
     }
 
     public function store(Request $request){

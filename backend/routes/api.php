@@ -68,6 +68,7 @@ Route::middleware('auth:api', 'role:Admin')->group(function () {
 
 Route::middleware('auth:api', 'role:Admin|Mahasiswa')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/countall', [UserController::class, 'countAll'])->name('countAll');
 
     // Barang
     Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
