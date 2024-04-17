@@ -71,6 +71,32 @@ class BarangController extends Controller
         return response()->json($barang);
     }
 
+    public function searchAlatKode($keywords){
+        $barang = Barang::where('kategori_id', 1)->where('kode_barang', 'like', "%$keywords%")->get();
+
+        if(!$barang){
+            return response()->json([
+                'success' => false,
+                'message' => 'Barang tidak ditemukan!',
+            ]);
+        }
+
+        return response()->json($barang);
+    }
+
+    public function searchBahanKode($keywords){
+        $barang = Barang::where('kategori_id', 2)->where('kode_barang', 'like', "%$keywords%")->get();
+
+        if(!$barang){
+            return response()->json([
+                'success' => false,
+                'message' => 'Bahan tidak ditemukan!',
+            ]);
+        }
+
+        return response()->json($barang);
+    }
+
     public function paginationAlat($limit){
         $barang = Barang::where('kategori_id', 1)->paginate($limit);
 
@@ -86,6 +112,7 @@ class BarangController extends Controller
     public function store(Request $request){
         $barang = new Barang;
         $barang->kategori_id = $request->kategori_id;
+        $barang->kode_barang = $request->kode_barang;
         $barang->nama_barang = $request->nama_barang;
         $barang->jumlah_barang = $request->jumlah_barang;
         $barang->save();
@@ -107,6 +134,7 @@ class BarangController extends Controller
     public function update(Request $request, $id){
         $barang = Barang::find($id);
         $barang->kategori_id = $request->kategori_id;
+        $barang->kode_barang = $request->kode_barang;
         $barang->nama_barang = $request->nama_barang;
         $barang->jumlah_barang = $request->jumlah_barang;
         $barang->update();
