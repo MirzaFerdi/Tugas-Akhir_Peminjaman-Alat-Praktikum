@@ -46,7 +46,10 @@ class BarangController extends Controller
     }
 
     public function searchAlat($keywords){
-        $barang = Barang::where('kategori_id', 1)->where('nama_barang', 'like', "%$keywords%")->get();
+        $barang = Barang::where('kategori_id', 1)->where(function ($query) use ($keywords){
+            $query->where('nama_barang', 'like', "%$keywords%")
+                ->orWhere('kode_barang', 'like', "%$keywords%");
+        })->get();
 
         if(!$barang){
             return response()->json([
@@ -59,33 +62,10 @@ class BarangController extends Controller
     }
 
     public function searchBahan($keywords){
-        $barang = Barang::where('kategori_id', 2)->where('nama_barang', 'like', "%$keywords%")->get();
-
-        if(!$barang){
-            return response()->json([
-                'success' => false,
-                'message' => 'Bahan tidak ditemukan!',
-            ]);
-        }
-
-        return response()->json($barang);
-    }
-
-    public function searchAlatKode($keywords){
-        $barang = Barang::where('kategori_id', 1)->where('kode_barang', 'like', "%$keywords%")->get();
-
-        if(!$barang){
-            return response()->json([
-                'success' => false,
-                'message' => 'Barang tidak ditemukan!',
-            ]);
-        }
-
-        return response()->json($barang);
-    }
-
-    public function searchBahanKode($keywords){
-        $barang = Barang::where('kategori_id', 2)->where('kode_barang', 'like', "%$keywords%")->get();
+        $barang = Barang::where('kategori_id', 2)->where(function ($query) use ($keywords){
+            $query->where('nama_barang', 'like', "%$keywords%")
+                ->orWhere('kode_barang', 'like', "%$keywords%");
+        })->get();
 
         if(!$barang){
             return response()->json([

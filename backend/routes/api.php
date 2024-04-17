@@ -78,8 +78,6 @@ Route::middleware('auth:api', 'role:Admin|Mahasiswa')->group(function () {
     Route::get('/barang/kategori/{id}', [BarangController::class, 'showByKategori'])->name('barang.showByKategori');
     Route::get('/barang/search/alat/{keywords}', [BarangController::class, 'searchAlat'])->name('barang.searchAlat');
     Route::get('/barang/search/bahan/{keywords}', [BarangController::class, 'searchBahan'])->name('barang.searchBahan');
-    Route::get('/barang/search/kodealat/{keywords}', [BarangController::class, 'searchAlatKode'])->name('barang.searchKodeAlat');
-    Route::get('/barang/search/kodebahan/{keywords}', [BarangController::class, 'searchBahanKode'])->name('barang.searchKodeBahan');
     Route::post('/barang', [BarangController::class, 'store'])->name('barang.store');
     Route::put('/barang/{id}', [BarangController::class, 'update'])->name('barang.update');
     Route::delete('/barang/{id}', [BarangController::class, 'destroy'])->name('barang.destroy');
