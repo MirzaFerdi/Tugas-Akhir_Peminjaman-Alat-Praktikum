@@ -152,31 +152,17 @@ class UserController extends Controller
         }
     }
 
-    public function naikKelas($kelasid){
+    public function naikKelas(){
+        $userKelas = User::where('kelas_id', 5)->get();
+        User::where('role_id', 2)->increment('kelas_id');
 
-        if($kelasid == 4){
-            // $user->update(['role_id' => 3, 'kelas_id' => $kelasid+1]);
-            $user = User::where('kelas_id', $kelasid)->update(['role_id' => 3, 'kelas_id' => $kelasid+1]);
+        if($userKelas){
+            User::where('kelas_id', 5)->update(['role_id' => 3]);
             return response()->json([
                 'success' => true,
-                'message' => 'User berhasil menjadi alumni!!!',
-                'data' => $user
-            ]);
-        }elseif($kelasid == 5){
-
-            return response()->json([
-                'success' => false,
-                'message' => 'User sudah menjadi alumni!!!',
-            ],400);
-        }else{
-            $user = User::where('kelas_id', $kelasid)->update(['kelas_id' => $kelasid+1]);
-            return response()->json([
-                'success' => true,
-                'message' => 'User berhasil naik Kelas!!!',
-                'data' => $user
+                'message' => 'Berhasil Naik Kelas!',
             ]);
         }
-
     }
 
     public function destroy($id){
