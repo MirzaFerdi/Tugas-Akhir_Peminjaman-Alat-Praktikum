@@ -45,7 +45,7 @@ class PeminjamanController extends Controller
         $peminjaman->save();
 
         $barang = Barang::find($request->barang_id);
-        $barang->jumlah_barang = $barang->jumlah_barang - 1;
+        $barang->stok_tersedia = $barang->stok_tersedia - 1;
         $barang->update();
 
         if($peminjaman){
@@ -90,7 +90,7 @@ class PeminjamanController extends Controller
         $peminjaman->delete();
 
         $barang = Barang::find($peminjaman->barang_id);
-        $barang->jumlah_barang = $barang->jumlah_barang + 1;
+        $barang->stok_tersedia = $barang->stok_tersedia + 1;
         $barang->update();
 
         if($peminjaman){
@@ -162,5 +162,22 @@ class PeminjamanController extends Controller
         return response()->json($peminjaman);
     }
 
+    public function getPeminjamanByUserId($id){
+        $peminjaman = Peminjaman::with('user','barang')->where('user_id', $id)->get();
 
+        if($peminjaman){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data peminjaman ditemukan!',
+                'data' => $peminjaman
+            ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data peminjaman tidak ditemukan!',
+            ]);
+        }
+
+        return response()->json($peminjaman);
+    }
 }

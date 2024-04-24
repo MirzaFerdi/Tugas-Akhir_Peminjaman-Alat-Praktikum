@@ -47,7 +47,6 @@ Route::middleware('auth:api', 'role:Admin')->group(function () {
     Route::get('/user/search/mahasiswa/{kelasid}/{keywords}', [UserController::class, 'searchMahasiswa'])->name('user.searchMahasiswa');
     Route::get('/user/mahasiswa/{kelasid}/{id}', [UserController::class, 'mahasiswaByKelasId'])->name('user.mahasiswaByKelasId');
     Route::post('/user', [UserController::class, 'store'])->name('user.store');
-    Route::put('/user/naikkelas',[UserController::class, 'naikKelas'])->name('user.lulus');
     Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
     Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 
@@ -57,6 +56,8 @@ Route::middleware('auth:api', 'role:Admin')->group(function () {
     Route::post('/kelas', [KelasController::class, 'store'])->name('kelas.store');
     Route::put('/kelas/{id}', [KelasController::class, 'update'])->name('kelas.update');
     Route::delete('/kelas/{id}', [KelasController::class, 'destroy'])->name('kelas.destroy');
+    Route::put('/kelas/naik-semua',[KelasController::class, 'naikKelasAll'])->name('kelas.naikKelasAll');
+    Route::put('/kelas/naik',[KelasController::class, 'naikKelas'])->name('kelas.naikKelas');
 
     //Kategori
     Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
@@ -91,6 +92,8 @@ Route::middleware('auth:api', 'role:Admin|Mahasiswa')->group(function () {
     Route::put('/peminjaman/approve/{id}', [PeminjamanController::class, 'approve'])->name('peminjaman.approve');
     Route::put('/peminjaman/reject/{id}', [PeminjamanController::class, 'reject'])->name('peminjaman.reject');
     Route::get('/peminjaman/sort/{keywords}', [PeminjamanController::class,'sortTimestamps'])->name('peminjaman.sort');
+    Route::get('/peminjaman/user/{id}', [PeminjamanController::class, 'getPeminjamanByUserId'])->name('peminjaman.showByUser');
+
 
     // Pengembalian
     Route::get('/pengembalian', [PengembalianController::class, 'index'])->name('pengembalian.index');
@@ -101,4 +104,5 @@ Route::middleware('auth:api', 'role:Admin|Mahasiswa')->group(function () {
     Route::put('/pengembalian/approve/{id}', [PengembalianController::class, 'approve'])->name('pengembalian.approve');
     Route::put('/pengembalian/reject/{id}', [PengembalianController::class, 'reject'])->name('pengembalian.reject');
     Route::get('/pengembalian/sort/{keywords}', [PengembalianController::class,'sortTimestamps'])->name('pengembalian.sort');
+    Route::get('/pengembalian/user/{id}', [PengembalianController::class, 'getPengembalianByUserId'])->name('pengembalian.showByUser');
 });

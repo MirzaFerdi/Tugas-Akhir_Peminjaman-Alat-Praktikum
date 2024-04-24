@@ -74,11 +74,14 @@ class BarangSeeder extends Seeder
         $counter = 1;
 
         foreach ($barang as $nama_barang) {
+            $stok= rand(1, 20);
+
             DB::table('barang')->insert([
                 'kategori_id' => 1,
                 'nama_barang' => $nama_barang,
                 'kode_barang' => 'A10' . strtoupper(substr( 0, 1)) . $counter,
-                'jumlah_barang' => rand(1, 20),
+                'stok_awal' => $stok,
+                'stok_tersedia' => $stok,
             ]);
             $counter++;
         }
@@ -105,11 +108,14 @@ class BarangSeeder extends Seeder
         $counter = 1;
 
         foreach ($bahan as $nama_barang) {
+            $stok= rand(1, 20);
+
             DB::table('barang')->insert([
                 'kategori_id' => 2,
                 'nama_barang' => $nama_barang,
                 'kode_barang' => 'A20' . strtoupper(substr( 0, 1)) . $counter,
-                'jumlah_barang' => rand(1, 20),
+                'stok_awal' => $stok,
+                'stok_tersedia' => $stok,
             ]);
             $counter++;
         }

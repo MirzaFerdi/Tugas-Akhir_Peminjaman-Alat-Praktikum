@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kelas;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class KelasController extends Controller
@@ -95,4 +96,86 @@ class KelasController extends Controller
             ]);
         }
     }
+
+    public function naikKelasAll(){
+        $userKelas = User::where('kelas_id', 5)->get();
+        User::where('role_id', 2)->increment('kelas_id');
+
+        if($userKelas){
+            User::where('kelas_id', 5)->update(['role_id' => 3]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Berhasil Naik Kelas!',
+            ]);
+        }
+    }
+
+    public function naikKelas(Request $request) {
+        $userIds = $request->input('id');
+
+
+        foreach ($userIds as $userId) {
+            $userKelas = User::find($userId);
+
+            if(!$userKelas) {
+                return response()->json([
+                    'success' => false,
+                    'message' => "User dengan ID $userId tidak ditemukan!",
+                ], 404);
+            }
+
+            $userKelas->kelas_id += 1;
+            $userKelas->save();
+
+        }
+        User::where('kelas_id', 5)->update(['role_id' => 3]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Berhasil Naik Kelas untuk semua user!',
+        ]);
+    }
+
+    // public function naikKelas(Request $request) {
+    //     // Memeriksa apakah 'user_ids' ada dalam permintaan
+    //     if (!$request->has('id')) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'Parameter "id" tidak ditemukan!',
+    //         ], 400);
+    //     }
+
+    //     $userIds = $request->input('id');
+
+    //     // Memastikan bahwa 'user_ids' adalah array
+    //     if (!is_array($userIds)) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'Parameter "user_ids" harus berupa array!',
+    //         ], 400);
+    //     }
+
+    //     foreach ($userIds as $userId) {
+    //         $userKelas = User::find($userId);
+
+    //         if(!$userKelas) {
+    //             return response()->json([
+    //                 'success' => false,
+    //                 'message' => "User dengan ID $userId tidak ditemukan!",
+    //             ], 404);
+    //         }
+
+    //         // Menaikkan kelas_id
+    //         $userKelas->kelas_id += 1;
+
+    //         // Menyimpan perubahan
+    //         $userKelas->save();
+    //     }
+
+    //     return response()->json([
+    //         'success' => true,
+    //         'message' => 'Berhasil Naik Kelas untuk semua user!',
+    //     ]);
+    // }
+
 }

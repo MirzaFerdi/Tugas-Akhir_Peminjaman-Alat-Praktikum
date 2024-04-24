@@ -44,7 +44,7 @@ class PengembalianController extends Controller
         $pengembalian->save();
 
         $barang = Barang::find($request->barang_id);
-        $barang->jumlah_barang = $barang->jumlah_barang + 1;
+        $barang->stok_tersedia = $barang->stok_tersedia + 1;
         $barang->update();
 
         if($pengembalian){
@@ -155,6 +155,25 @@ class PengembalianController extends Controller
         }
 
         // Return sorted timestamps as JSON response
+        return response()->json($pengembalian);
+    }
+
+    public function getPengembalianByUserId($id){
+        $pengembalian = Pengembalian::with('user','barang')->where('user_id',$id)->get();
+
+        if($pengembalian){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data pengembalian ditemukan!',
+                'data' => $pengembalian
+            ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data pengembalian tidak ditemukan!',
+            ]);
+        }
+
         return response()->json($pengembalian);
     }
 }

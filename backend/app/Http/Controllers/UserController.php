@@ -152,19 +152,6 @@ class UserController extends Controller
         }
     }
 
-    public function naikKelas(){
-        $userKelas = User::where('kelas_id', 5)->get();
-        User::where('role_id', 2)->increment('kelas_id');
-
-        if($userKelas){
-            User::where('kelas_id', 5)->update(['role_id' => 3]);
-            return response()->json([
-                'success' => true,
-                'message' => 'Berhasil Naik Kelas!',
-            ]);
-        }
-    }
-
     public function destroy($id){
         $user = User::find($id);
         $user->delete();
