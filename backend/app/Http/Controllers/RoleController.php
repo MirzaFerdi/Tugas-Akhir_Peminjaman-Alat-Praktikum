@@ -58,7 +58,7 @@ class RoleController extends Controller
         $role = Role::find($id);
         $role->name = $request->name;
         $role->guard_name = 'api';
-        $role->update();
+        $role->save();
 
         if($role){
             return response()->json([

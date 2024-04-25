@@ -44,9 +44,6 @@ class PeminjamanController extends Controller
         $peminjaman->tanggal_peminjaman = $request->tanggal_peminjaman;
         $peminjaman->save();
 
-        $barang = Barang::find($request->barang_id);
-        $barang->stok_tersedia = $barang->stok_tersedia - 1;
-        $barang->update();
 
         if($peminjaman){
             return response()->json([
@@ -69,7 +66,7 @@ class PeminjamanController extends Controller
         $peminjaman->keterangan = $request->keterangan;
         $peminjaman->status = $request->status;
         $peminjaman->tanggal_peminjaman = $request->tanggal_peminjaman;
-        $peminjaman->update();
+        $peminjaman->save();
 
         if($peminjaman){
             return response()->json([
@@ -91,7 +88,7 @@ class PeminjamanController extends Controller
 
         $barang = Barang::find($peminjaman->barang_id);
         $barang->stok_tersedia = $barang->stok_tersedia + 1;
-        $barang->update();
+        $barang->save();
 
         if($peminjaman){
             $peminjaman = Peminjaman::find($id);
@@ -109,27 +106,39 @@ class PeminjamanController extends Controller
 
     public function approve($id){
         $peminjaman = Peminjaman::find($id);
-        $peminjaman->status = 'Diterima';
-        $peminjaman->update();
 
-        if($peminjaman){
-            return response()->json([
-                'success' => true,
-                'message' => 'Peminjaman berhasil diapprove!',
-                'data' => $peminjaman
-            ]);
-        }else{
+        if(!$peminjaman){
             return response()->json([
                 'success' => false,
-                'message' => 'Peminjaman gagal diapprove!',
+                'message' => 'Peminjaman tidak ditemukan!',
             ]);
         }
+
+        if($peminjaman->status === 'Diterima'){
+            return response()->json([
+                'success' => false,
+                'message' => 'Peminjaman sudah diterima!',
+            ]);
+        }
+
+        $peminjaman->status = 'Diterima';
+        $peminjaman->save();
+
+        $barang = Barang::find($peminjaman->barang_id);
+        $barang->stok_tersedia = $barang->stok_tersedia - 1;
+        $barang->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Peminjaman berhasil diterima!',
+            'data' => $peminjaman
+        ]);
     }
 
     public function reject($id){
         $peminjaman = Peminjaman::find($id);
         $peminjaman->status = 'Ditolak';
-        $peminjaman->update();
+        $peminjaman->save();
 
         if($peminjaman){
             return response()->json([

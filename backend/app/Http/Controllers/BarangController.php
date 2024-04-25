@@ -117,7 +117,7 @@ class BarangController extends Controller
         $barang->kode_barang = $request->kode_barang;
         $barang->nama_barang = $request->nama_barang;
         $barang->jumlah_barang = $request->jumlah_barang;
-        $barang->update();
+        $barang->save();
 
         if($barang){
             $barang = Barang::find($id);

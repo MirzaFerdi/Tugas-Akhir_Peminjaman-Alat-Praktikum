@@ -43,10 +43,6 @@ class PengembalianController extends Controller
         $pengembalian->tanggal_pengembalian = $request->tanggal_pengembalian;
         $pengembalian->save();
 
-        $barang = Barang::find($request->barang_id);
-        $barang->stok_tersedia = $barang->stok_tersedia + 1;
-        $barang->update();
-
         if($pengembalian){
             return response()->json([
                 'success' => true,
@@ -68,7 +64,7 @@ class PengembalianController extends Controller
         $pengembalian->keterangan = $request->keterangan;
         $pengembalian->status = $request->status;
         $pengembalian->tanggal_pengembalian = $request->tanggal_pengembalian;
-        $pengembalian->update();
+        $pengembalian->save();
 
         if($pengembalian){
             return response()->json([
@@ -104,27 +100,39 @@ class PengembalianController extends Controller
 
     public function approve($id){
         $pengembalian = Pengembalian::find($id);
-        $pengembalian->status = 'Diterima';
-        $pengembalian->update();
 
-        if($pengembalian){
-            return response()->json([
-                'success' => true,
-                'message' => 'Pengembalian berhasil diterima!',
-                'data' => $pengembalian
-            ]);
-        }else{
+        if(!$pengembalian){
             return response()->json([
                 'success' => false,
-                'message' => 'Pengembalian gagal diterima!',
+                'message' => 'Pengembalian tidak ditemukan!',
             ]);
         }
+
+        if($pengembalian->status === 'Diterima'){
+            return response()->json([
+                'success' => false,
+                'message' => 'Pengembalian sudah diterima!',
+            ]);
+        }
+
+        $pengembalian->status = 'Diterima';
+        $pengembalian->save();
+
+        $barang = Barang::find($pengembalian->barang_id);
+        $barang->stok_tersedia = $barang->stok_tersedia + 1;
+        $barang->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Pengembalian berhasil diterima!',
+            'data' => $pengembalian
+        ]);
     }
 
     public function reject($id){
         $pengembalian = Pengembalian::find($id);
         $pengembalian->status = 'Ditolak';
-        $pengembalian->update();
+        $pengembalian->save();
 
         if($pengembalian){
             return response()->json([

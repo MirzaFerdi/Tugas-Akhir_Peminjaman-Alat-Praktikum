@@ -136,7 +136,7 @@ class UserController extends Controller
         $user->nohp = $request->nohp;
         $user->kelas_id = $request->kelas_id;
         $user->role_id = $request->role_id;
-        $user->update();
+        $user->save();
 
         if($user){
             return response()->json([

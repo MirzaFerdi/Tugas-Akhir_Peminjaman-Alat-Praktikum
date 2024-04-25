@@ -56,7 +56,7 @@ class KategoriController extends Controller
     public function update(Request $request, $id){
         $kategori = Kategori::find($id);
         $kategori->nama_kategori = $request->nama_kategori;
-        $kategori->update();
+        $kategori->save();
 
         if($kategori){
             $kategori = Kategori::find($id);

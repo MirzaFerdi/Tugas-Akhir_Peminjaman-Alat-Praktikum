@@ -54,10 +54,9 @@ Route::middleware('auth:api', 'role:Admin')->group(function () {
     Route::get('/kelas', [KelasController::class, 'index'])->name('kelas.index');
     Route::get('/kelas/{id}', [KelasController::class, 'show'])->name('kelas.show');
     Route::post('/kelas', [KelasController::class, 'store'])->name('kelas.store');
+    Route::put('/kelas/naik',[KelasController::class, 'naikKelas'])->name('kelas.naikKelas');
     Route::put('/kelas/{id}', [KelasController::class, 'update'])->name('kelas.update');
     Route::delete('/kelas/{id}', [KelasController::class, 'destroy'])->name('kelas.destroy');
-    Route::put('/kelas/naik-semua',[KelasController::class, 'naikKelasAll'])->name('kelas.naikKelasAll');
-    Route::put('/kelas/naik',[KelasController::class, 'naikKelas'])->name('kelas.naikKelas');
 
     //Kategori
     Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');

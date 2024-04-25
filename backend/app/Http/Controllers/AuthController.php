@@ -62,7 +62,7 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
-            return response()->json(['success' => false, 'message' => 'Email not found'], Response::HTTP_NOT_FOUND);
+            return response()->json(['success' => false, 'message' => 'Email tidak ditemukan'], Response::HTTP_NOT_FOUND);
         }
 
         // Generate a unique token for the password reset process
@@ -80,7 +80,7 @@ class AuthController extends Controller
         $email = new SendEmail($token);
         Mail::to($request->email)->send($email);
 
-        return response()->json(['success' => true, 'message' => 'Password reset token sent to your email', 'email' => $user->email]);
+        return response()->json(['success' => true, 'message' => 'Token reset password dikirimkan ke email anda', 'email' => $user->email]);
     }
     public function resetPassword(Request $request){
         // Validate the request data
@@ -101,7 +101,7 @@ class AuthController extends Controller
             ->first();
 
         if (!$token) {
-            return response()->json(['success' => false, 'message' => 'Invalid or expired token'], Response::HTTP_BAD_REQUEST);
+            return response()->json(['success' => false, 'message' => 'Token salah atau kadaluarsa'], Response::HTTP_BAD_REQUEST);
         }
 
         // Update user's password
@@ -114,7 +114,7 @@ class AuthController extends Controller
             ->where('email', $request->email)
             ->delete();
 
-        return response()->json(['success' => true, 'message' => 'Password reset successfully']);
+        return response()->json(['success' => true, 'message' => 'Reset password berhasil!']);
     }
 
 
