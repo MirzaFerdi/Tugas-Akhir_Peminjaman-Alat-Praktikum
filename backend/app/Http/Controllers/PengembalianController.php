@@ -184,4 +184,23 @@ class PengembalianController extends Controller
 
         return response()->json($pengembalian);
     }
+
+    public function getPengembalianApproved($id){
+        $pengembalian = Pengembalian::with('user','barang')->where('status', 'Diterima')->where('user_id', $id)->get();
+
+        if($pengembalian->isEmpty()){
+            return response()->json([
+                'success' => false,
+                'message' => 'Data pengembalian tidak ditemukan!',
+            ]);
+        }else{
+            return response()->json([
+                'success' => true,
+                'message' => 'Data pengembalian ditemukan!',
+                'data' => $pengembalian
+            ]);
+        }
+
+        return response()->json($pengembalian);
+    }
 }

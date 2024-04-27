@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use App\Models\Peminjaman;
+use App\Models\Pengembalian;
 use Illuminate\Http\Request;
 
 class PeminjamanController extends Controller
@@ -188,5 +189,41 @@ class PeminjamanController extends Controller
         }
 
         return response()->json($peminjaman);
+    }
+
+    public function getPeminjamanApproved($id){
+        $peminjaman = Peminjaman::with('user','barang')->where('status', 'Diterima')->where('user_id', $id)->get();
+
+        if($peminjaman->isEmpty()){
+            return response()->json([
+                'success' => false,
+                'message' => 'Data peminjaman tidak ditemukan!',
+            ]);
+        }else{
+            return response()->json([
+                'success' => true,
+                'message' => 'Data peminjaman ditemukan!',
+                'data' => $peminjaman
+            ]);
+        }
+    }
+
+    public function rekapPeminjaman(){
+        $peminjaman = Peminjaman::with('user','barang')->get();
+        $pengembalian = Pengembalian::with('user','barang')->get();
+
+        if($peminjaman->isEmpty()){
+            return response()->json([
+                'success' => false,
+                'message' => 'Data peminjaman tidak ditemukan!',
+            ]);
+        }else{
+            return response()->json([
+                'success' => true,
+                'message' => 'Data peminjaman ditemukan!',
+                'peminjaman' => $peminjaman,
+                'pengembalian' => $pengembalian
+            ]);
+        }
     }
 }

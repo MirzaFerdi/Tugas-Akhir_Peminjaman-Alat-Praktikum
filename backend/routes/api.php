@@ -84,18 +84,21 @@ Route::middleware('auth:api', 'role:Admin|Mahasiswa')->group(function () {
 
     // Peminjaman
     Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman.index');
+    Route::get('/peminjaman/approved/{id}', [PeminjamanController::class, 'getPeminjamanApproved'])->name('peminjaman.getApproved');
+    Route::get('/peminjaman/rekap', [PeminjamanController::class, 'rekapPeminjaman'])->name('peminjaman.rekap');
     Route::get('/peminjaman/{id}', [PeminjamanController::class, 'show'])->name('peminjaman.show');
+    Route::get('/peminjaman/sort/{keywords}', [PeminjamanController::class,'sortTimestamps'])->name('peminjaman.sort');
+    Route::get('/peminjaman/user/{id}', [PeminjamanController::class, 'getPeminjamanByUserId'])->name('peminjaman.showByUser');
     Route::post('/peminjaman', [PeminjamanController::class, 'store'])->name('peminjaman.store');
     Route::put('/peminjaman/{id}', [PeminjamanController::class, 'update'])->name('peminjaman.update');
     Route::delete('/peminjaman/{id}', [PeminjamanController::class, 'destroy'])->name('peminjaman.destroy');
     Route::put('/peminjaman/approve/{id}', [PeminjamanController::class, 'approve'])->name('peminjaman.approve');
     Route::put('/peminjaman/reject/{id}', [PeminjamanController::class, 'reject'])->name('peminjaman.reject');
-    Route::get('/peminjaman/sort/{keywords}', [PeminjamanController::class,'sortTimestamps'])->name('peminjaman.sort');
-    Route::get('/peminjaman/user/{id}', [PeminjamanController::class, 'getPeminjamanByUserId'])->name('peminjaman.showByUser');
 
 
     // Pengembalian
     Route::get('/pengembalian', [PengembalianController::class, 'index'])->name('pengembalian.index');
+    Route::get('/pengembalian/approved/{id}', [PengembalianController::class, 'getPengembalianApproved'])->name('pengembalian.getApproved');
     Route::get('/pengembalian/{id}', [PengembalianController::class, 'show'])->name('pengembalian.show');
     Route::post('/pengembalian', [PengembalianController::class, 'store'])->name('pengembalian.store');
     Route::put('/pengembalian/{id}', [PengembalianController::class, 'update'])->name('pengembalian.update');
