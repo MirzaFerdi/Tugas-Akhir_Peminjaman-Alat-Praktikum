@@ -16,16 +16,16 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         $admin = Role::updateOrCreate([
-            'name' => 'Admin',
+            'nama' => 'Admin',
 
         ]);
 
         $mahasiswa = Role::updateOrCreate([
-            'name' => 'Mahasiswa',
+            'nama' => 'Mahasiswa',
         ]);
 
         $alumni = Role::updateOrCreate([
-            'name' => 'Alumni',
+            'nama' => 'Alumni',
         ]);
 
 

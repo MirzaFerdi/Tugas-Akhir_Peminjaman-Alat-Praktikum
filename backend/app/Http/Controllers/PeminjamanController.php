@@ -156,20 +156,20 @@ class PeminjamanController extends Controller
     }
 
     public function sortTimestamps($keywords){
-        // Retrieve timestamps from the database
-        $peminjaman = Peminjaman::with('user','barang')->get();;
+        $peminjaman = Peminjaman::with('user','barang');
 
-        // Sort timestamps based on the specified order
         if ($keywords === 'asc') {
-            $peminjaman = $peminjaman->sort();
+            $peminjaman = $peminjaman->orderBy('tanggal_peminjaman', 'asc')->get();
         } elseif ($keywords === 'desc') {
-            $peminjaman = $peminjaman->sortDesc();
+            $peminjaman = $peminjaman->orderBy('tanggal_peminjaman', 'desc')->get();
         } else {
             return response()->json(['message' => 'Parameter salah. Gunakan "asc" atau "desc"'], 400);
         }
 
-        // Return sorted timestamps as JSON response
-        return response()->json($peminjaman);
+        return response()->json([
+            'success' => true,
+            'data' => $peminjaman
+        ]);
     }
 
     public function getPeminjamanByUserId($id){

@@ -36,8 +36,7 @@ class RoleController extends Controller
 
     public function store(Request $request){
         $role = new Role;
-        $role->name = $request->name;
-        $role->guard_name = 'api';
+        $role->nama = $request->nama;
         $role->save();
 
         if($role){
@@ -56,8 +55,7 @@ class RoleController extends Controller
 
     public function update(Request $request, $id){
         $role = Role::find($id);
-        $role->name = $request->name;
-        $role->guard_name = 'api';
+        $role->nama = $request->nama;
         $role->save();
 
         if($role){

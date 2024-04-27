@@ -150,20 +150,20 @@ class PengembalianController extends Controller
 
 
     public function sortTimestamps($keywords){
-        // Retrieve timestamps from the database
-        $pengembalian = Pengembalian::with('user','barang')->get();
+        $pengembalian = Pengembalian::with('user','barang');
 
-        // Sort timestamps based on the specified order
         if ($keywords === 'asc') {
-            $pengembalian = $pengembalian->sort();
+            $pengembalian = $pengembalian->orderBy('tanggal_pengembalian', 'asc')->get();
         } elseif ($keywords === 'desc') {
-            $pengembalian = $pengembalian->sortDesc();
+            $pengembalian = $pengembalian->orderBy('tanggal_pengembalian', 'desc')->get();
         } else {
             return response()->json(['message' => 'Parameter salah. Gunakan "asc" atau "desc"'], 400);
         }
 
-        // Return sorted timestamps as JSON response
-        return response()->json($pengembalian);
+        return response()->json([
+            'success' => true,
+            'data' => $pengembalian
+        ]);
     }
 
     public function getPengembalianByUserId($id){
