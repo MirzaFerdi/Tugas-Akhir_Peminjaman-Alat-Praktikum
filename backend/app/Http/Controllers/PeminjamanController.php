@@ -83,6 +83,25 @@ class PeminjamanController extends Controller
         }
     }
 
+    public function updatePengembalian(Request $request,$id){
+        $peminjaman = Peminjaman::find($id);
+        $peminjaman->pengembalian_id = $request->pengembalian_id;
+        $peminjaman->save();
+
+        if($peminjaman){
+            return response()->json([
+                'success' => true,
+                'message' => 'Peminjaman berhasil diupdate!',
+                'data' => $peminjaman
+            ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Peminjaman gagal diupdate!',
+            ]);
+        }
+    }
+
     public function destroy($id){
         $peminjaman = Peminjaman::find($id);
         $peminjaman->delete();
