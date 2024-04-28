@@ -16,6 +16,7 @@ class PeminjamanSeeder extends Seeder
         DB::table('peminjaman')->insert([
             'user_id' => 2,
             'barang_id' => 1,
+            'pengembalian_id' => 1,
             'keterangan' => 'Peminjaman barang untuk keperluan tugas akhir',
             'status' => 'Pending',
             'tanggal_peminjaman' => '2024-02-10 14:53:53',
@@ -23,6 +24,7 @@ class PeminjamanSeeder extends Seeder
         DB::table('peminjaman')->insert([
             'user_id' => 3,
             'barang_id' => 2,
+            'pengembalian_id' => 2,
             'keterangan' => 'Peminjaman barang untuk keperluan praktikum',
             'status' => 'Pending',
             'tanggal_peminjaman' => '2024-05-15 10:50:00',

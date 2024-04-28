@@ -192,12 +192,12 @@ class PeminjamanController extends Controller
     }
 
     public function getPeminjamanApproved($id){
-        $peminjaman = Peminjaman::with('user','barang')->where('status', 'Diterima')->where('user_id', $id)->get();
+        $peminjaman = Peminjaman::with('user','barang', 'pengembalian')->where('status', 'Diterima')->where('user_id', $id)->get();
 
         if($peminjaman->isEmpty()){
             return response()->json([
                 'success' => false,
-                'message' => 'Data peminjaman tidak ditemukan!',
+                'message' => 'Tidak ada transaksi peminjaman yang sudah disetujui oleh admin!',
             ]);
         }else{
             return response()->json([

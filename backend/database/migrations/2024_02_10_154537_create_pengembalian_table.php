@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('barang_id')->constrained('barang')->onDelete('cascade');
+            $table->foreignId('peminjaman_id');
             $table->string('keterangan');
             $table->string('status');
             $table->timestamp('tanggal_pengembalian')->nullable()->default(null);;

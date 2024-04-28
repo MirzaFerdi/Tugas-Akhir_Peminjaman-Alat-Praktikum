@@ -16,6 +16,7 @@ class Pengembalian extends Model
     protected $fillable = [
         'user_id',
         'barang_id',
+        'peminjaman_id',
         'keterangan',
         'status',
         'tanggal_pengembalian',
@@ -26,5 +27,8 @@ class Pengembalian extends Model
     }
     public function barang(){
         return $this->belongsTo(Barang::class);
+    }
+    public function peminjaman(){
+        return $this->belongsTo(Peminjaman::class);
     }
 }

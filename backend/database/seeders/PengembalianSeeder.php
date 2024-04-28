@@ -16,6 +16,7 @@ class PengembalianSeeder extends Seeder
         DB::table('pengembalian')->insert([
             'user_id' => 2,
             'barang_id' => 1,
+            'peminjaman_id' => 1,
             'keterangan' => 'keadaan baik',
             'status' => 'Pending',
             'tanggal_pengembalian' => '2023-10-15 12:00:45',
@@ -23,6 +24,7 @@ class PengembalianSeeder extends Seeder
         DB::table('pengembalian')->insert([
             'user_id' => 3,
             'barang_id' => 2,
+            'peminjaman_id' => 2,
             'keterangan' => 'rusak',
             'status' => 'Pending',
             'tanggal_pengembalian' => '2024-01-11 05:10:23',
