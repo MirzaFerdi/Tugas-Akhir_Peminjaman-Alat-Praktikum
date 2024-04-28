@@ -38,6 +38,7 @@ class PengembalianController extends Controller
         $pengembalian = new Pengembalian;
         $pengembalian->user_id = $request->user_id;
         $pengembalian->barang_id = $request->barang_id;
+        $pengembalian->peminjaman_id = $request->peminjaman_id;
         $pengembalian->keterangan = $request->keterangan;
         $pengembalian->status = $request->status;
         $pengembalian->tanggal_pengembalian = $request->tanggal_pengembalian;
