@@ -9,11 +9,13 @@ use Illuminate\Http\Request;
 
 class PeminjamanController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         // $peminjaman = Peminjaman::all();
-        $peminjaman = Peminjaman::with('user','barang')->get();;
+        $peminjaman = Peminjaman::with('user', 'barang')->get();
+        ;
 
-        if(!$peminjaman){
+        if (!$peminjaman) {
             return response()->json([
                 'success' => false,
                 'message' => 'Data peminjaman tidak ditemukan!',
@@ -23,10 +25,11 @@ class PeminjamanController extends Controller
         return response()->json($peminjaman);
     }
 
-    public function show($id){
-        $peminjaman = Peminjaman::with('user','barang', 'pengembalian')->find($id);
+    public function show($id)
+    {
+        $peminjaman = Peminjaman::with('user', 'barang')->find($id);
 
-        if(!$peminjaman){
+        if (!$peminjaman) {
             return response()->json([
                 'success' => false,
                 'message' => 'Data peminjaman tidak ditemukan',
@@ -36,7 +39,8 @@ class PeminjamanController extends Controller
         return response()->json($peminjaman);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $peminjaman = new Peminjaman;
         $peminjaman->user_id = $request->user_id;
         $peminjaman->barang_id = $request->barang_id;
@@ -46,13 +50,13 @@ class PeminjamanController extends Controller
         $peminjaman->save();
 
 
-        if($peminjaman){
+        if ($peminjaman) {
             return response()->json([
                 'success' => true,
                 'message' => 'Peminjaman berhasil ditambahkan!',
                 'data' => $peminjaman
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Peminjaman gagal ditambahkan!',
@@ -60,7 +64,8 @@ class PeminjamanController extends Controller
         }
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         $peminjaman = Peminjaman::find($id);
         $peminjaman->user_id = $request->user_id;
         $peminjaman->barang_id = $request->barang_id;
@@ -69,13 +74,13 @@ class PeminjamanController extends Controller
         $peminjaman->tanggal_peminjaman = $request->tanggal_peminjaman;
         $peminjaman->save();
 
-        if($peminjaman){
+        if ($peminjaman) {
             return response()->json([
                 'success' => true,
                 'message' => 'Peminjaman berhasil diupdate!',
                 'data' => $peminjaman
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Peminjaman gagal diupdate!',
@@ -83,18 +88,19 @@ class PeminjamanController extends Controller
         }
     }
 
-    public function updatePengembalian(Request $request,$id){
+    public function updatePengembalian(Request $request, $id)
+    {
         $peminjaman = Peminjaman::find($id);
         $peminjaman->pengembalian_id = $request->pengembalian_id;
         $peminjaman->save();
 
-        if($peminjaman){
+        if ($peminjaman) {
             return response()->json([
                 'success' => true,
                 'message' => 'Peminjaman berhasil diupdate!',
                 'data' => $peminjaman
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Peminjaman gagal diupdate!',
@@ -102,7 +108,8 @@ class PeminjamanController extends Controller
         }
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $peminjaman = Peminjaman::find($id);
         $peminjaman->delete();
 
@@ -110,13 +117,13 @@ class PeminjamanController extends Controller
         $barang->stok_tersedia = $barang->stok_tersedia + 1;
         $barang->save();
 
-        if($peminjaman){
+        if ($peminjaman) {
             $peminjaman = Peminjaman::find($id);
             return response()->json([
                 'success' => true,
                 'message' => 'Peminjaman berhasil dihapus!',
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Peminjaman gagal dihapus!',
@@ -124,17 +131,18 @@ class PeminjamanController extends Controller
         }
     }
 
-    public function approve($id){
+    public function approve($id)
+    {
         $peminjaman = Peminjaman::find($id);
 
-        if(!$peminjaman){
+        if (!$peminjaman) {
             return response()->json([
                 'success' => false,
                 'message' => 'Peminjaman tidak ditemukan!',
             ]);
         }
 
-        if($peminjaman->status === 'Diterima'){
+        if ($peminjaman->status === 'Diterima') {
             return response()->json([
                 'success' => false,
                 'message' => 'Peminjaman sudah diterima!',
@@ -155,18 +163,19 @@ class PeminjamanController extends Controller
         ]);
     }
 
-    public function reject($id){
+    public function reject($id)
+    {
         $peminjaman = Peminjaman::find($id);
         $peminjaman->status = 'Ditolak';
         $peminjaman->save();
 
-        if($peminjaman){
+        if ($peminjaman) {
             return response()->json([
                 'success' => true,
                 'message' => 'Peminjaman berhasil ditolak!',
                 'data' => $peminjaman
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Peminjaman gagal ditolak!',
@@ -174,8 +183,9 @@ class PeminjamanController extends Controller
         }
     }
 
-    public function sortTimestamps($keywords){
-        $peminjaman = Peminjaman::with('user','barang');
+    public function sortTimestamps($keywords)
+    {
+        $peminjaman = Peminjaman::with('user', 'barang');
 
         if ($keywords === 'asc') {
             $peminjaman = $peminjaman->orderBy('tanggal_peminjaman', 'asc')->get();
@@ -191,16 +201,17 @@ class PeminjamanController extends Controller
         ]);
     }
 
-    public function getPeminjamanByUserId($id){
-        $peminjaman = Peminjaman::with('user','barang')->where('user_id', $id)->get();
+    public function getPeminjamanByUserId($id)
+    {
+        $peminjaman = Peminjaman::with('user', 'barang', 'pengembalian')->where('user_id', $id)->get();
 
-        if($peminjaman){
+        if ($peminjaman) {
             return response()->json([
                 'success' => true,
                 'message' => 'Data peminjaman ditemukan!',
                 'data' => $peminjaman
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Data peminjaman tidak ditemukan!',
@@ -210,15 +221,39 @@ class PeminjamanController extends Controller
         return response()->json($peminjaman);
     }
 
-    public function getPeminjamanApproved($id){
-        $peminjaman = Peminjaman::with('user','barang', 'pengembalian')->where('status', 'Diterima')->where('user_id', $id)->get();
+    public function searchPeminjaman($keywords)
+    {
+        $peminjaman = Peminjaman::with(['user', 'barang'])
+            ->where(function ($query) use ($keywords) {
+                $query->whereHas('user', function ($query) use ($keywords) {
+                    $query->where('nama', 'like', "%$keywords%");
+                })->orWhereHas('barang', function ($query) use ($keywords) {
+                    $query->where('nama_barang', 'like', "%$keywords%");
+                });
+            })
+            ->get();
 
-        if($peminjaman->isEmpty()){
+        if ($peminjaman->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Peminjaman tidak ditemukan!',
+            ]);
+        }
+
+        return response()->json($peminjaman);
+    }
+
+
+    public function getPeminjamanApproved($id)
+    {
+        $peminjaman = Peminjaman::with('user', 'barang', 'pengembalian')->where('status', 'Diterima')->where('user_id', $id)->get();
+
+        if ($peminjaman->isEmpty()) {
             return response()->json([
                 'success' => false,
                 'message' => 'Tidak ada transaksi peminjaman yang sudah disetujui oleh admin!',
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => true,
                 'message' => 'Data peminjaman ditemukan!',
@@ -227,16 +262,17 @@ class PeminjamanController extends Controller
         }
     }
 
-    public function rekapPeminjaman(){
-        $peminjaman = Peminjaman::with('user','barang')->get();
-        $pengembalian = Pengembalian::with('user','barang')->get();
+    public function rekapPeminjaman()
+    {
+        $peminjaman = Peminjaman::with('user', 'barang')->get();
+        $pengembalian = Pengembalian::with('user', 'barang')->get();
 
-        if($peminjaman->isEmpty()){
+        if ($peminjaman->isEmpty()) {
             return response()->json([
                 'success' => false,
                 'message' => 'Data peminjaman tidak ditemukan!',
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => true,
                 'message' => 'Data peminjaman ditemukan!',

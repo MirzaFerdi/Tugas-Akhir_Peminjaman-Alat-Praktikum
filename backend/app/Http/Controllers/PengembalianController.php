@@ -8,10 +8,11 @@ use Illuminate\Http\Request;
 
 class PengembalianController extends Controller
 {
-    public function index(){
-        $pengembalian = Pengembalian::with('user','barang')->get();
+    public function index()
+    {
+        $pengembalian = Pengembalian::with('user', 'barang')->get();
 
-        if(!$pengembalian){
+        if (!$pengembalian) {
             return response()->json([
                 'success' => false,
                 'message' => 'Data pengembalian tidak ditemukan!',
@@ -21,10 +22,11 @@ class PengembalianController extends Controller
         return response()->json($pengembalian);
     }
 
-    public function show($id){
-        $pengembalian = Pengembalian::with('user','barang')->find($id);
+    public function show($id)
+    {
+        $pengembalian = Pengembalian::with('user', 'barang')->find($id);
 
-        if(!$pengembalian){
+        if (!$pengembalian) {
             return response()->json([
                 'success' => false,
                 'message' => 'Data pengembalian tidak ditemukan',
@@ -34,7 +36,8 @@ class PengembalianController extends Controller
         return response()->json($pengembalian);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $pengembalian = new Pengembalian;
         $pengembalian->user_id = $request->user_id;
         $pengembalian->barang_id = $request->barang_id;
@@ -44,13 +47,13 @@ class PengembalianController extends Controller
         $pengembalian->tanggal_pengembalian = $request->tanggal_pengembalian;
         $pengembalian->save();
 
-        if($pengembalian){
+        if ($pengembalian) {
             return response()->json([
                 'success' => true,
                 'message' => 'Pengembalian berhasil ditambahkan!',
                 'data' => $pengembalian
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Pengembalian gagal ditambahkan!',
@@ -58,7 +61,8 @@ class PengembalianController extends Controller
         }
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         $pengembalian = Pengembalian::find($id);
         $pengembalian->user_id = $request->user_id;
         $pengembalian->barang_id = $request->barang_id;
@@ -67,13 +71,13 @@ class PengembalianController extends Controller
         $pengembalian->tanggal_pengembalian = $request->tanggal_pengembalian;
         $pengembalian->save();
 
-        if($pengembalian){
+        if ($pengembalian) {
             return response()->json([
                 'success' => true,
                 'message' => 'Pengembalian berhasil diupdate!',
                 'data' => $pengembalian
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Pengembalian gagal diupdate!',
@@ -81,17 +85,18 @@ class PengembalianController extends Controller
         }
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $pengembalian = Pengembalian::find($id);
         $pengembalian->delete();
 
-        if($pengembalian){
+        if ($pengembalian) {
             $pengembalian = Pengembalian::find($id);
             return response()->json([
                 'success' => true,
                 'message' => 'Pengembalian berhasil dihapus!',
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Pengembalian gagal dihapus!',
@@ -99,17 +104,18 @@ class PengembalianController extends Controller
         }
     }
 
-    public function approve($id){
+    public function approve($id)
+    {
         $pengembalian = Pengembalian::find($id);
 
-        if(!$pengembalian){
+        if (!$pengembalian) {
             return response()->json([
                 'success' => false,
                 'message' => 'Pengembalian tidak ditemukan!',
             ]);
         }
 
-        if($pengembalian->status === 'Diterima'){
+        if ($pengembalian->status === 'Diterima') {
             return response()->json([
                 'success' => false,
                 'message' => 'Pengembalian sudah diterima!',
@@ -130,18 +136,19 @@ class PengembalianController extends Controller
         ]);
     }
 
-    public function reject($id){
+    public function reject($id)
+    {
         $pengembalian = Pengembalian::find($id);
         $pengembalian->status = 'Ditolak';
         $pengembalian->save();
 
-        if($pengembalian){
+        if ($pengembalian) {
             return response()->json([
                 'success' => true,
                 'message' => 'Pengembalian berhasil ditolak!',
                 'data' => $pengembalian
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Pengembalian gagal ditolak!',
@@ -150,8 +157,9 @@ class PengembalianController extends Controller
     }
 
 
-    public function sortTimestamps($keywords){
-        $pengembalian = Pengembalian::with('user','barang');
+    public function sortTimestamps($keywords)
+    {
+        $pengembalian = Pengembalian::with('user', 'barang');
 
         if ($keywords === 'asc') {
             $pengembalian = $pengembalian->orderBy('tanggal_pengembalian', 'asc')->get();
@@ -167,16 +175,17 @@ class PengembalianController extends Controller
         ]);
     }
 
-    public function getPengembalianByUserId($id){
-        $pengembalian = Pengembalian::with('user','barang')->where('user_id',$id)->get();
+    public function getPengembalianByUserId($id)
+    {
+        $pengembalian = Pengembalian::with('user', 'barang')->where('user_id', $id)->get();
 
-        if($pengembalian){
+        if ($pengembalian) {
             return response()->json([
                 'success' => true,
                 'message' => 'Data pengembalian ditemukan!',
                 'data' => $pengembalian
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Data pengembalian tidak ditemukan!',
@@ -186,15 +195,38 @@ class PengembalianController extends Controller
         return response()->json($pengembalian);
     }
 
-    public function getPengembalianApproved($id){
-        $pengembalian = Pengembalian::with('user','barang')->where('status', 'Diterima')->where('user_id', $id)->get();
+    public function searchPengembalian($keywords)
+    {
+        $pengembalian = Pengembalian::with(['user', 'barang'])
+            ->where(function ($query) use ($keywords) {
+                $query->whereHas('user', function ($query) use ($keywords) {
+                    $query->where('nama', 'like', "%$keywords%");
+                })->orWhereHas('barang', function ($query) use ($keywords) {
+                    $query->where('nama_barang', 'like', "%$keywords%");
+                });
+            })
+            ->get();
 
-        if($pengembalian->isEmpty()){
+        if ($pengembalian->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Pengembalian tidak ditemukan!',
+            ]);
+        }
+
+        return response()->json($pengembalian);
+    }
+
+    public function getPengembalianApproved($id)
+    {
+        $pengembalian = Pengembalian::with('user', 'barang')->where('status', 'Diterima')->where('user_id', $id)->get();
+
+        if ($pengembalian->isEmpty()) {
             return response()->json([
                 'success' => false,
                 'message' => 'Data pengembalian tidak ditemukan!',
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => true,
                 'message' => 'Data pengembalian ditemukan!',
