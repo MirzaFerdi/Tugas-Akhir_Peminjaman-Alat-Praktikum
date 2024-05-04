@@ -84,10 +84,10 @@ Route::middleware('auth:api', 'role:Admin|Mahasiswa')->group(function () {
 
     // Peminjaman
     Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman.index');
-    Route::get('/peminjaman/{keywords}', [PeminjamanController::class, 'searchPeminjaman'])->name('peminjaman.search');
+    Route::get('/peminjaman/{id}', [PeminjamanController::class, 'show'])->name('peminjaman.show');
+    Route::get('/peminjaman/search/{keywords}', [PeminjamanController::class, 'searchPeminjaman'])->name('peminjaman.search');
     Route::get('/peminjaman/approved/{id}', [PeminjamanController::class, 'peminjamanApproved'])->name('peminjaman.getApproved');
     Route::get('/peminjaman/rekap', [PeminjamanController::class, 'rekapPeminjaman'])->name('peminjaman.rekap');
-    Route::get('/peminjaman/{id}', [PeminjamanController::class, 'show'])->name('peminjaman.show');
     Route::get('/peminjaman/sort/{keywords}', [PeminjamanController::class, 'sortTimestamps'])->name('peminjaman.sort');
     Route::get('/peminjaman/user/{id}', [PeminjamanController::class, 'peminjamanByUserId'])->name('peminjaman.showByUser');
     Route::post('/peminjaman', [PeminjamanController::class, 'store'])->name('peminjaman.store');
@@ -100,9 +100,9 @@ Route::middleware('auth:api', 'role:Admin|Mahasiswa')->group(function () {
 
     // Pengembalian
     Route::get('/pengembalian', [PengembalianController::class, 'index'])->name('pengembalian.index');
-    Route::get('/pengembalian/{keywords}', [PengembalianController::class, 'searchPengembalian'])->name('pengembalian.search');
-    Route::get('/pengembalian/approved/{id}', [PengembalianController::class, 'pengembalianApproved'])->name('pengembalian.getApproved');
     Route::get('/pengembalian/{id}', [PengembalianController::class, 'show'])->name('pengembalian.show');
+    Route::get('/pengembalian/search/{keywords}', [PengembalianController::class, 'searchPengembalian'])->name('pengembalian.search');
+    Route::get('/pengembalian/approved/{id}', [PengembalianController::class, 'pengembalianApproved'])->name('pengembalian.getApproved');
     Route::post('/pengembalian', [PengembalianController::class, 'store'])->name('pengembalian.store');
     Route::put('/pengembalian/{id}', [PengembalianController::class, 'update'])->name('pengembalian.update');
     Route::delete('/pengembalian/{id}', [PengembalianController::class, 'destroy'])->name('pengembalian.destroy');

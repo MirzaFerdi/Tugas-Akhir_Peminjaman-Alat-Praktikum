@@ -94,7 +94,8 @@ class BarangController extends Controller
         $barang->kategori_id = $request->kategori_id;
         $barang->kode_barang = $request->kode_barang;
         $barang->nama_barang = $request->nama_barang;
-        $barang->jumlah_barang = $request->jumlah_barang;
+        $barang->stok_awal = $request->stok_awal;
+        $barang->stok_tersedia = $request->stok_tersedia;
         $barang->save();
 
         if ($barang) {
@@ -116,7 +117,8 @@ class BarangController extends Controller
         $barang->kategori_id = $request->kategori_id;
         $barang->kode_barang = $request->kode_barang;
         $barang->nama_barang = $request->nama_barang;
-        $barang->jumlah_barang = $request->jumlah_barang;
+        $barang->stok_awal = $request->stok_awal;
+        $barang->stok_tersedia = $request->stok_tersedia;
         $barang->save();
 
         if($barang){
