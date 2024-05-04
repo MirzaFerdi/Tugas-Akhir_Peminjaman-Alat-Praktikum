@@ -104,6 +104,22 @@ class UserController extends Controller
     }
 
     public function store(Request $request){
+
+        if(User::where('username', $request->username)->exists()){
+            return response()->json([
+                'success' => false,
+                'message' => 'Username sudah terdaftar!',
+            ]);
+        }
+
+        if(User::where('email', $request->email)->exists()){
+            return response()->json([
+                'success' => false,
+                'message' => 'Email sudah terdaftar!',
+            ]);
+        }
+
+
         $user = new User;
         $user->nama = $request->nama;
         $user->username = $request->username;
@@ -113,6 +129,8 @@ class UserController extends Controller
         $user->kelas_id = $request->kelas_id;
         $user->role_id = $request->role_id;
         $user->save();
+
+
 
         if($user){
             return response()->json([

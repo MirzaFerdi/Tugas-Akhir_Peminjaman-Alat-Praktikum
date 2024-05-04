@@ -201,7 +201,7 @@ class PeminjamanController extends Controller
         ]);
     }
 
-    public function getPeminjamanByUserId($id)
+    public function peminjamanByUserId($id)
     {
         $peminjaman = Peminjaman::with('user', 'barang', 'pengembalian')->where('user_id', $id)->get();
 
@@ -218,7 +218,6 @@ class PeminjamanController extends Controller
             ]);
         }
 
-        return response()->json($peminjaman);
     }
 
     public function searchPeminjaman($keywords)
@@ -244,7 +243,7 @@ class PeminjamanController extends Controller
     }
 
 
-    public function getPeminjamanApproved($id)
+    public function peminjamanApproved($id)
     {
         $peminjaman = Peminjaman::with('user', 'barang', 'pengembalian')->where('status', 'Diterima')->where('user_id', $id)->get();
 
