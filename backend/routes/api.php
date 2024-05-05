@@ -43,10 +43,10 @@ Route::middleware('auth:api', 'role:Admin')->group(function () {
     // User
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
     Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
-    Route::get('/user/pagination', [UserController::class, 'searchMahasiswaAll'])->name('user.mahasiswaAll');
-    Route::get('/user/search/{keywords}', [UserController::class, 'search'])->name('user.search');
+    Route::get('/user/mahasiswa/pagination', [UserController::class, 'mahasiswaAll'])->name('user.mahasiswaAll');
+    Route::get('/user/search/{keywords}', [UserController::class, 'searchMahasiswaAll'])->name('user.search');
     Route::get('/user/kelas/{id}', [UserController::class, 'showByKelas'])->name('user.showByKelas');
-    Route::get('/user/search/mahasiswa/{kelasid}/{keywords}', [UserController::class, 'searchMahasiswa'])->name('user.searchMahasiswa');
+    Route::get('/user/search/mahasiswa/{kelasid}/{keywords}', [UserController::class, 'searchMahasiswaKelas'])->name('user.searchMahasiswa');
     Route::get('/user/mahasiswa/{kelasid}/{id}', [UserController::class, 'mahasiswaByKelasId'])->name('user.mahasiswaByKelasId');
     Route::post('/user', [UserController::class, 'store'])->name('user.store');
     Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');

@@ -50,7 +50,7 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    public function searchMahasiswa($kelasid,$keywords){
+    public function searchMahasiswaKelas($kelasid,$keywords){
         $user = User::where('role_id', 2)->where('kelas_id',$kelasid)->where(function ($query) use ($keywords){
             $query->where('nama', 'like', '%'.$keywords.'%')
                 ->orWhere('username', 'like', '%'.$keywords.'%')
@@ -87,7 +87,7 @@ class UserController extends Controller
         $user = User::where('role_id', 2)->where(function ($query) use ($keywords){
             $query->where('nama', 'like', '%'.$keywords.'%')
                 ->orWhere('username', 'like', '%'.$keywords.'%')
-                ->orWhere('kelas', 'like', '%'.$keywords.'%');
+                ->orWhere('kelas_id', 'like', '%'.$keywords.'%');
         })->get();
 
         if($user->isEmpty()){
