@@ -9,7 +9,7 @@ export const useFetchOnMount = ({
   onSuccess: onSuccess = null,
   onError: onError = null,
 }) => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState("");
   const [error, setError] = useState("");
 
   const { startLoad, endLoad } = useLoader();

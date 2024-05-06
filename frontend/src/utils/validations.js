@@ -213,10 +213,75 @@ export const addMahasiswaFormValidation = (values) => {
   return errors;
 };
 
+export const editMahasiswaFormValidation = (values) => {
+  const namaMahasiswaRegex = /^[^\d]+(?: [^\d]+)*$/;
+  const usernameRegex = /^\d+$/;
+  const emailRegex = /^\w+@(gmail\.com|yahoo\.com|polinema\.ac\.id)$/;
+  const nohpRegex = /^(^\+62\s?|^0)(\d{3,4}-?){2}\d{3,4}$/;
+
+  const { nama, username, email, nohp } = values;
+
+  const errors = {};
+
+  if (!nama) {
+    errors.nama = "Nama mahasiswa tidak boleh kosong!";
+  }
+
+  if (nama.length < 5) {
+    errors.nama = "Nama mahasiswa tidak boleh kurang dari 5 karakter!";
+  }
+
+  if (!namaMahasiswaRegex.test(nama)) {
+    errors.nama = "Nama mahasiswa tidak boleh terdapat angka!";
+  }
+
+  if (!username) {
+    errors.username = "Nomor Induk Mahasiswa tidak boleh kosong!";
+  }
+
+  if (username.length < 10) {
+    errors.username = "Nomor Induk Mahasiswa mahasiswa tidak boleh kurang dari 10 karakter!";
+  }
+
+  if (!usernameRegex.test(username)) {
+    errors.username = "Nomor Induk Mahasiswa harus hanya terdapat angka!";
+  }
+
+  if (!email) {
+    errors.email = "Alamat E-Mail mahasiswa tidak boleh kosong!";
+  }
+
+  if (email.length < 10) {
+    errors.email = "Alamat E-Mail tidak boleh kurang dari 10 karakter!";
+  }
+
+  if (!emailRegex.test(email)) {
+    errors.email = "Alamat E-Mail tidak valid!";
+  }
+
+  if (!nohp) {
+    errors.nohp = "Nomor telepon tidak boleh kosong!";
+  }
+
+  if (nohp.length < 12) {
+    errors.nohp = "Nomor telepon tidak boleh kurang dari 13 angka!";
+  }
+
+  if (!nohpRegex.test(nohp)) {
+    errors.nohp = "Nomor telepon tidak valid!";
+  }
+
+  if (!usernameRegex.test(nohp)) {
+    errors.nohp = "Nomor telepon harus berupa angka!";
+  }
+
+  return errors;
+};
+
 export const addBarangFormValidation = (values) => {
   const { namaBarang, kodeBarang, jumlahBarang } = values;
-  
-  const kodeBarangRegex = /^[a-zA-Z]{2}\d{2}$/;  
+
+  const kodeBarangRegex = /^[a-zA-Z]{2}\d{2}$/;
   const jumlahBarangRegex = /^[^\d]+(?: [^\d]+)*$/;
 
   const errors = {};
@@ -238,19 +303,19 @@ export const addBarangFormValidation = (values) => {
   }
 
   if (kodeBarangRegex.test(kodeBarang)) {
-    errors.kodeBarang = "Kode barang tidak valid!"
+    errors.kodeBarang = "Kode barang tidak valid!";
   }
 
   if (!jumlahBarang) {
-    errors.jumlahBarang = "Jumlah barang tidak boleh kosong!"
+    errors.jumlahBarang = "Jumlah barang tidak boleh kosong!";
   }
 
   if (jumlahBarang === 0) {
-    errors.jumlahBarang = "Jumlah barang awal tidak boleh kosong!"
+    errors.jumlahBarang = "Jumlah barang awal tidak boleh kosong!";
   }
 
   if (jumlahBarangRegex.test(jumlahBarang)) {
-    errors.jumlahBarang = "Jumlah barang harus berupa angka!"
+    errors.jumlahBarang = "Jumlah barang harus berupa angka!";
   }
 
   return errors;

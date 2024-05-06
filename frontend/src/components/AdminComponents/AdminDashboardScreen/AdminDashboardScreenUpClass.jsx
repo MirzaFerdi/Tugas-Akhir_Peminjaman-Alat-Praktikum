@@ -1,14 +1,23 @@
 import PropTypes from "prop-types";
-import { Checkbox } from "@mui/material";
+import { Checkbox, Pagination } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { useConfirmDialog } from "../../../hooks/useDialog";
 import { useAlert } from "../../../hooks/useAlert";
 import { useFetchOnClick } from "../../../hooks/useFetchOnClick";
+import { useFetchOnMount } from "../../../hooks/useFetchOnMount";
 
-const AdminDashboardScreenUpClass = ({ allMahasiswaData }) => {
+const AdminDashboardScreenUpClass = ({ allMahasiswaKeywords }) => {
   const [checkedItems, setCheckedItems] = useState({});
   const [selectedMahasiswa, setSelectedMahasiswa] = useState([]);
+  const [allMahasiswaPage, setAllMahasiswaPage] = useState(1);
 
+  const { data: allMahasiswaData } = useFetchOnMount({
+    url:
+      allMahasiswaKeywords === ""
+        ? `/user/mahasiswa/pagination?page=${allMahasiswaPage}`
+        : `user/search/${allMahasiswaKeywords}`,
+    method: "GET",
+  });
   const { fetchData: fetchMahasiswaNaikKelas } = useFetchOnClick();
   const { openConfirmDialog, closeConfirmDialog } = useConfirmDialog();
   const { openAlertComponent, closeAlertComponent } = useAlert();
@@ -18,6 +27,10 @@ const AdminDashboardScreenUpClass = ({ allMahasiswaData }) => {
       ...prevState,
       [id]: !prevState[id],
     }));
+  };
+
+  const handleChangeMahasiswaPage = (event, value) => {
+    setAllMahasiswaPage(value);
   };
 
   useEffect(() => {
@@ -78,7 +91,7 @@ const AdminDashboardScreenUpClass = ({ allMahasiswaData }) => {
 
   return (
     <div className="col-span-5 mb-4">
-      <table className="w-full mb-8">
+      <table className="w-full mb-3">
         <thead>
           <tr>
             <th className="w-[10%] border p-1 text-center text-xs text-zinc-700 bg-blue-200 tracking-wider font-semibold">
@@ -86,7 +99,7 @@ const AdminDashboardScreenUpClass = ({ allMahasiswaData }) => {
                 size="small"
                 checked={Object.values(checkedItems).every((item) => item)}
                 onChange={() => {
-                  const newCheckedState = Object.fromEntries(allMahasiswaData.map(({ id }) => [id, true]));
+                  const newCheckedState = Object.fromEntries(allMahasiswaData?.data?.map(({ id }) => [id, true]));
                   setCheckedItems(newCheckedState);
                 }}
               />
@@ -110,37 +123,56 @@ const AdminDashboardScreenUpClass = ({ allMahasiswaData }) => {
               </td>
             </tr>
           ) : (
-            allMahasiswaData.map((values) => {
-              const { id, username, nama, kelas } = values;
+            allMahasiswaData?.data?.map((values) => {
+              const { id, username, nama, kelas_id } = values;
+
+              const regex = new RegExp(`(${allMahasiswaKeywords})`, "gi");
+              const searchedUsername = username.replace(regex, (match) => `<td><b>${match}</b></td>`);
+              const searchedNama = nama.replace(regex, (match) => `<td><b>${match}</b></td>`);
 
               return (
                 <tr key={id}>
                   <td className="w-fit border bg-zinc-50 px-2 text-xs text-zinc-600 text-center">
                     <Checkbox size="small" checked={checkedItems[id] || false} onChange={() => toggleCheckbox(id)} />
                   </td>
-                  <td className="w-fit border bg-zinc-50 px-2 text-xs text-zinc-600 text-left">{username}</td>
-                  <td className="w-fit border bg-zinc-50 px-2 text-xs text-zinc-600 text-left">{nama}</td>
-                  <td className="w-fit border bg-zinc-50 px-2 text-xs text-zinc-600 text-left">Kelas {kelas?.id}</td>
+                  <td
+                    className="w-fit border bg-zinc-50 px-2 text-xs text-zinc-600 text-left"
+                    dangerouslySetInnerHTML={{ __html: searchedUsername }}></td>
+                  <td
+                    className="w-fit border bg-zinc-50 px-2 text-xs text-zinc-600 text-left"
+                    dangerouslySetInnerHTML={{ __html: searchedNama }}></td>
+                  <td className="w-fit border bg-zinc-50 px-2 text-xs text-zinc-600 text-left">Kelas {kelas_id}</td>
                 </tr>
               );
             })
           )}
         </tbody>
       </table>
-      <button
-        onClick={() => handleNaikKelas()}
-        disabled={selectedMahasiswa.length === 0 ? true : false}
-        className={`${
-          selectedMahasiswa.length === 0 ? "bg-zinc-300" : "bg-blue-400 hover:bg-blue-500"
-        } text-white py-3 px-5 text-sm tracking-wide leading-none  rounded-sm transition-colors duration-100`}>
-        Manajemen Naik Kelas
-      </button>
+      <div className="flex justify-between items-center">
+        <button
+          onClick={() => handleNaikKelas()}
+          disabled={selectedMahasiswa.length === 0 ? true : false}
+          className={`${
+            selectedMahasiswa.length === 0 ? "bg-zinc-400" : "bg-blue-400 hover:bg-blue-500"
+          } text-white py-3 px-5 text-xs tracking-wide leading-none  rounded-sm transition-colors duration-100`}>
+          Manajemen Naik Kelas
+        </button>
+        <Pagination
+          count={allMahasiswaData?.last_page}
+          variant="outlined"
+          color="primary"
+          size="small"
+          shape="rounded"
+          onChange={handleChangeMahasiswaPage}
+        />
+      </div>
     </div>
   );
 };
 
 AdminDashboardScreenUpClass.propTypes = {
   allMahasiswaData: PropTypes.any,
+  allMahasiswaKeywords: PropTypes.any,
 };
 
 export default AdminDashboardScreenUpClass;

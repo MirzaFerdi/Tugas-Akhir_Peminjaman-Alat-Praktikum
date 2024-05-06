@@ -13,6 +13,20 @@ export const useAdminAddMahasiswaDialog = create((set) => ({
     }),
 }));
 
+export const useAdminEditMahasiswaDialog = create((set) => ({
+  isAdminEditMahasiswaDialogOpen: false,
+  mahasiswaDataById: {},
+  openEditMahasiswaDialog: (mahasiswaDataById) =>
+    set({
+      isAdminEditMahasiswaDialogOpen: true,
+      mahasiswaDataById: mahasiswaDataById,
+    }),
+  closeEditMahasiswaDialog: () =>
+    set({
+      isAdminEditMahasiswaDialogOpen: false,
+    }),
+}));
+
 export const useAdminAddBarangDialog = create((set) => ({
   isAdminAddBarangDialogOpen: false,
   openAddBarangDialog: () =>

@@ -1,26 +1,48 @@
-import { AddCircleOutline } from "@mui/icons-material";
-import { useFetchOnMount } from "../../../../hooks/useFetchOnMount";
-import { useState } from "react";
-import { useAdminAddMahasiswaDialog } from "../../../../hooks/useDialog";
 import AdminKelasScreenHeader from "../AdminKelasScreenHeader";
 import Kelas1TableData from "./Kelas1TableData";
 import AdminKelasInformation from "../AdminKelasInformation";
 import AdminKelasAddMahasiswaDialog from "../AdminKelasAddMahasiswaDialog";
+import AdminKelasEditMahasiswaDialog from "../AdminKelasEditMahasiswaDialog";
+import { AddCircleOutline } from "@mui/icons-material";
+import { useFetchOnMount } from "../../../../hooks/useFetchOnMount";
+import { useCallback, useState } from "react";
+import { useAdminAddMahasiswaDialog, useAdminEditMahasiswaDialog } from "../../../../hooks/useDialog";
+import { useFetchOnClick } from "../../../../hooks/useFetchOnClick";
 
 const Kelas1 = () => {
   const [mahasiswaKeywords, setMahasiswaKeywords] = useState("");
 
   const { openAddMahasiswaDialog } = useAdminAddMahasiswaDialog();
+  const { openEditMahasiswaDialog } = useAdminEditMahasiswaDialog();
 
+  const { fetchData: getDataMahasiswaById } = useFetchOnClick();
   const { data: dataInformasiKelas1 } = useFetchOnMount({
     url: "/kelas/1",
     method: "GET",
   });
-
   const { data: dataMahasiswaKelas1 } = useFetchOnMount({
     url: "/user/kelas/1",
     method: "GET",
   });
+
+  const handleSuccessGetMahasiswaById = useCallback(
+    (mahasiswaDataById) => {
+      openEditMahasiswaDialog(mahasiswaDataById);
+    },
+    [openEditMahasiswaDialog]
+  );
+
+  const handleEditMahasiswa = (selectedMahasiswaId) => {
+    getDataMahasiswaById({
+      url: `/user/${selectedMahasiswaId}`,
+      method: "GET",
+      onSuccess: handleSuccessGetMahasiswaById,
+    });
+  };
+
+  const handleDeleteMahasiswa = (selectedMahasiswaId) => {
+    
+  }
 
   const handleSearchMahasiswa = (event) => {
     setMahasiswaKeywords(event.target.value);
@@ -29,7 +51,10 @@ const Kelas1 = () => {
   return (
     <div className="mb-8">
       <AdminKelasScreenHeader kelas={dataInformasiKelas1} handleSearchMahasiswa={handleSearchMahasiswa} />
-      <Kelas1TableData kelas={dataInformasiKelas1} mahasiswaKeywords={mahasiswaKeywords} />
+      <Kelas1TableData        
+        mahasiswaKeywords={mahasiswaKeywords}
+        handleEditMahasiswa={handleEditMahasiswa}
+      />
 
       <button
         onClick={() => openAddMahasiswaDialog()}
@@ -40,7 +65,7 @@ const Kelas1 = () => {
 
       <AdminKelasInformation dataKelas={dataInformasiKelas1} dataMahasiswa={dataMahasiswaKelas1} />
       <AdminKelasAddMahasiswaDialog kelas={dataInformasiKelas1} />
-      {/* <EditMahasiswaFormDialog /> */}
+      <AdminKelasEditMahasiswaDialog />
     </div>
   );
 };

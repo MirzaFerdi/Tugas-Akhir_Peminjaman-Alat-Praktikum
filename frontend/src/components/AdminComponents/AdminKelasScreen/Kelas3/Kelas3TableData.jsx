@@ -2,19 +2,52 @@ import PropTypes from "prop-types";
 import { kelasTableDataHeader } from "../../../../constants/admin-kelas-contents";
 import { Delete, Edit } from "@mui/icons-material";
 import { useFetchOnMount } from "../../../../hooks/useFetchOnMount";
+import { useConfirmDialog } from "../../../../hooks/useDialog";
+import { useAlert } from "../../../../hooks/useAlert";
+import { useFetchOnClick } from "../../../../hooks/useFetchOnClick";
+import { useCallback } from "react";
 
-const Kelas3TableData = ({ kelas, mahasiswaKeywords }) => {
+const Kelas3TableData = ({ mahasiswaKeywords, handleEditMahasiswa }) => {
+  const { openConfirmDialog, closeConfirmDialog } = useConfirmDialog();
+  const { openAlertComponent, closeAlertComponent } = useAlert();
+
   const { data: dataMahasiswaKelas3OnSearch } = useFetchOnMount({
-    url: mahasiswaKeywords === "" ? `/user/kelas/3` : `/user/search/mahasiswa/${kelas.id}/${mahasiswaKeywords}`,
+    url: mahasiswaKeywords === "" ? `/user/kelas/3` : `/user/search/mahasiswa/3/${mahasiswaKeywords}`,
     method: "GET",
   });
+  const { fetchData: deleteMahasiswa } = useFetchOnClick();
 
-  const handleEditMahasiswa = (idMahasiswa) => {
-    console.log(idMahasiswa);
-  };
+  const handleDeleteMahasiswaSuccessResponse = useCallback(
+    (deleteMahasiswaSuccessResponse) => {
+      if (deleteMahasiswaSuccessResponse.success === true) {
+        openAlertComponent({
+          alertType: "success",
+          alertTitle: "BERHASIL!",
+          alertMessage: deleteMahasiswaSuccessResponse?.message,
+        });
+
+        setTimeout(() => {
+          closeAlertComponent();
+          closeConfirmDialog();
+          window.location.reload();
+        }, 2000);
+      }
+    },
+    [closeAlertComponent, closeConfirmDialog, openAlertComponent]
+  );
 
   const handleDeleteMahasiswa = (idMahasiswa) => {
-    console.log(idMahasiswa);
+    openConfirmDialog({
+      title: "Hapus Data Mahasiswa",
+      message: "Apakah anda yakin ingin menghapus data mahasiswa tersebut?",
+      okAction: () => {
+        deleteMahasiswa({
+          url: `/user/${idMahasiswa}`,
+          method: "DELETE",
+          onSuccess: handleDeleteMahasiswaSuccessResponse,
+        });
+      },
+    });
   };
 
   return (
@@ -37,8 +70,8 @@ const Kelas3TableData = ({ kelas, mahasiswaKeywords }) => {
         </tr>
       </thead>
       <tbody>
-        {dataMahasiswaKelas3OnSearch?.length > 0 ? (
-          dataMahasiswaKelas3OnSearch?.map((payloads, index) => {
+        {dataMahasiswaKelas3OnSearch?.data?.length > 0 ? (
+          dataMahasiswaKelas3OnSearch?.data?.map((payloads, index) => {
             const { id, nama, username, email, nohp } = payloads;
 
             const regex = new RegExp(`(${mahasiswaKeywords})`, "gi");
@@ -85,8 +118,7 @@ const Kelas3TableData = ({ kelas, mahasiswaKeywords }) => {
 };
 
 Kelas3TableData.propTypes = {
-  kelas: PropTypes.any,
-  dataMahasiswaKelas1: PropTypes.any,
+  handleEditMahasiswa: PropTypes.func,
   mahasiswaKeywords: PropTypes.string,
 };
 
