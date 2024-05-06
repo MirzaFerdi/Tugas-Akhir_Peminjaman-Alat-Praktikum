@@ -40,6 +40,10 @@ const Kelas1 = () => {
     });
   };
 
+  const handleDeleteMahasiswa = (selectedMahasiswaId) => {
+    
+  }
+
   const handleSearchMahasiswa = (event) => {
     setMahasiswaKeywords(event.target.value);
   };
