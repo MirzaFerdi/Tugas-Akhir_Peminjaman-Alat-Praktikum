@@ -1,36 +1,13 @@
+import React from "react";
 import PropTypes from "prop-types";
 import { logoImage, qrCodeImage } from "../../../assets";
 import { date } from "../../../utils/datetime";
-import React, { useRef } from "react";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
 
 const AdminRekapScreenDocument = ({ selectedMonth, selectedYear }) => {
-  const mainDocument = useRef();
-
-  const handleDownload = () => {
-    html2canvas(mainDocument.current, {
-      scrollY: -window.scrollY,
-      scrollX: -window.scrollX,
-    }).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF();
-      pdf.addImage(imgData, "PNG", 0, 0, 210, 297);
-      pdf.save(`Laporan Peminjaman Bengkel TRO, Bulan ${selectedMonth} Tahun ${selectedYear}`);
-    });
-  };
-
   return (
     <React.Fragment>
-      <div className="flex justify-end mb-4">
-        <button
-          onClick={() => handleDownload()}
-          className="py-2 px-5 text-xs text-white rounded-md bg-blue-400 hover:bg-blue-500 transition-colors duration-150">
-          Download Rekap Bulan {selectedMonth} Tahun {selectedYear}
-        </button>
-      </div>
-      <div className="flex justify-center mb-10">
-        <div ref={mainDocument} className="w-[21cm] h-[29.7cm] bg-white shadow-md font-serif text-sm p-[3cm]">
+      <div className="w-[21cm] h-[29.7cm] flex justify-center mb-10">
+        <div id="document1" className="w-[21cm] h-[29.7cm] bg-white shadow-md font-serif text-sm p-[3cm]">
           <div className="h-full">
             <div className="flex justify-around items-center mb-2">
               <img src={logoImage} alt="Logo Polinema" width={100} height={100} className="aspect-square" />

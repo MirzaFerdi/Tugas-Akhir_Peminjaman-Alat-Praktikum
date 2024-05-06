@@ -26,22 +26,22 @@ export const kelasTableDataHeader = [
   {
     id: 2,
     row: "Nama Mahasiswa",
-    width: "50%",
+    width: "25%",
   },
   {
     id: 3,
     row: "NIM",
-    width: "10%",
+    width: "20%",
   },
   {
     id: 4,
     row: "Alamat E-Mail",
-    width: "10%",
+    width: "20%",
   },
   {
     id: 5,
     row: "Nomor Telepon",
-    width: "10%",
+    width: "20%",
   },
   {
     id: 6,

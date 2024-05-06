@@ -3,15 +3,11 @@ import { kelasTableDataHeader } from "../../../../constants/admin-kelas-contents
 import { Delete, Edit } from "@mui/icons-material";
 import { useFetchOnMount } from "../../../../hooks/useFetchOnMount";
 
-const Kelas4TableData = ({ kelas, mahasiswaKeywords }) => {
+const Kelas4TableData = ({ mahasiswaKeywords, handleEditMahasiswa }) => {
   const { data: dataMahasiswaKelas4OnSearch } = useFetchOnMount({
-    url: mahasiswaKeywords === "" ? `/user/kelas/4` : `/user/search/mahasiswa/${kelas.id}/${mahasiswaKeywords}`,
+    url: mahasiswaKeywords === "" ? `/user/kelas/4` : `/user/search/mahasiswa/4/${mahasiswaKeywords}`,
     method: "GET",
   });
-
-  const handleEditMahasiswa = (idMahasiswa) => {
-    console.log(idMahasiswa);
-  };
 
   const handleDeleteMahasiswa = (idMahasiswa) => {
     console.log(idMahasiswa);
@@ -37,8 +33,8 @@ const Kelas4TableData = ({ kelas, mahasiswaKeywords }) => {
         </tr>
       </thead>
       <tbody>
-        {dataMahasiswaKelas4OnSearch?.length > 0 ? (
-          dataMahasiswaKelas4OnSearch?.map((payloads, index) => {
+        {dataMahasiswaKelas4OnSearch?.data?.length > 0 ? (
+          dataMahasiswaKelas4OnSearch?.data?.map((payloads, index) => {
             const { id, nama, username, email, nohp } = payloads;
 
             const regex = new RegExp(`(${mahasiswaKeywords})`, "gi");
@@ -85,8 +81,7 @@ const Kelas4TableData = ({ kelas, mahasiswaKeywords }) => {
 };
 
 Kelas4TableData.propTypes = {
-  kelas: PropTypes.any,
-  dataMahasiswaKelas1: PropTypes.any,
+  handleEditMahasiswa: PropTypes.func,
   mahasiswaKeywords: PropTypes.string,
 };
 

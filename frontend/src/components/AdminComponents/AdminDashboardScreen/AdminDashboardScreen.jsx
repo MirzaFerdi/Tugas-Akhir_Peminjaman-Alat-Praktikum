@@ -10,36 +10,17 @@ import {
   peminjamanValueFormatter,
   peminjamanChartSetting,
 } from "../../../constants/admin-charts-config";
-import { useCallback } from "react";
+import { useState } from "react";
 
 const AdminDashboardScreen = () => {
+  const [allMahasiswaKeywords, setAllMahasiswaKeywords] = useState("");
+
   const { data: countAllData } = useFetchOnMount({
     url: "/countall",
     method: "GET",
   });
 
-  const { fetchData: reloadCountAllData } = useFetchOnClick();
-
-  const { data: mahasiswaKelas1Data } = useFetchOnMount({
-    url: "/user/kelas/1",
-    method: "GET",
-  });
-  const { data: mahasiswaKelas2Data } = useFetchOnMount({
-    url: "/user/kelas/2",
-    method: "GET",
-  });
-  const { data: mahasiswaKelas3Data } = useFetchOnMount({
-    url: "/user/kelas/3",
-    method: "GET",
-  });
-  const { data: mahasiswaKelas4Data } = useFetchOnMount({
-    url: "/user/kelas/4",
-    method: "GET",
-  });
-
-  const allMahasiswaData = useCallback(() => {
-    return [...mahasiswaKelas1Data, ...mahasiswaKelas2Data, ...mahasiswaKelas3Data, ...mahasiswaKelas4Data];
-  }, [mahasiswaKelas1Data, mahasiswaKelas2Data, mahasiswaKelas3Data, mahasiswaKelas4Data]);
+  const { fetchData: reloadCountAllData } = useFetchOnClick();  
 
   return (
     <div className="mb-12">
@@ -123,6 +104,9 @@ const AdminDashboardScreen = () => {
               className="p-2 text-xs border-2 border-blue-300 rounded-sm w-full lg:w-1/2 leading-none tracking-wide hover:border-blue-400 focus:outline-none focus:border-blue-400"
               name="keywords"
               placeholder="cari mahasiswa ..."
+              onChange={(event) => {
+                setAllMahasiswaKeywords(event.target.value);
+              }}
             />
             <button className="absolute top-1/2 -translate-y-1/2 right-2 text-blue-700">
               <Search />
@@ -130,7 +114,10 @@ const AdminDashboardScreen = () => {
           </div>
         </div>
 
-        <AdminDashboardScreenUpClass allMahasiswaData={allMahasiswaData} />
+        <AdminDashboardScreenUpClass
+          allMahasiswaKeywords={allMahasiswaKeywords}          
+        />
+        
       </div>
     </div>
   );

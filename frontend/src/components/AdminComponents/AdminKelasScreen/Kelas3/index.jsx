@@ -1,26 +1,44 @@
 import { AddCircleOutline } from "@mui/icons-material";
 import { useFetchOnMount } from "../../../../hooks/useFetchOnMount";
-import { useState } from "react";
-import { useAdminAddMahasiswaDialog } from "../../../../hooks/useDialog";
+import { useCallback, useState } from "react";
+import { useAdminAddMahasiswaDialog, useAdminEditMahasiswaDialog } from "../../../../hooks/useDialog";
 import AdminKelasScreenHeader from "../AdminKelasScreenHeader";
 import Kelas3TableData from "./Kelas3TableData";
 import AdminKelasInformation from "../AdminKelasInformation";
 import AdminKelasAddMahasiswaDialog from "../AdminKelasAddMahasiswaDialog";
+import AdminKelasEditMahasiswaDialog from "../AdminKelasEditMahasiswaDialog";
+import { useFetchOnClick } from "../../../../hooks/useFetchOnClick";
 
 const Kelas2 = () => {
   const [mahasiswaKeywords, setMahasiswaKeywords] = useState("");
 
   const { openAddMahasiswaDialog } = useAdminAddMahasiswaDialog();
+  const { openEditMahasiswaDialog } = useAdminEditMahasiswaDialog();
 
+  const { fetchData: getDataMahasiswaById } = useFetchOnClick();
   const { data: dataInformasiKelas3 } = useFetchOnMount({
     url: "/kelas/3",
     method: "GET",
   });
-
   const { data: dataMahasiswaKelas3 } = useFetchOnMount({
     url: "/user/kelas/3",
     method: "GET",
   });
+
+  const handleSuccessGetMahasiswaById = useCallback(
+    (mahasiswaDataById) => {
+      openEditMahasiswaDialog(mahasiswaDataById);
+    },
+    [openEditMahasiswaDialog]
+  );
+
+  const handleEditMahasiswa = (selectedMahasiswaId) => {
+    getDataMahasiswaById({
+      url: `/user/${selectedMahasiswaId}`,
+      method: "GET",
+      onSuccess: handleSuccessGetMahasiswaById,
+    });
+  };
 
   const handleSearchMahasiswa = (event) => {
     setMahasiswaKeywords(event.target.value);
@@ -29,7 +47,7 @@ const Kelas2 = () => {
   return (
     <div className="mb-8">
       <AdminKelasScreenHeader kelas={dataInformasiKelas3} handleSearchMahasiswa={handleSearchMahasiswa} />
-      <Kelas3TableData kelas={dataInformasiKelas3} mahasiswaKeywords={mahasiswaKeywords} />
+      <Kelas3TableData mahasiswaKeywords={mahasiswaKeywords} handleEditMahasiswa={handleEditMahasiswa} />
 
       <button
         onClick={() => openAddMahasiswaDialog()}
@@ -40,7 +58,7 @@ const Kelas2 = () => {
 
       <AdminKelasInformation dataKelas={dataInformasiKelas3} dataMahasiswa={dataMahasiswaKelas3} />
       <AdminKelasAddMahasiswaDialog kelas={dataInformasiKelas3} />
-      {/* <EditMahasiswaFormDialog /> */}
+      <AdminKelasEditMahasiswaDialog />
     </div>
   );
 };
