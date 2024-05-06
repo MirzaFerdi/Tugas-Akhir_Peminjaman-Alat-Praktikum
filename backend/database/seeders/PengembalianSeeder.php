@@ -27,7 +27,7 @@ class PengembalianSeeder extends Seeder
             'peminjaman_id' => null,
             'keterangan' => 'rusak',
             'status' => 'Pending',
-            'tanggal_pengembalian' => '2024-01-11 05:10:23',
+            'tanggal_pengembalian' => '2024-05-11 05:10:23',
         ]);
     }
 }
