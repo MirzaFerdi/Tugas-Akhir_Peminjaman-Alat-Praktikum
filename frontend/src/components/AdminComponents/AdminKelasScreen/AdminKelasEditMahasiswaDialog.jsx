@@ -83,10 +83,18 @@ const AdminKelasEditMahasiswaDialog = () => {
         <Formik initialValues={initialValues} validate={editMahasiswaFormValidation} onSubmit={handleSubmit}>
           {({ isValid }) => (
             <Form>
-              <FormField formType="text" formName="nama" labelText="Nama Mahasiswa" />
-              <FormField formType="text" formName="username" labelText="NIM" />
-              <FormField formType="email" formName="email" labelText="E-Mail" />
-              <FormField formType="text" formName="nohp" labelText="Nomor Telepon" />
+              <div className="mb-4">
+                <FormField formType="text" formName="nama" labelText="Nama Mahasiswa" />
+              </div>
+              <div className="mb-4">
+                <FormField formType="text" formName="username" labelText="NIM" />
+              </div>
+              <div className="mb-4">
+                <FormField formType="email" formName="email" labelText="E-Mail" />
+              </div>
+              <div className="mb-6">
+                <FormField formType="text" formName="nohp" labelText="Nomor Telepon" />
+              </div>
               <button
                 type="submit"
                 disabled={isValid ? false : true}

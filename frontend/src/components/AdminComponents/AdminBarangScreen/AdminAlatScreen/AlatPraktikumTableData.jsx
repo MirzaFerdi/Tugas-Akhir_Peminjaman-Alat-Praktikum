@@ -3,8 +3,15 @@ import { Delete, Edit } from "@mui/icons-material";
 import { alatPraktikumTableHeader } from "../../../../constants/admin-barang-contents";
 import { useFetchOnMount } from "../../../../hooks/useFetchOnMount";
 import { useCallback } from "react";
+import { useAdminEditBarangDialog, useConfirmDialog } from "../../../../hooks/useDialog";
+import { useFetchOnClick } from "../../../../hooks/useFetchOnClick";
+import { useAlert } from "../../../../hooks/useAlert";
 
 const AlatPraktikumTableData = ({ alatKeywords, paginationPage, setCount }) => {
+  const { openEditBarangDialog } = useAdminEditBarangDialog();
+  const { openConfirmDialog, closeConfirmDialog } = useConfirmDialog();
+  const { openAlertComponent, closeAlertComponent } = useAlert();
+
   const handleSuccessDataAlatPraktikumResponse = useCallback(
     (dataAlatPraktikumSuccessResponse) => {
       setCount(dataAlatPraktikumSuccessResponse?.last_page);
@@ -17,7 +24,57 @@ const AlatPraktikumTableData = ({ alatKeywords, paginationPage, setCount }) => {
       alatKeywords === "" ? `/barang/pagination/alat/8?page=${paginationPage}` : `/barang/search/alat/${alatKeywords}`,
     method: "GET",
     onSuccess: handleSuccessDataAlatPraktikumResponse,
-  });  
+  });
+  const { fetchData: dataAlatById } = useFetchOnClick();
+  const { fetchData: deleteDataAlat } = useFetchOnClick();
+
+  const handleGetBarangByIdSuccessResponse = useCallback(
+    (getBarangByIdSuccessResponse) => {
+      openEditBarangDialog(getBarangByIdSuccessResponse);
+    },
+    [openEditBarangDialog]
+  );
+
+  const handleEditBarang = (selectedBarangId) => {
+    dataAlatById({
+      url: `/barang/${selectedBarangId}`,
+      method: "GET",
+      onSuccess: handleGetBarangByIdSuccessResponse,
+    });
+  };
+
+  const handleDeleteAlatSuccessResponse = useCallback(
+    (deleteAlatSuccessResponse) => {
+      if (deleteAlatSuccessResponse?.success === true) {
+        openAlertComponent({
+          alertType: "success",
+          alertTitle: "BERHASIL!",
+          alertMessage: deleteAlatSuccessResponse?.message,
+        });
+
+        setTimeout(() => {
+          closeAlertComponent();
+          closeConfirmDialog();
+          window.location.reload();
+        }, 2000);
+      }
+    },
+    [closeAlertComponent, closeConfirmDialog, openAlertComponent]
+  );
+
+  const handleDeleteAlat = (selectedAlatId) => {
+    openConfirmDialog({
+      title: "Hapus Data Alat",
+      message: "Apakah anda yakin ingin menghapus data alat tersebut?",
+      okAction: () => {
+        deleteDataAlat({
+          url: `/barang/${selectedAlatId}`,
+          method: "DELETE",
+          onSuccess: handleDeleteAlatSuccessResponse,
+        });
+      },
+    });
+  };
 
   return (
     <table className="w-full">
@@ -59,12 +116,12 @@ const AlatPraktikumTableData = ({ alatKeywords, paginationPage, setCount }) => {
                 <td className="w-fit border p-2 text-xs text-zinc-600 text-center">{stok_awal} Buah</td>
                 <td className="w-fit border p-2 text-xs text-zinc-600 text-center">{stok_tersedia} Buah</td>
                 <td className="w-fit border p-2 text-xs text-center">
-                  <button className="text-blue-400">
+                  <button onClick={() => handleEditBarang(id)} className="text-blue-400">
                     <Edit fontSize="small" />
                   </button>
                 </td>
                 <td className="w-fit border p-2 text-xs text-center">
-                  <button className="text-red-500">
+                  <button onClick={() => handleDeleteAlat(id)} className="text-red-500">
                     <Delete fontSize="small" />
                   </button>
                 </td>
@@ -87,7 +144,7 @@ AlatPraktikumTableData.propTypes = {
   alatKeywords: PropTypes.string,
   barangKategori: PropTypes.any,
   paginationPage: PropTypes.any,
-  setCount: PropTypes.func
-}
+  setCount: PropTypes.func,
+};
 
 export default AlatPraktikumTableData;

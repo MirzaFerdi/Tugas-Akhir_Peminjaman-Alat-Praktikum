@@ -87,9 +87,15 @@ const AdminAddBarangDialog = ({ barangKategori }) => {
         <Formik initialValues={initialValues} validate={addBarangFormValidation} onSubmit={handleSubmit}>
           {({ isValid }) => (
             <Form>
-              <FormField formType="text" formName="namaBarang" labelText="Nama Barang" />
-              <FormField formType="text" formName="kodeBarang" labelText="Kode Barang" />
-              <FormField formType="text" formName="jumlahBarang" labelText="Jumlah Barang" />
+              <div className="mb-4">
+                <FormField formType="text" formName="namaBarang" labelText="Nama Barang" />
+              </div>
+              <div className="mb-4">
+                <FormField formType="text" formName="kodeBarang" labelText="Kode Barang" />
+              </div>
+              <div className="mb-6">
+                <FormField formType="text" formName="jumlahBarang" labelText="Jumlah Barang" />
+              </div>
               <button
                 type="submit"
                 disabled={isValid ? false : true}

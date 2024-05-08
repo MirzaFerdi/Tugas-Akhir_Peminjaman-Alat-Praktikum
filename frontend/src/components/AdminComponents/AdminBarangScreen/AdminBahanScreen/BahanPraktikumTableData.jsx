@@ -3,8 +3,15 @@ import { Delete, Edit } from "@mui/icons-material";
 import { bahanPraktikumTableHeader } from "../../../../constants/admin-barang-contents";
 import { useFetchOnMount } from "../../../../hooks/useFetchOnMount";
 import { useCallback } from "react";
+import { useFetchOnClick } from "../../../../hooks/useFetchOnClick";
+import { useAdminEditBarangDialog, useConfirmDialog } from "../../../../hooks/useDialog";
+import { useAlert } from "../../../../hooks/useAlert";
 
 const BahanPraktikumTableData = ({ bahanKeywords, paginationPage, setCount }) => {
+  const { openEditBarangDialog } = useAdminEditBarangDialog();
+  const { openConfirmDialog, closeConfirmDialog } = useConfirmDialog();
+  const { openAlertComponent, closeAlertComponent } = useAlert();
+
   const handleSuccessDataBahanPraktikumResponse = useCallback(
     (dataBahanPraktikumSuccessResponse) => {
       setCount(dataBahanPraktikumSuccessResponse?.last_page);
@@ -20,8 +27,56 @@ const BahanPraktikumTableData = ({ bahanKeywords, paginationPage, setCount }) =>
     method: "GET",
     onSuccess: handleSuccessDataBahanPraktikumResponse,
   });
+  const { fetchData: dataAlatById } = useFetchOnClick();
+  const { fetchData: deleteDataBahan } = useFetchOnClick();
 
-  const dataBahanOnSearch = bahanKeywords === "" ? dataBahanPraktikum?.data : dataBahanPraktikum;
+  const handleGetBarangByIdSuccessResponse = useCallback(
+    (getBarangByIdSuccessResponse) => {
+      openEditBarangDialog(getBarangByIdSuccessResponse);
+    },
+    [openEditBarangDialog]
+  );
+
+  const handleEditBarang = (selectedBarangId) => {
+    dataAlatById({
+      url: `/barang/${selectedBarangId}`,
+      method: "GET",
+      onSuccess: handleGetBarangByIdSuccessResponse,
+    });
+  };
+
+  const handleDeleteBahanSuccessResponse = useCallback(
+    (deleteBahanSuccessResponse) => {
+      if (deleteBahanSuccessResponse?.success === true) {
+        openAlertComponent({
+          alertType: "success",
+          alertTitle: "BERHASIL!",
+          alertMessage: deleteBahanSuccessResponse?.message,
+        });
+
+        setTimeout(() => {
+          closeAlertComponent();
+          closeConfirmDialog();
+          window.location.reload();
+        }, 2000);
+      }
+    },
+    [closeAlertComponent, closeConfirmDialog, openAlertComponent]
+  );
+
+  const handleDeleteBahan = (selectedBahanId) => {
+    openConfirmDialog({
+      title: "Hapus Data Bahan",
+      message: "Apakah anda yakin ingin menghapus data bahan tersebut?",
+      okAction: () => {
+        deleteDataBahan({
+          url: `/barang/${selectedBahanId}`,
+          method: "DELETE",
+          onSuccess: handleDeleteBahanSuccessResponse,
+        });
+      },
+    });
+  };
 
   return (
     <table className="w-full">
@@ -43,8 +98,8 @@ const BahanPraktikumTableData = ({ bahanKeywords, paginationPage, setCount }) =>
         </tr>
       </thead>
       <tbody>
-        {dataBahanOnSearch?.length > 0 ? (
-          dataBahanOnSearch?.map((payloads, index) => {
+        {dataBahanPraktikum?.data?.length > 0 ? (
+          dataBahanPraktikum?.data?.map((payloads, index) => {
             const { id, kode_barang, nama_barang, stok_awal, stok_tersedia } = payloads;
 
             const regex = new RegExp(`(${bahanKeywords})`, "gi");
@@ -63,12 +118,12 @@ const BahanPraktikumTableData = ({ bahanKeywords, paginationPage, setCount }) =>
                 <td className="w-fit border p-2 text-xs text-zinc-600 text-center">{stok_awal} Buah</td>
                 <td className="w-fit border p-2 text-xs text-zinc-600 text-center">{stok_tersedia} Buah</td>
                 <td className="w-fit border p-2 text-xs text-center">
-                  <button className="text-blue-400">
+                  <button onClick={() => handleEditBarang(id)} className="text-blue-400">
                     <Edit fontSize="small" />
                   </button>
                 </td>
                 <td className="w-fit border p-2 text-xs text-center">
-                  <button className="text-red-500">
+                  <button onClick={() => handleDeleteBahan(id)} className="text-red-500">
                     <Delete fontSize="small" />
                   </button>
                 </td>

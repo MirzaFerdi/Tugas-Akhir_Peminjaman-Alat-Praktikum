@@ -39,6 +39,20 @@ export const useAdminAddBarangDialog = create((set) => ({
     }),
 }));
 
+export const useAdminEditBarangDialog = create((set) => ({
+  isAdminEditBarangDialogOpen: false,
+  dataBarangById: {},
+  openEditBarangDialog: (dataBarangById) =>
+    set({
+      isAdminEditBarangDialogOpen: true,
+      dataBarangById: dataBarangById,
+    }),
+  closeEditBarangDialog: () =>
+    set({
+      isAdminEditBarangDialogOpen: false,
+    }),
+}));
+
 export const useAdminTransaksiDialog = create((set) => ({
   isAdminTransaksiDialogOpen: false,
   idTransaksi: 1,
