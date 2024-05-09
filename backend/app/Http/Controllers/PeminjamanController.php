@@ -263,12 +263,12 @@ class PeminjamanController extends Controller
         }
     }
 
-    public function rekapPeminjaman()
+    public function rekap($bulan, $tahun)
     {
-        $peminjaman = Peminjaman::with('user', 'barang')->get();
-        $pengembalian = Pengembalian::with('user', 'barang')->get();
+        $peminjaman = Peminjaman::with('user', 'barang')->whereMonth('tanggal_peminjaman', $bulan)->whereYear('tanggal_peminjaman', $tahun)->get();
+        $pengembalian = Pengembalian::with('user', 'barang')->whereMonth('tanggal_pengembalian', $bulan)->whereYear('tanggal_pengembalian', $tahun)->get();
 
-        if ($peminjaman->isEmpty()) {
+        if ($peminjaman->isEmpty() && $pengembalian->isEmpty()) {
             return response()->json([
                 'success' => false,
                 'message' => 'Data peminjaman tidak ditemukan!',
