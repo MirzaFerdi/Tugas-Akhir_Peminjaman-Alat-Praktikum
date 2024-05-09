@@ -14,6 +14,7 @@ class Broadcast extends Model
     protected $table = 'broadcast';
 
     protected $fillable = [
+        'judul',
         'pesan',
     ];
 }

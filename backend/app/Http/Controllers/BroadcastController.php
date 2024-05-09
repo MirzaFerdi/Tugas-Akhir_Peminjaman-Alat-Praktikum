@@ -37,6 +37,7 @@ class BroadcastController extends Controller
     public function store(Request $request)
     {
         $broadcast = new Broadcast;
+        $broadcast->judul = $request->judul;
         $broadcast->pesan = $request->pesan;
         $broadcast->save();
 
@@ -57,6 +58,7 @@ class BroadcastController extends Controller
     public function update(Request $request, $id)
     {
         $broadcast = Broadcast::find($id);
+        $broadcast->judul = $request->judul;
         $broadcast->pesan = $request->pesan;
         $broadcast->save();
 

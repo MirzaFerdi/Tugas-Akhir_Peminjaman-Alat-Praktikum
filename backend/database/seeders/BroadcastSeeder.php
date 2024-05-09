@@ -14,10 +14,12 @@ class BroadcastSeeder extends Seeder
     public function run(): void
     {
         DB::table('broadcast')->insert([
-            'pesan' => 'Penting: hari Selasa, 7 Mei 2024. Lakukan request peminjaman alat di Gudang Peralatan Lab. Tidak perlu menunggu persetujuan, baik untuk peminjaman maupun pengembalian. Setelah selesai test SOP, saya akan cek request. Terima kasih! ',
+            'judul' => 'Pengumuman Untuk Seluruh Mahasiswa TRO',
+            'pesan' => 'Hari Selasa, 7 Mei 2024. Lakukan request peminjaman alat di Gudang Peralatan Lab. Tidak perlu menunggu persetujuan, baik untuk peminjaman maupun pengembalian. Setelah selesai test SOP, saya akan cek request. Terima kasih! ',
         ]);
         DB::table('broadcast')->insert([
-            'pesan' => 'Penting: hari Rabu, 15 Mei 2024, Untuk peminjaman alat, lakukan request dan ambil di Gudang Peralatan Lab. Tidak perlu menunggu persetujuan dari saya, baik untuk peminjaman maupun pengembalian. Setelah selesai test SOP, saya akan cek request. Terima kasih!',
+            'judul' => 'Pengumuman Untuk Seluruh Mahasiswa TRO',
+            'pesan' => 'Hari Rabu, 15 Mei 2024, Untuk peminjaman alat, lakukan request dan ambil di Gudang Peralatan Lab. Tidak perlu menunggu persetujuan dari saya, baik untuk peminjaman maupun pengembalian. Setelah selesai test SOP, saya akan cek request. Terima kasih!',
         ]);
     }
 }

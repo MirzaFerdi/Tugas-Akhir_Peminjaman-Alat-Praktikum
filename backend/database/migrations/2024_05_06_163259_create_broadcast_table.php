@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('broadcast', function (Blueprint $table) {
             $table->id();
+            $table->string('judul');
             $table->string('pesan', 1000);
         });
     }
