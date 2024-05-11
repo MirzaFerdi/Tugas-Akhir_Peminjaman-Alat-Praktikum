@@ -3,7 +3,7 @@ import { barangIcon, transaksiIcon, usersIcon } from "../../../assets";
 
 const AdminDashboardScreenHeader = ({ countAllData }) => {
   return (
-    <div className="flex justify-between items-center gap-5">
+    <div className="flex flex-col lg:flex-row justify-between items-center gap-5">
       <div className="shadow-md w-full bg-white rounded-md">
         <p className="text-sm text-white px-4 py-3 bg-blue-400 rounded-t-md font-medium tracking-wide">
           Mahasiswa Terdaftar

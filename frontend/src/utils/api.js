@@ -5,6 +5,7 @@ export const api = axios.create({
   headers: {
     Accept: "application/json",
     "Content-Type": "application/x-www-form-urlencoded",
+    "Content-Encoding": "gzip",
   },
 });
 

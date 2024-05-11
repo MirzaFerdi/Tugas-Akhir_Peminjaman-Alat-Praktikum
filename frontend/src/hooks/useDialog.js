@@ -103,6 +103,18 @@ export const useAdminTransaksiInformationDialog = create((set) => ({
     }),
 }));
 
+export const useAdminBroadcastPreviewDialog = create((set) => ({
+  isBroadcastPreviewDialogOpen: false,
+  openBroadcastPreview: () =>
+    set({
+      isBroadcastPreviewDialogOpen: true,
+    }),
+  closeBroadcastPreview: () =>
+    set({
+      isBroadcastPreviewDialogOpen: false,
+    }),
+}));
+
 // MAHASISWA DIALOG CONFIGURATION
 export const useMahasiswaPeminjamanDialog = create((set) => ({
   isMahasiswaPeminjamanDialogOpen: false,

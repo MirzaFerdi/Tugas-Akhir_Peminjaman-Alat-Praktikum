@@ -13,21 +13,22 @@ const AdminRekapScreenTransaksi = ({ selectedMonth, selectedYear }) => {
     method: "GET",
   });
 
+  
   const { data: mahasiswaKelas2 } = useFetchOnMount({
     url: "/user/kelas/2",
     method: "GET",
   });
-
+  
   const { data: mahasiswaKelas3 } = useFetchOnMount({
     url: "/user/kelas/3",
     method: "GET",
   });
-
+  
   const { data: mahasiswaKelas4 } = useFetchOnMount({
     url: "/user/kelas/4",
     method: "GET",
   });
-
+    
   const { data: dataAlat } = useFetchOnMount({
     url: "/barang/kategori/1",
     method: "GET",
@@ -79,22 +80,22 @@ const AdminRekapScreenTransaksi = ({ selectedMonth, selectedYear }) => {
                 <tr>
                   <td className="border p-1 text-sm text-center">1</td>
                   <td className="border p-1 text-sm">Mahasiswa Kelas 1</td>
-                  <td className="border p-1 text-sm text-center">{mahasiswaKelas1?.length}</td>
+                  <td className="border p-1 text-sm text-center">{mahasiswaKelas1?.total}</td>
                 </tr>
                 <tr>
                   <td className="border p-1 text-sm text-center">2</td>
                   <td className="border p-1 text-sm">Mahasiswa Kelas 2</td>
-                  <td className="border p-1 text-sm text-center">{mahasiswaKelas2?.length}</td>
+                  <td className="border p-1 text-sm text-center">{mahasiswaKelas2?.total}</td>
                 </tr>
                 <tr>
                   <td className="border p-1 text-sm text-center">3</td>
                   <td className="border p-1 text-sm">Mahasiswa Kelas 3</td>
-                  <td className="border p-1 text-sm text-center">{mahasiswaKelas3?.length}</td>
+                  <td className="border p-1 text-sm text-center">{mahasiswaKelas3?.total}</td>
                 </tr>
                 <tr>
                   <td className="border p-1 text-sm text-center">4</td>
                   <td className="border p-1 text-sm">Mahasiswa Kelas 4</td>
-                  <td className="border p-1 text-sm text-center">{mahasiswaKelas4?.length}</td>
+                  <td className="border p-1 text-sm text-center">{mahasiswaKelas4?.total}</td>
                 </tr>
                 <tr>
                   <td colSpan={2} className="border p-1 text-sm text-center font-semibold">
