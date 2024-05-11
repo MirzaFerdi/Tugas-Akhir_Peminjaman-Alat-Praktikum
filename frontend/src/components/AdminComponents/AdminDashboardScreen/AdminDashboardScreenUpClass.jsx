@@ -107,10 +107,10 @@ const AdminDashboardScreenUpClass = ({ allMahasiswaKeywords }) => {
             <th className="w-[20%] border p-2 text-start text-xs text-zinc-700 bg-blue-200 tracking-wider font-semibold">
               NIM
             </th>
-            <th className="w-[60%] border p-2 text-start text-xs text-zinc-700 bg-blue-200 tracking-wider font-semibold">
+            <th className="w-[50%] border p-2 text-start text-xs text-zinc-700 bg-blue-200 tracking-wider font-semibold">
               Nama Mahasiswa
             </th>
-            <th className="w-[10%] border p-2 text-start text-xs text-zinc-700 bg-blue-200 tracking-wider font-semibold">
+            <th className="w-[20%] border p-2 text-start text-xs text-zinc-700 bg-blue-200 tracking-wider font-semibold">
               Kelas
             </th>
           </tr>

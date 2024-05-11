@@ -28,7 +28,7 @@ const RequestPengembalianTableData = ({ dataTransaksiPengembalian, transaksiPeng
       </thead>
       <tbody>
         {dataTransaksiPengembalian?.success != false ? (
-          dataTransaksiPengembalian?.map((payloads, index) => {
+          dataTransaksiPengembalian?.data?.map((payloads, index) => {
             const { id, user, barang, tanggal_pengembalian, status } = payloads;
 
             const regex = new RegExp(`(${transaksiPengembalianKeywords})`, "gi");

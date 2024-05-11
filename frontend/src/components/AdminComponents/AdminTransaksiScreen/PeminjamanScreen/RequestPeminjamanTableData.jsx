@@ -28,7 +28,7 @@ const RequestPeminjamanTableData = ({ dataTransaksiPeminjaman, transaksiPeminjam
       </thead>
       <tbody>
         {dataTransaksiPeminjaman?.success != false ? (
-          dataTransaksiPeminjaman?.map((payloads, index) => {
+          dataTransaksiPeminjaman?.data?.map((payloads, index) => {
             const { id, user, barang, tanggal_peminjaman, status } = payloads;
 
             const regex = new RegExp(`(${transaksiPeminjamanKeywords})`, "gi");

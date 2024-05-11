@@ -77,8 +77,12 @@ const LoginPage = () => {
             <Formik initialValues={initialValues} validate={loginFormValidation} onSubmit={handleSubmit}>
               {({ isValid }) => (
                 <Form>
-                  <FormField formType="text" formName="username" labelText="NIP/NIM" />
-                  <FormField formType="password" formName="password" labelText="Password" />
+                  <div className="mb-4">
+                    <FormField formType="text" formName="username" labelText="NIP/NIM" />
+                  </div>
+                  <div className="mb-6">
+                    <FormField formType="password" formName="password" labelText="Password" />
+                  </div>
                   <div className="mb-8 flex justify-end">
                     <a href="/forgot-password" className="text-blue-600 text-sm tracking-wide underline">
                       Lupa password?

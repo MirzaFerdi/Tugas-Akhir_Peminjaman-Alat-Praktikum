@@ -320,3 +320,64 @@ export const addBarangFormValidation = (values) => {
 
   return errors;
 };
+
+export const editBarangFormValidation = (values) => {
+  const { namaBarang, kodeBarang, stokTersedia, stokAwal, stokMasuk } = values;
+
+  const kodeBarangRegex = /^[a-zA-Z]{2}\d{2}$/;
+  const stokAwalRegex = /^[^\d]+(?: [^\d]+)*$/;
+  const stokTersediaRegex = /^[^\d]+(?: [^\d]+)*$/;
+  const stokMasukRegex = /^[^\d]+(?: [^\d]+)*$/;
+
+  const errors = {};
+
+  if (!namaBarang) {
+    errors.namaBarang = "Nama barang tidak boleh kosong!";
+  }
+
+  if (namaBarang.length <= 2) {
+    errors.namaBarang = "Nama barang tidak boleh kurang dari 1 karakter!";
+  }
+
+  if (!kodeBarang) {
+    errors.kodeBarang = "Kode barang tidak boleh kosong!";
+  }
+
+  if (kodeBarang.length <= 3) {
+    errors.kodeBarang = "Kode barang tidak boleh kurang dari 4 karakter!";
+  }
+
+  if (kodeBarangRegex.test(kodeBarang)) {
+    errors.kodeBarang = "Kode barang tidak valid!";
+  }
+
+  if (!stokAwal) {
+    errors.stokAwal = "Jumlah stok awal tidak boleh kosong!";
+  }
+
+  if (stokAwal === 0) {
+    errors.stokAwal = "Jumlah stok awal awal tidak boleh kosong!";
+  }
+
+  if (stokAwalRegex.test(stokAwal)) {
+    errors.stokAwal = "Jumlah stok awal harus berupa angka!";
+  }
+
+  if (!stokTersedia) {
+    errors.stokTersedia = "Jumlah stok tersedia tidak boleh kosong!";
+  }
+
+  if (stokTersedia === 0) {
+    errors.stokTersedia = "Jumlah stok tersedia awal tidak boleh kosong!";
+  }
+
+  if (stokTersediaRegex.test(stokTersedia)) {
+    errors.stokTersedia = "Jumlah stok tersedia harus berupa angka!";
+  }  
+
+  if (stokMasukRegex.test(stokMasuk)) {
+    errors.stokMasuk = "Jumlah stok masuk harus berupa angka!";
+  }
+
+  return errors;
+};

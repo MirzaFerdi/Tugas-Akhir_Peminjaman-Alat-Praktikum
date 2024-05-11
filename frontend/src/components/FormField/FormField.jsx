@@ -5,7 +5,7 @@ import { ErrorMessage, Field } from "formik";
 const FormField = ({ formType, formName, labelText }) => {
   return (
     <React.Fragment>
-      <div className="relative mb-1">
+      <div className="relative">
         <Field
           type={formType}
           autoComplete="off"
@@ -17,11 +17,11 @@ const FormField = ({ formType, formName, labelText }) => {
         />
         <label
           htmlFor={`floating-outlined-${formName}`}
-          className="tracking-wider cursor-text absolute text-sm text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-inherit px-2 peer-focus:px-2 peer-focus:bg-white peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">
+          className="tracking-wider cursor-text absolute text-sm text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-inherit px-2 peer-focus:px-2 bg-white peer-focus:bg-white peer-focus:text-blue-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">
           {labelText}
         </label>
       </div>
-      <div className="mb-4 text-xs tracking-wide text-red-500">
+      <div className="text-xs tracking-wide text-red-500">
         <ErrorMessage name={formName} />
       </div>
     </React.Fragment>

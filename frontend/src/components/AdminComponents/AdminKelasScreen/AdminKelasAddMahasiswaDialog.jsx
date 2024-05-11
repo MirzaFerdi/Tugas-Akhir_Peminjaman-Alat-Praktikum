@@ -97,12 +97,25 @@ const AdminKelasAddMahasiswaDialog = ({ kelas }) => {
         <Formik initialValues={initialValues} validate={addMahasiswaFormValidation} onSubmit={handleSubmit}>
           {({ isValid }) => (
             <Form>
-              <FormField formType="text" formName="nama" labelText="Nama Mahasiswa" />
-              <FormField formType="text" formName="username" labelText="NIM" />
-              <FormField formType="email" formName="email" labelText="E-Mail" />
-              <FormField formType="text" formName="nohp" labelText="Nomor Telepon" />
-              <FormField formType="password" formName="password" labelText="Password" />
-              <FormField formType="password" formName="confPassword" labelText="Konfirmasi Password" />
+              <div className="mb-4">
+                <FormField formType="text" formName="nama" labelText="Nama Mahasiswa" />
+              </div>
+              <div className="mb-4">
+                <FormField formType="text" formName="username" labelText="NIM" />
+              </div>
+              <div className="mb-4">
+                <FormField formType="email" formName="email" labelText="E-Mail" />
+              </div>
+              <div className="mb-4">
+                <FormField formType="text" formName="nohp" labelText="Nomor Telepon" />
+              </div>
+              <div className="mb-4">
+                <FormField formType="password" formName="password" labelText="Password" />
+              </div>
+              <div className="mb-6">
+                <FormField formType="password" formName="confPassword" labelText="Konfirmasi Password" />
+              </div>
+
               <button
                 type="submit"
                 disabled={isValid ? false : true}

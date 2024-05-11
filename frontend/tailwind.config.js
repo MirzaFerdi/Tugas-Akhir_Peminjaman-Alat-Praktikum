@@ -15,6 +15,10 @@ export default {
       backgroundImage: {
         "forgot-password": "url('/src/assets/images/forgot-bg.jpg')",
       },
+      colors: {
+        main: "#2D1B6B",
+        "main-hover": "#1D0C5A"
+      }
     },
   },
   plugins: [],

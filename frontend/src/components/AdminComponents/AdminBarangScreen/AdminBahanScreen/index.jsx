@@ -1,11 +1,12 @@
-import { useState } from "react";
-import { AddCircleOutline } from "@mui/icons-material";
-import { useFetchOnMount } from "../../../../hooks/useFetchOnMount";
 import AdminBarangScreenHeader from "../AdminBarangScreenHeader";
 import BahanPraktikumTableData from "./BahanPraktikumTableData";
 import AdminAddBarangDialog from "../AdminAddBarangDialog";
-import { useAdminAddBarangDialog } from "../../../../hooks/useDialog";
 import AdminBarangInformation from "../AdminBarangInformation";
+import AdminEditBarangDialog from "../AdminEditBarangDialog";
+import { useState } from "react";
+import { AddCircleOutline } from "@mui/icons-material";
+import { useFetchOnMount } from "../../../../hooks/useFetchOnMount";
+import { useAdminAddBarangDialog } from "../../../../hooks/useDialog";
 import { Pagination } from "@mui/material";
 
 const AdminBahanScreen = () => {
@@ -52,7 +53,7 @@ const AdminBahanScreen = () => {
 
       <AdminBarangInformation barangKategori={barangKategori} />
       <AdminAddBarangDialog barangKategori={barangKategori} />
-      {/* <EditMahasiswaFormDialog /> */}
+      <AdminEditBarangDialog />
     </div>
   );
 };
