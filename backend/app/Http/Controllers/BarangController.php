@@ -96,6 +96,15 @@ class BarangController extends Controller
     }
 
     public function store(Request $request){
+        $cekBarang = Barang::where('kode_barang', $request->kode_barang)->exists();
+
+        if($cekBarang){
+            return response()->json([
+                'success' => false,
+                'message' => 'Kode barang sudah ada!',
+            ]);
+        }
+
         $barang = new Barang;
         $barang->kategori_id = $request->kategori_id;
         $barang->kode_barang = $request->kode_barang;
@@ -119,26 +128,51 @@ class BarangController extends Controller
     }
 
     public function update(Request $request, $id){
-        $barang = Barang::find($id);
-        $barang->kategori_id = $request->kategori_id;
-        $barang->kode_barang = $request->kode_barang;
-        $barang->nama_barang = $request->nama_barang;
-        $barang->stok_awal = $request->stok_awal;
-        $barang->stok_tersedia = $request->stok_tersedia;
-        $barang->save();
 
-        if($barang){
-            $barang = Barang::find($id);
+        $barang = Barang::find($id);
+
+        if(!$barang){
+            return response()->json([
+                'success' => false,
+                'message' => 'Data barang tidak ditemukan!',
+            ]);
+        }
+        //Lgsung menyimpan jika kode barang sama dengan sebelumnya
+        if($request->kode_barang == $barang->kode_barang){
+            $barang->kategori_id = $request->kategori_id;
+            $barang->nama_barang = $request->nama_barang;
+            $barang->stok_awal = $request->stok_awal;
+            $barang->stok_tersedia = $request->stok_tersedia;
+            $barang->save();
+
             return response()->json([
                 'success' => true,
                 'message' => 'Barang berhasil diupdate!',
                 'data' => $barang
             ]);
         }else{
-            return response()->json([
-                'success' => false,
-                'message' => 'Barang gagal diupdate!',
-            ]);
+            //cek kode barang terlebih dahulu, jika kode barang berbeda dengan sebelumnya dan kode barang sudah terdaftar
+            $cekBarang = Barang::where('kode_barang', $request->kode_barang)->where('id', '!=', $id)->exists();
+
+            if($cekBarang){
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Kode barang sudah ada!',
+                ]);
+            }else{
+                $barang->kategori_id = $request->kategori_id;
+                $barang->kode_barang = $request->kode_barang;
+                $barang->nama_barang = $request->nama_barang;
+                $barang->stok_awal = $request->stok_awal;
+                $barang->stok_tersedia = $request->stok_tersedia;
+                $barang->save();
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Barang berhasil diupdate!',
+                    'data' => $barang
+                ]);
+            }
         }
     }
 
