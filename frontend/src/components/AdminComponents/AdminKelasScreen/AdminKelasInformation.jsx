@@ -33,7 +33,7 @@ const AdminKelasInformation = ({ dataKelas, dataMahasiswa }) => {
               <th className="border-2 p-3 text-start text-sm font-semibold tracking-wide">
                 Jumlah Mahasiswa Terdaftar
               </th>
-              <td className="border-2 p-3 tracking-wide text-sm">{dataMahasiswa.length} Mahasiswa</td>
+              <td className="border-2 p-3 tracking-wide text-sm">{dataMahasiswa?.total} Mahasiswa</td>
             </tr>
             <tr>
               <th className="border-2 p-3 text-start text-sm font-semibold tracking-wide">Tahun Ajaran</th>

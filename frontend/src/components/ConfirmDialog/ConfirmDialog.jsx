@@ -12,13 +12,11 @@ const ConfirmDialog = () => {
         <div className="flex flex-col justify-center items-center mb-8">
           <img
             src={warningIcon}
-            alt="Warning Icon Confirm Dialog"
-            width={128}
-            height={128}
-            className="aspect-square mb-3"
+            alt="Warning Icon Confirm Dialog"            
+            className="aspect-square w-[78px] lg:w-[128px] h-[78px] lg:h-[128px] mb-3"
           />
-          <h1 className="text-lg tracking-wide font-bold">{confrimDialogTitle}</h1>
-          <p className="text-center">{confirmDialogMessage}</p>
+          <h1 className="text-md lg:text-lg tracking-wide font-bold mb-1 lg:mb-0">{confrimDialogTitle}</h1>
+          <p className="text-sm lg:text-md text-center">{confirmDialogMessage}</p>
         </div>
         <div className="flex justify-between items-center gap-5">
           <button

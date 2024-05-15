@@ -1,86 +1,266 @@
-import PropTypes from "prop-types";
-import { OpenInNew } from "@mui/icons-material";
+import React, { useCallback, useState } from "react";
+import { ErrorOutline, ExpandMore, OpenInNew, Search } from "@mui/icons-material";
 import { date, time } from "../../../../utils/datetime";
-import { adminTransaksiPeminjamanTableHeader } from "../../../../constants/admin-transaksi-table-header";
-import { useAdminTransaksiDialog } from "../../../../hooks/useDialog";
+import { useAdminTransaksiDialog, useAdminTransaksiInformationDialog } from "../../../../hooks/useDialog";
+import { useFetchOnMount } from "../../../../hooks/useFetchOnMount";
+import { mahasiswaIcon } from "../../../../assets";
+import { useFetchOnClick } from "../../../../hooks/useFetchOnClick";
+import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
+import { useMediaQuery } from "react-responsive";
 
-const RequestPeminjamanTableData = ({ dataTransaksiPeminjaman, transaksiPeminjamanKeywords }) => {
+const RequestPeminjamanTableData = () => {
+  const isMobile = useMediaQuery({ query: "(max-width: 1439px)" });
+
+  const [transaksiPeminjamanKeywords, setTransaksiPeminjamanKeywords] = useState("");
+
   const { openTransaksiDialog } = useAdminTransaksiDialog();
+  const { openTransaksiInformationDialog } = useAdminTransaksiInformationDialog();
+
+  const { fetchData: dataPeminjamanById } = useFetchOnClick();
+  const { data: dataTransaksiPeminjaman } = useFetchOnMount({
+    url: transaksiPeminjamanKeywords === "" ? "/peminjaman" : `/peminjaman/search/${transaksiPeminjamanKeywords}`,
+    method: "GET",
+  });
+
+  const handleGetDataPeminjamanByIdSuccessResponse = useCallback(
+    (getDataPeminjamanByIdSuccessResponse) => {
+      openTransaksiDialog(getDataPeminjamanByIdSuccessResponse);
+    },
+    [openTransaksiDialog]
+  );
+
+  const handleGetDataPeminjamanByIdErrorResponse = useCallback((getDataPeminjamanByIdErrorResponse) => {
+    console.log(getDataPeminjamanByIdErrorResponse);
+  }, []);
 
   return (
-    <table className="w-full">
-      <thead>
-        <tr>
-          {adminTransaksiPeminjamanTableHeader.map((rows) => {
-            const { id, row, width } = rows;
+    <React.Fragment>
+      <div className="flex justify-center lg:justify-start items-center px-8 py-4 bg-main shadow-sm shadow-main mx-8 rounded-xl text-white -mb-5 lg:-mb-10 relative">
+        <h1 className="text-md lg:text-2xl tracking-wide font-bold leading-none mr-4">Request Peminjaman</h1>
+        <button
+          onClick={() => openTransaksiInformationDialog()}
+          className="p-1 w-fit h-fit bg-white flex items-center transition-colors duration-150 leading-none text-blue-600 hover:text-blue-700 rounded-full">
+          <ErrorOutline />
+        </button>
+      </div>
+      <div className="pb-5 pt-8 lg:pt-16 bg-white px-8 rounded-md shadow-md">
+        <div className="grid grid-cols-1 lg:grid-cols-2 items-start mb-8">
+          <div className="flex flex-col lg:items-start mb-3 lg:mb-0">
+            <p className="text-md tracking-wide text-center lg:text-start">Tabel Data Request Peminjaman</p>
+            <p className="text-sm tracking-wide text-zinc-500 text-center lg:text-start">Alat dan Bahan Lab TRO</p>
+          </div>
+          <div className="flex justify-center lg:justify-end relative">
+            <input
+              type="text"
+              autoComplete="off"
+              className="p-2 text-xs border-2 border-blue-300 rounded-sm w-full lg:w-1/2 leading-none tracking-wide hover:border-blue-400 focus:outline-none focus:border-blue-400"
+              name="keywords"
+              placeholder="cari request peminjaman"
+              onChange={(event) => {
+                setTransaksiPeminjamanKeywords(event.target.value);
+              }}
+            />
+            <button className="absolute top-1/2 -translate-y-1/2 right-2 text-blue-700">
+              <Search />
+            </button>
+          </div>
+        </div>
+        {isMobile ? (
+          <div>
+            {dataTransaksiPeminjaman?.data?.length > 0 ? (
+              dataTransaksiPeminjaman?.data?.map((values) => {
+                const { id, user, barang, status, tanggal_peminjaman } = values;
 
-            return (
-              <th
-                key={id}
-                className={`${
-                  id == 2 || id == 3 ? "text-start" : "text-center"
-                } border p-2 text-xs text-white bg-blue-400 tracking-wider font-semibold w-[${width}]`}>
-                {row}
-              </th>
-            );
-          })}
-        </tr>
-      </thead>
-      <tbody>
-        {dataTransaksiPeminjaman?.success != false ? (
-          dataTransaksiPeminjaman?.data?.map((payloads, index) => {
-            const { id, user, barang, tanggal_peminjaman, status } = payloads;
+                const regex = new RegExp(`(${transaksiPeminjamanKeywords})`, "gi");
+                const searchedNama = user?.nama?.replace(regex, (match) => `<td><b>${match}</b></td>`);
+                const searchedBarang = barang?.nama_barang.replace(regex, (match) => `<td><b>${match}</b></td>`);
 
-            const regex = new RegExp(`(${transaksiPeminjamanKeywords})`, "gi");
-            const searchedPeminjamn = user?.nama?.replace(regex, (match) => `<td><b>${match}</b></td>`);
-            const searchedBarang = barang?.nama_barang.replace(regex, (match) => `<td><b>${match}</b></td>`);
-
-            return (
-              <tr key={id}>
-                <td className="w-fit border bg-zinc-50 p-2 text-xs text-zinc-600 text-center">{index + 1}</td>
-                <td
-                  className="w-fit border bg-zinc-50 p-2 text-xs text-zinc-600 text-left"
-                  dangerouslySetInnerHTML={{ __html: searchedPeminjamn }}></td>
-                <td
-                  className="w-fit border bg-zinc-50 p-2 text-xs text-zinc-600 text-left"
-                  dangerouslySetInnerHTML={{ __html: searchedBarang }}></td>
-                <td className="w-fit border bg-zinc-50 p-2 text-xs text-zinc-600 text-center">
-                  {date(tanggal_peminjaman)}
-                </td>
-                <td className="w-fit border bg-zinc-50 p-2 text-xs text-zinc-600 text-center">
-                  {time(tanggal_peminjaman)} wib
-                </td>
-                <td className="w-fit border bg-zinc-50 p-2 text-xs text-zinc-600 text-center">
-                  <p
-                    className={`${
-                      status === "Diterima" ? "bg-green-500" : status === "Ditolak" ? "bg-red-400" : "bg-zinc-400"
-                    } p-1 text-white`}>
-                    {status}
-                  </p>
-                </td>
-                <td className="w-fit border bg-zinc-50 p-2 text-xs text-center">
-                  <button onClick={() => openTransaksiDialog(id)} className="text-blue-400">
-                    <OpenInNew fontSize="small" />
-                  </button>
-                </td>
-              </tr>
-            );
-          })
+                return (
+                  <Accordion key={id}>
+                    <AccordionSummary sx={{ px: 1 }} expandIcon={<ExpandMore fontSize="smal" />}>
+                      <p className="text-xs" dangerouslySetInnerHTML={{ __html: searchedNama }}></p>
+                    </AccordionSummary>
+                    <AccordionDetails sx={{ px: 1 }}>
+                      <table className="w-full">
+                        <tbody>
+                          <tr>
+                            <th className="border p-2 lg:p-3 tracking-wide bg-blue-400 text-white font-medium leading-none text-start text-xs">
+                              Data Mahasiwa
+                            </th>
+                            <td className="border p-2 lg:p-3 tracking-wide leading-none text-xs">
+                              <p className="mb-1" dangerouslySetInnerHTML={{ __html: searchedNama }}></p>
+                              <p className="text-zinc-500">
+                                Kelas {user?.kelas_id} | {user?.username}
+                              </p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th className="border p-2 lg:p-3 tracking-wide bg-blue-400 text-white font-medium leading-none text-start text-xs">
+                              Data Barang
+                            </th>
+                            <td className="border p-2 lg:p-3 tracking-wide leading-none text-xs">
+                              <p className="mb-1">{barang?.kode_barang}</p>
+                              <p className="text-zinc-500" dangerouslySetInnerHTML={{ __html: searchedBarang }}></p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th className="border p-2 lg:p-3 tracking-wide bg-blue-400 text-white font-medium leading-none text-start text-xs">
+                              Waktu & Tanggal
+                            </th>
+                            <td className="border p-2 lg:p-3 tracking-wide leading-none text-xs">
+                              <p className="mb-1">{date(tanggal_peminjaman)}</p>
+                              <p className="text-zinc-500">{time(tanggal_peminjaman)} wib</p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th className="border p-2 lg:p-3 tracking-wide bg-blue-400 text-white font-medium leading-none text-start text-xs">
+                              Status
+                            </th>
+                            <td className="border p-2 lg:p-3 tracking-wide leading-none text-xs">
+                              <p
+                                className={`${
+                                  status === "Diterima"
+                                    ? "bg-green-500"
+                                    : status === "Ditolak"
+                                    ? "bg-red-400"
+                                    : "bg-zinc-400"
+                                } p-2 text-white text-xs rounded-full text-center`}>
+                                {status}
+                              </p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th className="border p-2 lg:p-3 tracking-wide bg-blue-400 text-white font-medium leading-none text-start text-xs">
+                              Aksi
+                            </th>
+                            <td className="border p-2 lg:p-3 tracking-wide leading-none text-xs">
+                              <button
+                                disabled={status === "Pending" ? false : true}
+                                onClick={() =>
+                                  dataPeminjamanById({
+                                    url: `/peminjaman/${id}`,
+                                    method: "GET",
+                                    onSuccess: handleGetDataPeminjamanByIdSuccessResponse,
+                                    onError: handleGetDataPeminjamanByIdErrorResponse,
+                                  })
+                                }
+                                className="disabled:bg-zinc-400 disabled:hover:bg-zinc-400 text-xs w-full flex justify-center items-center py-2 px-5 bg-main hover:bg-main-hover transition-colors duration-150 rounded-full text-white">
+                                <OpenInNew sx={{ fontSize: "1.4em" }} className="mr-3" />{" "}
+                                <p className="leading-none">Detail</p>
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </AccordionDetails>
+                  </Accordion>
+                );
+              })
+            ) : (
+              <div>
+                <p className="p-2 border text-xs text-center">{dataTransaksiPeminjaman?.message}</p>
+              </div>
+            )}
+          </div>
         ) : (
-          <tr>
-            <td colSpan={7} className="p-2 border text-xs text-center">
-              {dataTransaksiPeminjaman?.message}
-            </td>
-          </tr>
-        )}
-      </tbody>
-    </table>
-  );
-};
+          <table className="mb-3 w-full">
+            <thead>
+              <tr>
+                <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-left font-medium text-zinc-400 w-[40%]">
+                  Data Mahasiswa
+                </th>
+                <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-left font-medium text-zinc-400 w-[10%]">
+                  Data Barang
+                </th>
+                <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-left font-medium text-zinc-400 w-[20%]">
+                  Waktu & Tanggal
+                </th>
+                <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-center font-medium text-zinc-400 w-[10%]">
+                  Status
+                </th>
+                <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-center font-medium text-zinc-400 w-[10%]">
+                  Aksi
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {dataTransaksiPeminjaman?.data?.length > 0 ? (
+                dataTransaksiPeminjaman?.data?.map((values) => {
+                  const { id, user, barang, status, tanggal_peminjaman } = values;
 
-RequestPeminjamanTableData.propTypes = {
-  dataTransaksiPeminjaman: PropTypes.any,
-  transaksiPeminjamanKeywords: PropTypes.any,
+                  const regex = new RegExp(`(${transaksiPeminjamanKeywords})`, "gi");
+                  const searchedNama = user?.nama?.replace(regex, (match) => `<td><b>${match}</b></td>`);
+                  const searchedBarang = barang?.nama_barang.replace(regex, (match) => `<td><b>${match}</b></td>`);
+
+                  return (
+                    <tr key={id}>
+                      <td className="border-b border-zinc-300 p-2">
+                        <div className="w-full flex justify-start items-center">
+                          <img
+                            src={mahasiswaIcon}
+                            alt="Mahasiswa User Icon"
+                            width={40}
+                            height={40}
+                            className="aspect-square mr-5"
+                          />
+                          <div>
+                            <p className="text-sm font-semibold" dangerouslySetInnerHTML={{ __html: searchedNama }}></p>
+                            <p className="text-xs tracking-wide text-zinc-400">
+                              Kelas {user?.kelas_id} | {user?.username}
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="border-b border-zinc-300 p-2">
+                        <p className="text-sm font-semibold">{barang?.kode_barang}</p>
+                        <p
+                          className="text-xs tracking-wide text-zinc-400"
+                          dangerouslySetInnerHTML={{ __html: searchedBarang }}></p>
+                      </td>
+                      <td className="border-b border-zinc-300 p-2">
+                        <p className="text-sm font-semibold">{date(tanggal_peminjaman)}</p>
+                        <p className="text-xs tracking-wide text-zinc-400">{time(tanggal_peminjaman)} wib</p>
+                      </td>
+                      <td className="border-b border-zinc-300 p-2">
+                        <p
+                          className={`${
+                            status === "Diterima" ? "bg-green-500" : status === "Ditolak" ? "bg-red-400" : "bg-zinc-400"
+                          } p-2 text-white text-xs rounded-full text-center`}>
+                          {status}
+                        </p>
+                      </td>
+                      <td className="border-b border-zinc-300 p-2 w-fit">
+                        <button
+                          disabled={status === "Pending" ? false : true}
+                          onClick={() =>
+                            dataPeminjamanById({
+                              url: `/peminjaman/${id}`,
+                              method: "GET",
+                              onSuccess: handleGetDataPeminjamanByIdSuccessResponse,
+                              onError: handleGetDataPeminjamanByIdErrorResponse,
+                            })
+                          }
+                          className="disabled:bg-zinc-400 disabled:hover:bg-zinc-400 text-xs w-full flex justify-center items-center py-2 px-5 bg-main hover:bg-main-hover transition-colors duration-150 rounded-full text-white">
+                          <OpenInNew sx={{ fontSize: "1.4em" }} className="mr-3" />{" "}
+                          <p className="leading-none">Detail</p>
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan={7} className="p-2 border text-xs text-center">
+                    {dataTransaksiPeminjaman?.message}
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        )}
+      </div>
+    </React.Fragment>
+  );
 };
 
 export default RequestPeminjamanTableData;

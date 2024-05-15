@@ -3,21 +3,15 @@ import { Dialog } from "@mui/material";
 import { useAdminTransaksiDialog, useConfirmDialog } from "../../../hooks/useDialog";
 import { date, time } from "../../../utils/datetime";
 import { useFetchOnClick } from "../../../hooks/useFetchOnClick";
-import { useFetchOnMount } from "../../../hooks/useFetchOnMount";
 import { useAlert } from "../../../hooks/useAlert";
 import { useCallback } from "react";
 
 const AdminTransaksiDialog = () => {
-  const currentTransaksiCategory = JSON.parse(localStorage.getItem("last_visited_admin_transaksi_page_id"));
+  const currentTransaksiCategory = JSON.parse(localStorage.getItem("last_visited_admin_page_id"));
 
-  const { isAdminTransaksiDialogOpen, idTransaksi, closeTransaksiDialog } = useAdminTransaksiDialog();
+  const { isAdminTransaksiDialogOpen, transaksiById, closeTransaksiDialog } = useAdminTransaksiDialog();
   const { openConfirmDialog, closeConfirmDialog } = useConfirmDialog();
   const { openAlertComponent, closeAlertComponent } = useAlert();
-
-  const { data: dataTransaksiById } = useFetchOnMount({
-    url: currentTransaksiCategory === 1 ? `/peminjaman/${idTransaksi}` : `/pengembalian/${idTransaksi}`,
-    method: "GET",
-  });
 
   const { fetchData: approveTransaksi } = useFetchOnClick();
   const { fetchData: rejectTransaksi } = useFetchOnClick();
@@ -41,19 +35,15 @@ const AdminTransaksiDialog = () => {
     [closeAlertComponent, closeConfirmDialog, openAlertComponent]
   );
 
-  const handleErrorApprovePeminjamanResponse = useCallback((errorApprovePeminjamanResponse) => {
-    console.log(errorApprovePeminjamanResponse);
-  }, []);
-
   const handleApprovePeminjaman = (id) => {
     openConfirmDialog({
       title: "Terima Peminjaman",
       message: `Apakah anda yakin akan menerima ${
-        currentTransaksiCategory === 1 ? "peminjaman" : "pengembalian"
+        currentTransaksiCategory === 9 ? "peminjaman" : "pengembalian"
       } dari mahasiswa tersebut?`,
       okAction: () => {
         approveTransaksi({
-          url: currentTransaksiCategory === 1 ? `/peminjaman/approve/${id}` : `/pengembalian/approve/${id}`,
+          url: currentTransaksiCategory === 9 ? `/peminjaman/approve/${id}` : `/pengembalian/approve/${id}`,
           method: "PUT",
           onSuccess: handleSuccessApprovePeminjamanResponse,
           onError: handleErrorApprovePeminjamanResponse,
@@ -61,6 +51,10 @@ const AdminTransaksiDialog = () => {
       },
     });
   };
+
+  const handleErrorApprovePeminjamanResponse = useCallback((errorApprovePeminjamanResponse) => {
+    console.log(errorApprovePeminjamanResponse);
+  }, []);
 
   const handleSuccessRejectPeminjamanResponse = useCallback(
     (successRejectPeminjamanResponse) => {
@@ -89,11 +83,11 @@ const AdminTransaksiDialog = () => {
     openConfirmDialog({
       title: "Tolak Peminjaman",
       message: `Apakah anda yakin akan menolak ${
-        currentTransaksiCategory === 1 ? "peminjaman" : "pengembalian"
+        currentTransaksiCategory === 9 ? "peminjaman" : "pengembalian"
       } dari mahasiswa tersebut?`,
       okAction: () => {
         rejectTransaksi({
-          url: currentTransaksiCategory === 1 ? `/peminjaman/reject/${id}` : `/pengembalian/reject/${id}`,
+          url: currentTransaksiCategory === 9 ? `/peminjaman/reject/${id}` : `/pengembalian/reject/${id}`,
           method: "PUT",
           onSuccess: handleSuccessRejectPeminjamanResponse,
           onError: handleErrorRejectPeminjamanResponse,
@@ -106,13 +100,15 @@ const AdminTransaksiDialog = () => {
     <Dialog open={isAdminTransaksiDialogOpen} onClose={() => closeTransaksiDialog()}>
       <div className="flex justify-between">
         <div className="py-3 px-6 bg-blue-400 w-full">
-          <p className="text-lg font-semibold tracking-wider text-white">
-            Detail Transaksi {currentTransaksiCategory === 1 ? "Peminjaman" : "Pengembalian"}
+          <p className="text-md font-semibold tracking-wider text-white">
+            Detail Transaksi {currentTransaksiCategory === 9 ? "Peminjaman" : "Pengembalian"}
           </p>
         </div>
 
-        <button onClick={() => closeTransaksiDialog()} className="py-3 px-6 bg-zinc-400">
-          <Close className="text-white" />
+        <button
+          onClick={() => closeTransaksiDialog()}
+          className="py-3 px-6 bg-zinc-200 text-red-600 hover:text-red-700 transition-colors duration-150">
+          <Close fontSize="small" />
         </button>
       </div>
       <div className="p-6">
@@ -120,73 +116,73 @@ const AdminTransaksiDialog = () => {
           <tbody>
             <tr>
               <th className="border-2 p-3 text-start text-sm font-semibold tracking-wide">
-                Nama {currentTransaksiCategory === 1 ? "Peminjam" : "Pengembali"}
+                Nama {currentTransaksiCategory === 9 ? "Peminjam" : "Pengembali"}
               </th>
-              <td className="border-2 p-3 tracking-wide text-sm">{dataTransaksiById?.user?.nama}</td>
+              <td className="border-2 p-3 tracking-wide text-sm">{transaksiById?.user?.nama}</td>
             </tr>
             <tr>
               <th className="border-2 p-3 text-start text-sm font-semibold tracking-wide">Barang di Pinjam</th>
-              <td className="border-2 p-3 tracking-wide text-sm">{dataTransaksiById?.barang?.nama_barang}</td>
+              <td className="border-2 p-3 tracking-wide text-sm">{transaksiById?.barang?.nama_barang}</td>
             </tr>
             <tr>
               <th className="border-2 p-3 text-start text-sm font-semibold tracking-wide">Tanggal Peminjaman</th>
               <td className="border-2 p-3 tracking-wide text-sm">
-                {currentTransaksiCategory === 1
-                  ? date(dataTransaksiById?.tanggal_peminjaman)
-                  : date(dataTransaksiById?.tanggal_pengembalian)}
+                {currentTransaksiCategory === 9
+                  ? date(transaksiById?.tanggal_peminjaman)
+                  : date(transaksiById?.tanggal_pengembalian)}
               </td>
             </tr>
             <tr>
               <th className="border-2 p-3 text-start text-sm font-semibold tracking-wide">
-                Waktu {currentTransaksiCategory === 1 ? "Peminjaman" : "Pengembalian"}
+                Waktu {currentTransaksiCategory === 9 ? "Peminjaman" : "Pengembalian"}
               </th>
               <td className="border-2 p-3 tracking-wide text-sm">
-                {currentTransaksiCategory === 1
-                  ? time(dataTransaksiById?.tanggal_peminjaman)
-                  : time(dataTransaksiById?.tanggal_pengembalian)}{" "}
+                {currentTransaksiCategory === 9
+                  ? time(transaksiById?.tanggal_peminjaman)
+                  : time(transaksiById?.tanggal_pengembalian)}{" "}
                 wib
               </td>
             </tr>
             <tr>
               <th className="border-2 p-3 text-start text-sm font-semibold tracking-wide">
-                Status {currentTransaksiCategory === 1 ? "Peminjaman" : "Pengembalian"}
+                Status {currentTransaksiCategory === 9 ? "Peminjaman" : "Pengembalian"}
               </th>
               <td className="border-2 p-3 tracking-wide text-sm">
                 <p
                   className={`p-2 ${
-                    dataTransaksiById.status === "Diterima"
+                    transaksiById?.status === "Diterima"
                       ? "bg-green-500"
-                      : dataTransaksiById.status === "Ditolak"
+                      : transaksiById?.status === "Ditolak"
                       ? "bg-red-400"
                       : "bg-zinc-500"
                   } text-white`}>
-                  {dataTransaksiById.status}
+                  {transaksiById?.status}
                 </p>
               </td>
             </tr>
             <tr>
               <th className="border-2 p-3 text-start text-sm font-semibold tracking-wide">
-                Keterangan {currentTransaksiCategory === 1 ? "Peminjaman" : "Pengembalian"}
+                Keterangan {currentTransaksiCategory === 9 ? "Peminjaman" : "Pengembalian"}
               </th>
-              <td className="border-2 p-3 tracking-wide text-sm">{dataTransaksiById.keterangan}</td>
+              <td className="border-2 p-3 tracking-wide text-sm">{transaksiById?.keterangan}</td>
             </tr>
             <tr>
               <th className="border-2 p-3 text-start text-sm font-semibold tracking-wide">Aksi</th>
               <td className="border-2 p-3 tracking-wide text-sm">
                 <div className="flex justify-between items-center gap-4">
                   <button
-                    disabled={dataTransaksiById.status !== "Pending" ? true : false}
-                    onClick={() => handleApprovePeminjaman(dataTransaksiById?.id)}
+                    disabled={transaksiById?.status !== "Pending" ? true : false}
+                    onClick={() => handleApprovePeminjaman(transaksiById?.id)}
                     className={`${
-                      dataTransaksiById.status !== "Pending" ? "bg-zinc-300" : "bg-blue-400 hover:bg-blue-500"
+                      transaksiById?.status !== "Pending" ? "bg-zinc-300" : "bg-blue-400 hover:bg-blue-500"
                     } w-full p-3  transition-all duration-150 rounded-sm leading-none text-white`}>
                     Approve
                   </button>
                   <button
-                    disabled={dataTransaksiById.status !== "Pending" ? true : false}
-                    onClick={() => handleRejectPeminjaman(dataTransaksiById.id)}
+                    disabled={transaksiById?.status !== "Pending" ? true : false}
+                    onClick={() => handleRejectPeminjaman(transaksiById?.id)}
                     className={`${
-                      dataTransaksiById.status !== "Pending" ? "bg-zinc-300" : "bg-red-400 hover:bg-red-500"
+                      transaksiById?.status !== "Pending" ? "bg-zinc-300" : "bg-red-400 hover:bg-red-500"
                     } w-full p-3  transition-all duration-150 rounded-sm leading-none text-white`}>
                     Reject
                   </button>

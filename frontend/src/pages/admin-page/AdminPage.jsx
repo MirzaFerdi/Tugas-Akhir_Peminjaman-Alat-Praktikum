@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AdminBroadcastMessage, AdminDashboardScreen, Navbar, AdminRekapScreen } from "../../components";
+import { AdminBroadcastMessage, AdminDashboardScreen, AdminNavbar, AdminRekapScreen, Profile } from "../../components";
 import { useNavigate } from "react-router-dom";
 import AdminSidebar from "../../components/AdminComponents/AdminSidebar/AdminSidebar";
 import AppLogoBar from "../../components/AppLogoBar/AppLogoBar";
@@ -11,9 +11,13 @@ import AdminAlatScreen from "../../components/AdminComponents/AdminBarangScreen/
 import AdminBahanScreen from "../../components/AdminComponents/AdminBarangScreen/AdminBahanScreen";
 import AdminPeminjamanScreen from "../../components/AdminComponents/AdminTransaksiScreen/PeminjamanScreen";
 import AdminPengembalianScreen from "../../components/AdminComponents/AdminTransaksiScreen/PengembalianScreen";
+import AdminDashboardScreenUpClass from "../../components/AdminComponents/AdminDashboardScreen/AdminDashboardScreenUpClass";
 
 const AdminPage = () => {
   const navigate = useNavigate();
+
+  const [adminPageId, setAdminPageId] = useState(1);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
     const getUserPayloads = JSON.parse(localStorage.getItem("user_payloads"));
@@ -23,22 +27,31 @@ const AdminPage = () => {
     }
   }, [navigate]);
 
-  const [adminPageId, setAdminPageId] = useState(1);
+  useEffect(() => {
+    const sidebarOpen = JSON.parse(localStorage.getItem("is_sidebar_open"));
+    const lastVisitedAdminPageId = JSON.parse(localStorage.getItem("last_visited_admin_page_id"));
+
+    if (
+      (lastVisitedAdminPageId != undefined && lastVisitedAdminPageId != null) ||
+      (sidebarOpen != undefined && sidebarOpen != null)
+    ) {
+      setAdminPageId(lastVisitedAdminPageId);
+      setIsSidebarOpen(sidebarOpen);
+    } else {
+      localStorage.setItem("last_visited_admin_page_id", JSON.stringify(adminPageId));
+      localStorage.setItem("is_sidebar_open", JSON.stringify(isSidebarOpen));
+    }
+  }, [adminPageId, isSidebarOpen]);
 
   const handleChangeAdminPageId = (id) => {
     setAdminPageId(id);
     localStorage.setItem("last_visited_admin_page_id", JSON.stringify(id));
   };
 
-  useEffect(() => {
-    const lastVisitedAdminPageId = JSON.parse(localStorage.getItem("last_visited_admin_page_id"));
-
-    if (lastVisitedAdminPageId != undefined && lastVisitedAdminPageId != null) {
-      setAdminPageId(lastVisitedAdminPageId);
-    } else {
-      localStorage.setItem("last_visited_admin_page_id", JSON.stringify(adminPageId));
-    }
-  }, [adminPageId]);
+  const handleToggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+    localStorage.setItem("is_sidebar_open", JSON.stringify(!isSidebarOpen));
+  };
 
   const AdminPageContents = () => {
     switch (adminPageId) {
@@ -53,17 +66,21 @@ const AdminPage = () => {
       case 5:
         return <Kelas4 />;
       case 6:
-        return <AdminAlatScreen />;
+        return <AdminDashboardScreenUpClass />;
       case 7:
-        return <AdminBahanScreen />;
+        return <AdminAlatScreen />;
       case 8:
-        return <AdminPeminjamanScreen />;
+        return <AdminBahanScreen />;
       case 9:
-        return <AdminPengembalianScreen />;
+        return <AdminPeminjamanScreen />;
       case 10:
-        return <AdminRekapScreen />;
+        return <AdminPengembalianScreen />;
       case 11:
+        return <AdminRekapScreen />;
+      case 12:
         return <AdminBroadcastMessage />;
+      case 13:
+        return <Profile />;
       default:
         return <AdminDashboardScreen />;
     }
@@ -71,17 +88,29 @@ const AdminPage = () => {
 
   return (
     <div className="grid grid-cols-5">
-      <div className="col-span-1 grid grid-rows-12 h-screen">
+      <div className={`${isSidebarOpen ? "col-span-5 lg:col-span-1" : "hidden"} grid grid-rows-12 h-screen`}>
         <div className="row-span-1">
-          <AppLogoBar />
+          <AppLogoBar handleToggleSidebar={handleToggleSidebar} isSidebarOpen={isSidebarOpen} />
         </div>
         <div className="row-span-11">
-          <AdminSidebar adminPageId={adminPageId} handleChangeAdminPageId={handleChangeAdminPageId} />
+          <AdminSidebar
+            adminPageId={adminPageId}
+            handleChangeAdminPageId={handleChangeAdminPageId}
+            handleToggleSidebar={handleToggleSidebar}
+          />
         </div>
       </div>
-      <div className="col-span-4 grid grid-rows-12 h-screen">
+      <div
+        className={`${
+          isSidebarOpen ? "col-span-4 hidden lg:grid grid-rows-12 h-screen" : "col-span-5 grid grid-rows-12 h-screen"
+        }`}>
         <div className="row-span-1">
-          <Navbar adminPageId={adminPageId} handleChangeAdminPageId={handleChangeAdminPageId} />
+          <AdminNavbar
+            adminPageId={adminPageId}
+            handleChangeAdminPageId={handleChangeAdminPageId}
+            isSidebarOpen={isSidebarOpen}
+            handleToggleSidebar={handleToggleSidebar}
+          />
         </div>
         <div className="row-span-11 p-4 overflow-y-auto">
           <AdminPageContents />

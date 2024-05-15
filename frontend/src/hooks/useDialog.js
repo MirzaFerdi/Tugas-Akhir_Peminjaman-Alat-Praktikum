@@ -55,10 +55,10 @@ export const useAdminEditBarangDialog = create((set) => ({
 
 export const useAdminTransaksiDialog = create((set) => ({
   isAdminTransaksiDialogOpen: false,
-  idTransaksi: 1,
-  openTransaksiDialog: (idTransaksi) =>
+  transaksiById: {},
+  openTransaksiDialog: (transaksiById) =>
     set({
-      idTransaksi: idTransaksi,
+      transaksiById: transaksiById,
       isAdminTransaksiDialogOpen: true,
     }),
   closeTransaksiDialog: () =>
@@ -129,6 +129,20 @@ export const useMahasiswaPeminjamanDialog = create((set) => ({
       isMahasiswaPeminjamanDialogOpen: false,
     }),
 }));
+
+export const useMahasiswaPengembalianDialog = create((set) => ({
+  isMahasiswaPengembalianDialogOpen: false,
+  approvedDataPayloads: {},
+  openMahasiswaPengembalianDialog: (approvedDataPayloads) =>
+    set({
+      isMahasiswaPengembalianDialogOpen: true,
+      approvedDataPayloads: approvedDataPayloads,
+    }),
+  closeMahasiswaPengembalianDialog: () =>
+    set({
+      isMahasiswaPengembalianDialogOpen: false,
+    }),
+}))
 
 // DIALOGS CONFIGURATION
 export const useConfirmDialog = create((set) => ({
