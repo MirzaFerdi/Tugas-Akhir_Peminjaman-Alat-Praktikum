@@ -81,7 +81,6 @@ class RoleController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Role berhasil dihapus!',
-                'data' => $role
             ]);
         }else{
             return response()->json([

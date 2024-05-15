@@ -46,9 +46,9 @@ Route::middleware('auth:api', 'role:Admin')->group(function () {
     Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
     Route::get('/user/mahasiswa/pagination', [UserController::class, 'mahasiswaAll'])->name('user.mahasiswaAll');
     Route::get('/user/search/{keywords}', [UserController::class, 'searchMahasiswaAll'])->name('user.search');
-    Route::get('/user/kelas/{id}', [UserController::class, 'showByKelas'])->name('user.showByKelas');
-    Route::get('/user/search/mahasiswa/{kelasid}/{keywords}', [UserController::class, 'searchMahasiswaKelas'])->name('user.searchMahasiswa');
-    Route::get('/user/mahasiswa/{kelasid}/{id}', [UserController::class, 'mahasiswaByKelasId'])->name('user.mahasiswaByKelasId');
+    Route::get('/user/kelas/{kelasId}', [UserController::class, 'showByKelas'])->name('user.showByKelas');
+    Route::get('/user/search/mahasiswa/{kelasId}/{keywords}', [UserController::class, 'searchMahasiswaKelas'])->name('user.searchMahasiswa');
+    Route::get('/user/mahasiswa/{kelasId}/{id}', [UserController::class, 'mahasiswaByKelasId'])->name('user.mahasiswaByKelasId');
     Route::post('/user', [UserController::class, 'store'])->name('user.store');
     Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
     Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
@@ -59,7 +59,8 @@ Route::middleware('auth:api', 'role:Admin')->group(function () {
     Route::delete('/broadcast/{id}', [BroadcastController::class, 'destroy'])->name('broadcast.destroy');
 
     //Peminjaman
-    Route::get('/peminjaman/rekap/{bulan}/{tahun}', [PeminjamanController::class, 'rekap'])->name('peminjaman.rekap');
+    Route::get('/peminjaman/transaksi/bulanan/{bulan}/{tahun}', [PeminjamanController::class, 'transaksiBulanan'])->name('peminjaman.rekap');
+    Route::get('/peminjaman/transaksi/harian/{hari}/{bulan}/{tahun}',[PeminjamanController::class, 'transaksiHarian'])->name('peminjaman.rekapHarian');
     Route::put('/peminjaman/approve/{id}', [PeminjamanController::class, 'approve'])->name('peminjaman.approve');
     Route::put('/peminjaman/reject/{id}', [PeminjamanController::class, 'reject'])->name('peminjaman.reject');
 
@@ -101,17 +102,16 @@ Route::middleware('auth:api', 'role:Admin|Mahasiswa')->group(function () {
     Route::get('/barang/{id}', [BarangController::class, 'show'])->name('barang.show');
     Route::get('/barang/pagination/alat/{limit}', [BarangController::class, 'paginationAlat'])->name('barang.paginationAlat');
     Route::get('/barang/pagination/bahan/{limit}', [BarangController::class, 'paginationBahan'])->name('barang.paginationBahan');
-    Route::get('/barang/kategori/{id}', [BarangController::class, 'showByKategori'])->name('barang.showByKategori');
-    Route::get('/barang/search/alat/{keywords}', [BarangController::class, 'searchAlat'])->name('barang.searchAlat');
-    Route::get('/barang/search/bahan/{keywords}', [BarangController::class, 'searchBahan'])->name('barang.searchBahan');
+    Route::get('/barang/kategori/{kategoriId}', [BarangController::class, 'showByKategori'])->name('barang.showByKategori');
+    Route::get('/barang/search/{keywords}', [BarangController::class, 'search'])->name('barang.search');
 
     // Peminjaman
     Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman.index');
     Route::get('/peminjaman/{id}', [PeminjamanController::class, 'show'])->name('peminjaman.show');
     Route::get('/peminjaman/search/{keywords}', [PeminjamanController::class, 'searchPeminjaman'])->name('peminjaman.search');
-    Route::get('/peminjaman/approved/{id}', [PeminjamanController::class, 'peminjamanApproved'])->name('peminjaman.getApproved');
+    Route::get('/peminjaman/approved/{userId}', [PeminjamanController::class, 'peminjamanApproved'])->name('peminjaman.getApproved');
     Route::get('/peminjaman/sort/{keywords}', [PeminjamanController::class, 'sortTimestamps'])->name('peminjaman.sort');
-    Route::get('/peminjaman/user/{id}', [PeminjamanController::class, 'peminjamanByUserId'])->name('peminjaman.showByUser');
+    Route::get('/peminjaman/user/{userId}', [PeminjamanController::class, 'peminjamanByUserId'])->name('peminjaman.showByUser');
     Route::post('/peminjaman', [PeminjamanController::class, 'store'])->name('peminjaman.store');
     Route::put('/peminjaman/{id}', [PeminjamanController::class, 'update'])->name('peminjaman.update');
     Route::put('/peminjaman/pengembalian/id/{id}', [PeminjamanController::class, 'updatePengembalian'])->name('peminjaman.pengembalian');
@@ -121,11 +121,11 @@ Route::middleware('auth:api', 'role:Admin|Mahasiswa')->group(function () {
     // Pengembalian
     Route::get('/pengembalian', [PengembalianController::class, 'index'])->name('pengembalian.index');
     Route::get('/pengembalian/{id}', [PengembalianController::class, 'show'])->name('pengembalian.show');
+    Route::get('/pengembalian/user/{useriId}', [PengembalianController::class, 'pengembalianByUserId'])->name('pengembalian.showByUser');
     Route::get('/pengembalian/search/{keywords}', [PengembalianController::class, 'searchPengembalian'])->name('pengembalian.search');
-    Route::get('/pengembalian/approved/{id}', [PengembalianController::class, 'pengembalianApproved'])->name('pengembalian.getApproved');
+    Route::get('/pengembalian/sort/{keywords}', [PengembalianController::class, 'sortTimestamps'])->name('pengembalian.sort');
+    Route::get('/pengembalian/approved/{userId}', [PengembalianController::class, 'pengembalianApproved'])->name('pengembalian.getApproved');
     Route::post('/pengembalian', [PengembalianController::class, 'store'])->name('pengembalian.store');
     Route::put('/pengembalian/{id}', [PengembalianController::class, 'update'])->name('pengembalian.update');
     Route::delete('/pengembalian/{id}', [PengembalianController::class, 'destroy'])->name('pengembalian.destroy');
-    Route::get('/pengembalian/sort/{keywords}', [PengembalianController::class, 'sortTimestamps'])->name('pengembalian.sort');
-    Route::get('/pengembalian/user/{id}', [PengembalianController::class, 'pengembalianByUserId'])->name('pengembalian.showByUser');
 });

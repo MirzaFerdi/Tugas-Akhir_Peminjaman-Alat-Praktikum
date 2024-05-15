@@ -79,10 +79,9 @@ class BroadcastController extends Controller
     public function destroy($id)
     {
         $broadcast = Broadcast::find($id);
-        $broadcast->delete();
 
         if ($broadcast) {
-            $broadcast = Broadcast::find($id);
+            $broadcast->delete();
             return response()->json([
                 'success' => true,
                 'message' => 'Broadcast berhasil dihapus!',

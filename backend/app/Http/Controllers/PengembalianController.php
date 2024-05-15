@@ -175,9 +175,9 @@ class PengembalianController extends Controller
         ]);
     }
 
-    public function pengembalianByUserId($id)
+    public function pengembalianByUserId($userId)
     {
-        $pengembalian = Pengembalian::with('user', 'barang')->where('user_id', $id)->paginate(8);
+        $pengembalian = Pengembalian::with('user', 'barang')->where('user_id', $userId)->paginate(8);
 
         if ($pengembalian) {
             return response()->json([
@@ -219,9 +219,9 @@ class PengembalianController extends Controller
         ]);
     }
 
-    public function pengembalianApproved($id)
+    public function pengembalianApproved($userId)
     {
-        $pengembalian = Pengembalian::with('user', 'barang')->where('status', 'Diterima')->where('user_id', $id)->get();
+        $pengembalian = Pengembalian::with('user', 'barang')->where('status', 'Diterima')->where('user_id', $userId)->get();
 
         if ($pengembalian->isEmpty()) {
             return response()->json([

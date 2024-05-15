@@ -33,8 +33,8 @@ class BarangController extends Controller
         return response()->json($barang);
     }
 
-    public function showByKategori($id){
-        $barang = Barang::where('kategori_id', $id)->get();
+    public function showByKategori($kategoriId){
+        $barang = Barang::where('kategori_id', $kategoriId)->get();
 
         if(!$barang){
             return response()->json([
@@ -45,8 +45,8 @@ class BarangController extends Controller
         return response()->json($barang);
     }
 
-    public function searchAlat($keywords){
-        $barang = Barang::where('kategori_id', 1)->where(function ($query) use ($keywords){
+    public function search($kategoriId,$keywords){
+        $barang = Barang::where('kategori_id', $kategoriId)->where(function ($query) use ($keywords){
             $query->where('nama_barang', 'like', "%$keywords%")
                 ->orWhere('kode_barang', 'like', "%$keywords%");
         })->get();
@@ -55,25 +55,6 @@ class BarangController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Barang tidak ditemukan!',
-            ]);
-        }
-
-        return response()->json([
-            'success' => true,
-            'data' => $barang
-        ]);
-    }
-
-    public function searchBahan($keywords){
-        $barang = Barang::where('kategori_id', 2)->where(function ($query) use ($keywords){
-            $query->where('nama_barang', 'like', "%$keywords%")
-                ->orWhere('kode_barang', 'like', "%$keywords%");
-        })->get();
-
-        if(!$barang){
-            return response()->json([
-                'success' => false,
-                'message' => 'Bahan tidak ditemukan!',
             ]);
         }
 
@@ -178,11 +159,10 @@ class BarangController extends Controller
 
     public function destroy($id){
         $barang = Barang::find($id);
-        $barang->delete();
 
 
         if($barang){
-            $barang = Barang::find($id);
+            $barang->delete();
             return response()->json([
                 'success' => true,
                 'message' => 'Barang berhasil dihapus!',
