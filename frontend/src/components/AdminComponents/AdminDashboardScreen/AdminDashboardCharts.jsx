@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { useFetchOnMount } from "../../../hooks/useFetchOnMount";
 
 const AdminDashboardCharts = ({ sortChartDataBy }) => {
   const dayData = [
@@ -25,6 +26,10 @@ const AdminDashboardCharts = ({ sortChartDataBy }) => {
     },
   ];
 
+  const { data: rekapData } = useFetchOnMount({
+    url: `/peminjaman/rekap/${5}/2024`
+  })
+
   const monthData = [
     {
       name: "Jan",
@@ -44,7 +49,7 @@ const AdminDashboardCharts = ({ sortChartDataBy }) => {
     },
     {
       name: "Mei",
-      transaksi: 12,
+      transaksi: rekapData?.peminjaman?.length + rekapData?.pengembalian?.length,
     },
     {
       name: "Jun",

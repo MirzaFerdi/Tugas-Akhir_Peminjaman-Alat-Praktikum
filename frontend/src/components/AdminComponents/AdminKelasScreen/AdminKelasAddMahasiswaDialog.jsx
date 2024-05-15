@@ -85,31 +85,31 @@ const AdminKelasAddMahasiswaDialog = ({ kelas }) => {
   return (
     <Dialog open={isAdminAddMahasiswaDialogOpen} onClose={() => closeAddMahasiswaDialog()}>
       <div className="flex justify-between">
-        <div className="py-3 px-6 bg-blue-400 w-full">
-          <p className="text-lg font-semibold tracking-wider text-white">Formulir Tambah Mahasiswa Kelas {kelas?.id}</p>
+        <div className="py-2 lg:py-3 px-3 lg:px-6 bg-blue-400 w-full">
+          <p className="text-sm leading-snug lg:text-lg font-semibold tracking-wider text-white">Formulir Tambah Mahasiswa Kelas {kelas?.id}</p>
         </div>
 
-        <button onClick={() => closeAddMahasiswaDialog()} className="py-3 px-6 bg-zinc-300">
-          <Close className="text-white" />
+        <button onClick={() => closeAddMahasiswaDialog()} className="py-2 lg:py-3 px-3 lg:px-6 bg-zinc-300">
+          <Close fontSize="small" className="text-white" />
         </button>
       </div>
       <div className="p-5">
         <Formik initialValues={initialValues} validate={addMahasiswaFormValidation} onSubmit={handleSubmit}>
           {({ isValid }) => (
             <Form>
-              <div className="mb-4">
+              <div className="mb-2 lg:mb-4">
                 <FormField formType="text" formName="nama" labelText="Nama Mahasiswa" />
               </div>
-              <div className="mb-4">
+              <div className="mb-2 lg:mb-4">
                 <FormField formType="text" formName="username" labelText="NIM" />
               </div>
-              <div className="mb-4">
+              <div className="mb-2 lg:mb-4">
                 <FormField formType="email" formName="email" labelText="E-Mail" />
               </div>
-              <div className="mb-4">
+              <div className="mb-2 lg:mb-4">
                 <FormField formType="text" formName="nohp" labelText="Nomor Telepon" />
               </div>
-              <div className="mb-4">
+              <div className="mb-2 lg:mb-4">
                 <FormField formType="password" formName="password" labelText="Password" />
               </div>
               <div className="mb-6">

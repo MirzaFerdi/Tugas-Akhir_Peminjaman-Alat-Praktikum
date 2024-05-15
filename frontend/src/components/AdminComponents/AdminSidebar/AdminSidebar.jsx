@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { Collapse, List, ListItemButton, ListItemIcon, ListItemText, ListSubheader } from "@mui/material";
 import {
   ExpandLess,
@@ -15,60 +15,21 @@ import {
   DateRange,
   ReceiptLong,
   Dashboard,
+  Upgrade,
 } from "@mui/icons-material";
-import { useFetchOnClick } from "../../../hooks/useFetchOnClick";
-import { useConfirmDialog } from "../../../hooks/useDialog";
-import { useAlert } from "../../../hooks/useAlert";
+import { useMediaQuery } from "react-responsive";
 
-const AdminSidebar = ({ adminPageId, handleChangeAdminPageId }) => {
-  const userPayloads = JSON.parse(localStorage.getItem("user_payloads"));
+const AdminSidebar = ({ adminPageId, handleChangeAdminPageId, handleToggleSidebar }) => {
+  const isMobile = useMediaQuery({ query: "(max-width: 1439px)" });
 
   const [openKelasSubNav, setOpenKelasSubNav] = useState(false);
   const [openBarangSubNav, setOpenBarangSubNav] = useState(false);
-  const [openTransaksiSubNav, setOpenTransaksiSubNav] = useState(false);
+  const [openTransaksiSubNav, setOpenTransaksiSubNav] = useState(false);  
 
-  const { openConfirmDialog, closeConfirmDialog } = useConfirmDialog();
-  const { openAlertComponent, closeAlertComponent } = useAlert();
-
-  const { fetchData: logout } = useFetchOnClick();
-
-  const handleSuccessLogoutResponse = useCallback((successLogoutResponse) => {
-    if (successLogoutResponse.success === true) {
-      localStorage.clear();
-
-      openAlertComponent({
-        alertType: "success",
-        alertTitle: "BERHASIL!",
-        alertMessage: successLogoutResponse?.message
-      })      
-
-      setTimeout(() => {
-        closeAlertComponent();
-        closeConfirmDialog();
-        window.location.reload();
-      }, 2000)
-    }
-  }, [closeAlertComponent, closeConfirmDialog, openAlertComponent])
-  
-  const handleErrorLogoutResponse = useCallback((errorLogoutResponse) => {
-    console.log(errorLogoutResponse);
-  }, [])
-
-  const handleLogout = () => {
-    openConfirmDialog({
-      title: "Keluar Aplikasi",
-      message: "Apakah anda yakin ingin keluar dari aplikasi?",
-      okAction: () => {
-        logout({
-          url: "/logout",
-          method: "POST",
-          onSuccess: handleSuccessLogoutResponse,
-          onError: handleErrorLogoutResponse
-        })
-      }
-    })
-  }
-
+  const handleChangePage = (id) => {
+    handleChangeAdminPageId(id);
+    isMobile && handleToggleSidebar();
+  };  
   return (
     <List
       subheader={
@@ -79,10 +40,15 @@ const AdminSidebar = ({ adminPageId, handleChangeAdminPageId }) => {
           Menu
         </ListSubheader>
       }
-      sx={{ width: "100%", height: "100%", bgcolor: "#2D1B6B" }}
+      sx={{
+        width: "100%",
+        height: "100%",
+        bgcolor: "#2D1B6B",
+        overflowY: "auto",
+      }}
       disablePadding>
       <ListItemButton
-        onClick={() => handleChangeAdminPageId(1)}
+        onClick={() => handleChangePage(1)}
         sx={{
           backgroundColor: adminPageId === 1 ? "#1D0C5A" : "inherit",
           ":hover": {
@@ -127,7 +93,7 @@ const AdminSidebar = ({ adminPageId, handleChangeAdminPageId }) => {
                 backgroundColor: adminPageId === 2 ? "#1D0C5A" : "#1D0C5A",
               },
             }}
-            onClick={() => handleChangeAdminPageId(2)}>
+            onClick={() => handleChangePage(2)}>
             <ListItemIcon>
               <LooksOne sx={{ color: "white" }} fontSize="small" />
             </ListItemIcon>
@@ -136,8 +102,6 @@ const AdminSidebar = ({ adminPageId, handleChangeAdminPageId }) => {
               primaryTypographyProps={{ fontSize: "0.8em", fontFamily: "Poppins", color: "white" }}
             />
           </ListItemButton>
-        </List>
-        <List component="div" disablePadding>
           <ListItemButton
             sx={{
               pl: 4,
@@ -146,7 +110,7 @@ const AdminSidebar = ({ adminPageId, handleChangeAdminPageId }) => {
                 backgroundColor: adminPageId === 3 ? "#1D0C5A" : "#1D0C5A",
               },
             }}
-            onClick={() => handleChangeAdminPageId(3)}>
+            onClick={() => handleChangePage(3)}>
             <ListItemIcon>
               <LooksTwo sx={{ color: "white" }} fontSize="small" />
             </ListItemIcon>
@@ -155,8 +119,6 @@ const AdminSidebar = ({ adminPageId, handleChangeAdminPageId }) => {
               primaryTypographyProps={{ fontSize: "0.8em", fontFamily: "Poppins", color: "white" }}
             />
           </ListItemButton>
-        </List>
-        <List component="div" disablePadding>
           <ListItemButton
             sx={{
               pl: 4,
@@ -165,7 +127,7 @@ const AdminSidebar = ({ adminPageId, handleChangeAdminPageId }) => {
                 backgroundColor: adminPageId === 4 ? "#1D0C5A" : "#1D0C5A",
               },
             }}
-            onClick={() => handleChangeAdminPageId(4)}>
+            onClick={() => handleChangePage(4)}>
             <ListItemIcon>
               <Looks3 sx={{ color: "white" }} fontSize="small" />
             </ListItemIcon>
@@ -174,8 +136,6 @@ const AdminSidebar = ({ adminPageId, handleChangeAdminPageId }) => {
               primaryTypographyProps={{ fontSize: "0.8em", fontFamily: "Poppins", color: "white" }}
             />
           </ListItemButton>
-        </List>
-        <List component="div" disablePadding>
           <ListItemButton
             sx={{
               pl: 4,
@@ -184,12 +144,29 @@ const AdminSidebar = ({ adminPageId, handleChangeAdminPageId }) => {
                 backgroundColor: adminPageId === 5 ? "#1D0C5A" : "#1D0C5A",
               },
             }}
-            onClick={() => handleChangeAdminPageId(5)}>
+            onClick={() => handleChangePage(5)}>
             <ListItemIcon>
               <Looks4 sx={{ color: "white" }} fontSize="small" />
             </ListItemIcon>
             <ListItemText
               primary="Mahasiswa Kelas 4"
+              primaryTypographyProps={{ fontSize: "0.8em", fontFamily: "Poppins", color: "white" }}
+            />
+          </ListItemButton>
+          <ListItemButton
+            sx={{
+              pl: 4,
+              backgroundColor: adminPageId === 6 ? "#1D0C5A" : "inherit",
+              ":hover": {
+                backgroundColor: adminPageId === 6 ? "#1D0C5A" : "#1D0C5A",
+              },
+            }}
+            onClick={() => handleChangePage(6)}>
+            <ListItemIcon>
+              <Upgrade sx={{ color: "white" }} fontSize="small" />
+            </ListItemIcon>
+            <ListItemText
+              primary="Manajemen Naik Kelas"
               primaryTypographyProps={{ fontSize: "0.8em", fontFamily: "Poppins", color: "white" }}
             />
           </ListItemButton>
@@ -220,12 +197,12 @@ const AdminSidebar = ({ adminPageId, handleChangeAdminPageId }) => {
           <ListItemButton
             sx={{
               pl: 4,
-              backgroundColor: adminPageId === 6 ? "#1D0C5A" : "inherit",
+              backgroundColor: adminPageId === 7 ? "#1D0C5A" : "inherit",
               ":hover": {
-                backgroundColor: adminPageId === 6 ? "#1D0C5A" : "#1D0C5A",
+                backgroundColor: adminPageId === 7 ? "#1D0C5A" : "#1D0C5A",
               },
             }}
-            onClick={() => handleChangeAdminPageId(6)}>
+            onClick={() => handleChangePage(7)}>
             <ListItemIcon>
               <Plumbing sx={{ color: "white" }} fontSize="small" />
             </ListItemIcon>
@@ -239,12 +216,12 @@ const AdminSidebar = ({ adminPageId, handleChangeAdminPageId }) => {
           <ListItemButton
             sx={{
               pl: 4,
-              backgroundColor: adminPageId === 7 ? "#1D0C5A" : "inherit",
+              backgroundColor: adminPageId === 8 ? "#1D0C5A" : "inherit",
               ":hover": {
-                backgroundColor: adminPageId === 7 ? "#1D0C5A" : "#1D0C5A",
+                backgroundColor: adminPageId === 8 ? "#1D0C5A" : "#1D0C5A",
               },
             }}
-            onClick={() => handleChangeAdminPageId(7)}>
+            onClick={() => handleChangePage(8)}>
             <ListItemIcon>
               <Construction sx={{ color: "white" }} fontSize="small" />
             </ListItemIcon>
@@ -280,17 +257,17 @@ const AdminSidebar = ({ adminPageId, handleChangeAdminPageId }) => {
           <ListItemButton
             sx={{
               pl: 4,
-              backgroundColor: adminPageId === 8 ? "#1D0C5A" : "inherit",
+              backgroundColor: adminPageId === 9 ? "#1D0C5A" : "inherit",
               ":hover": {
-                backgroundColor: adminPageId === 8 ? "#1D0C5A" : "#1D0C5A",
+                backgroundColor: adminPageId === 9 ? "#1D0C5A" : "#1D0C5A",
               },
             }}
-            onClick={() => handleChangeAdminPageId(8)}>
+            onClick={() => handleChangePage(9)}>
             <ListItemIcon>
               <Plumbing sx={{ color: "white" }} fontSize="small" />
             </ListItemIcon>
             <ListItemText
-              primary="Manajemen Alat Praktikum"
+              primary="Request Peminjaman"
               primaryTypographyProps={{ fontSize: "0.8em", fontFamily: "Poppins", color: "white" }}
             />
           </ListItemButton>
@@ -299,17 +276,17 @@ const AdminSidebar = ({ adminPageId, handleChangeAdminPageId }) => {
           <ListItemButton
             sx={{
               pl: 4,
-              backgroundColor: adminPageId === 9 ? "#1D0C5A" : "inherit",
+              backgroundColor: adminPageId === 10 ? "#1D0C5A" : "inherit",
               ":hover": {
-                backgroundColor: adminPageId === 9 ? "#1D0C5A" : "#1D0C5A",
+                backgroundColor: adminPageId === 10 ? "#1D0C5A" : "#1D0C5A",
               },
             }}
-            onClick={() => handleChangeAdminPageId(9)}>
+            onClick={() => handleChangePage(10)}>
             <ListItemIcon>
               <Construction sx={{ color: "white" }} fontSize="small" />
             </ListItemIcon>
             <ListItemText
-              primary="Manajemen Bahan Praktikum"
+              primary="Request Pengembalian"
               primaryTypographyProps={{ fontSize: "0.8em", fontFamily: "Poppins", color: "white" }}
             />
           </ListItemButton>
@@ -317,12 +294,12 @@ const AdminSidebar = ({ adminPageId, handleChangeAdminPageId }) => {
       </Collapse>
       <ListItemButton
         sx={{
-          backgroundColor: adminPageId === 10 ? "#1D0C5A" : "inherit",
+          backgroundColor: adminPageId === 11 ? "#1D0C5A" : "inherit",
           ":hover": {
-            backgroundColor: adminPageId === 10 ? "#1D0C5A" : "#1D0C5A",
+            backgroundColor: adminPageId === 11 ? "#1D0C5A" : "#1D0C5A",
           },
         }}
-        onClick={() => handleChangeAdminPageId(10)}>
+        onClick={() => handleChangePage(11)}>
         <ListItemIcon>
           <ReceiptLong sx={{ color: "white" }} fontSize="small" />
         </ListItemIcon>
@@ -331,22 +308,14 @@ const AdminSidebar = ({ adminPageId, handleChangeAdminPageId }) => {
           primaryTypographyProps={{ fontSize: "0.8em", fontFamily: "Poppins", color: "white" }}
         />
       </ListItemButton>
-      <div className="absolute bottom-0 w-full left-1/2 -translate-x-1/2 bg-zinc-100 py-2 px-4">
-        <div className="flex justify-between items-center">
-          <div>
-            <p className="text-xs text-zinc-500">Sign In As</p>
-            <p className="text-sm">{userPayloads?.user?.role?.nama}</p>
-          </div>
-          <button onClick={() => handleLogout()} className="py-2 px-5 text-sm tracking-wide bg-red-400 hover:bg-red-500 rounded-sm text-white">Logout</button>
-        </div>
-      </div>
     </List>
   );
 };
 
 AdminSidebar.propTypes = {
-  adminPageId: PropTypes.any,
+  adminPageId: PropTypes.number,
   handleChangeAdminPageId: PropTypes.func,
+  handleToggleSidebar: PropTypes.func,
 };
 
 export default AdminSidebar;

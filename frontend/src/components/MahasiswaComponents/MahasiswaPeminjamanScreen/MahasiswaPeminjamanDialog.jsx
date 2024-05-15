@@ -64,21 +64,23 @@ const MahasiswaPeminjamanDialog = () => {
   return (
     <Dialog open={isMahasiswaPeminjamanDialogOpen} onClose={() => closeMahasiswaPeminjamanDialog()}>
       <div className="flex justify-between">
-        <div className="py-3 px-6 bg-blue-400 w-full">
-          <p className="text-lg font-semibold tracking-wider text-white">
+        <div className="py-2 lg:py-3 px-3 lg:px-6 bg-blue-400 w-full">
+          <p className="text-xs lg:text-md font-semibold tracking-wider text-white">
             Formulir Peminjaman Alat dan Bahan Praktikum
           </p>
         </div>
 
         <button onClick={() => closeMahasiswaPeminjamanDialog()} className="py-3 px-6 bg-zinc-300">
-          <Close className="text-white" />
+          <Close className="text-white" fontSize="smal"/>
         </button>
       </div>
       <div className="p-5">
         <Formik initialValues={initialValues} validate={peminjamanFormValidation} onSubmit={handleSubmit}>
           {() => (
             <Form>
-              <FormField formType="textArea" formName="keterangan" labelText="Keterangan Peminjaman" />
+              <div className="mb-6">
+                <FormField formType="textArea" formName="keterangan" labelText="Keterangan Peminjaman" />
+              </div>
 
               <button
                 type="submit"

@@ -1,67 +1,182 @@
-import PropTypes from "prop-types";
-import { mahasiswaDetailPeminjamanTableHeader } from "../../../constants/mahasiswa-detail-peminjaman-table-header";
 import { date, time } from "../../../utils/datetime";
+import { useFetchOnMount } from "../../../hooks/useFetchOnMount";
+import { useState } from "react";
+import { ExpandMore, Search } from "@mui/icons-material";
+import { toolsIcon } from "../../../assets";
+import { useMediaQuery } from "react-responsive";
+import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 
-const MahasiswaDetailPeminjamanTable = ({ mahasiswaPeminjamanData }) => {
+const MahasiswaDetailPeminjamanTable = () => {
+  const isMobile = useMediaQuery({ query: "(max-width: 1439px)" });
+  const userPayloads = JSON.parse(localStorage.getItem("user_payloads"));
+
+  const [peminjamanKeywords, setPeminjamanKeywords] = useState("");
+
+  const { data: mahasiswaPeminjamanData } = useFetchOnMount({
+    url: `/peminjaman/user/${userPayloads?.user?.id}`,
+    method: "GET",
+  });
+
   return (
-    <table className="w-full">
-      <thead>
-        <tr>
-          {mahasiswaDetailPeminjamanTableHeader.map((rows) => {
-            const { id, row, width } = rows;
+    <div>
+      <div className="px-8 py-4 bg-main shadow-sm shadow-main mx-8 rounded-xl text-white -mb-5 lg:-mb-10 relative">
+        <h1 className="text-center lg:text-start text-md lg:text-2xl tracking-wide font-bold leading-none mr-0 lg:mr-4">
+          Detail Histori Peminjaman
+        </h1>
+      </div>
+      <div className="pb-5 pt-8 lg:pt-16 bg-white px-8 rounded-md shadow-md">
+        <div className="grid grid-cols-1 lg:grid-cols-2 items-start mb-8">
+          <div className="flex flex-col lg:items-start mb-3 lg:mb-0">
+            <p className="text-md tracking-wide text-center lg:text-start">Tabel Histori Peminjaman</p>
+            <p className="text-sm tracking-wide text-zinc-500 text-center lg:text-start">Alat dan Bahan Lab TRO</p>
+          </div>
+          <div className="flex justify-end relative">
+            <input
+              type="text"
+              autoComplete="off"
+              className="p-2 text-xs border-2 border-blue-300 rounded-sm w-full lg:w-1/2 leading-none tracking-wide hover:border-blue-400 focus:outline-none focus:border-blue-400"
+              name="keywords"
+              placeholder="cari peminjaman ..."
+              onChange={(event) => {
+                setPeminjamanKeywords(event.target.value);
+              }}
+            />
+            <button className="absolute top-1/2 -translate-y-1/2 right-2 text-blue-700">
+              <Search />
+            </button>
+          </div>
+        </div>
 
-            return (
-              <th
-                key={id}
-                className={`${
-                  id == 1 || id == 5 ? "text-center" : "text-start"
-                } border p-2 text-xs text-white bg-blue-400 tracking-wider font-semibold w-[${width}]`}>
-                {row}
-              </th>
-            );
-          })}
-        </tr>
-      </thead>
-      <tbody>
-        {mahasiswaPeminjamanData?.data?.length === 0 ? (
-          <tr>
-            <td colSpan={5} className="w-[8%] border bg-zinc-50 p-2 text-xs text-zinc-600 text-center">
-              Tidak ada peminjaman yang dilakukan!
-            </td>
-          </tr>
+        {isMobile ? (
+          <div>
+            {mahasiswaPeminjamanData?.data?.data?.length > 0 ? (
+              mahasiswaPeminjamanData?.data?.data?.map((values) => {
+                const { id, barang, status, tanggal_peminjaman } = values;
+
+                const regex = new RegExp(`(${peminjamanKeywords})`, "gi");
+                const searchedBarang = barang?.nama_barang.replace(regex, (match) => `<td><b>${match}</b></td>`);
+
+                return (
+                  <Accordion key={id}>
+                    <AccordionSummary sx={{ px: 1 }} expandIcon={<ExpandMore fontSize="smal" />}>
+                      <p className="text-xs" dangerouslySetInnerHTML={{ __html: searchedBarang }}></p>
+                    </AccordionSummary>
+                    <AccordionDetails sx={{ px: 1 }}>
+                      <table className="w-full">
+                        <tbody>
+                          <tr>
+                            <th className="border p-2 lg:p-3 tracking-wide bg-blue-400 text-white font-medium leading-none text-start text-xs">
+                              Data Baranng
+                            </th>
+                            <td className="border p-2 lg:p-3 tracking-wide leading-none text-xs">
+                              <p className="mb-2 font-bold" dangerouslySetInnerHTML={{ __html: searchedBarang }}></p>
+                              <p>{barang?.kode_barang}</p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th className="border p-2 lg:p-3 tracking-wide bg-blue-400 text-white font-medium leading-none text-start text-xs">
+                              Waktu & Tanggal
+                            </th>
+                            <td className="border p-2 lg:p-3 tracking-wide leading-none text-xs">
+                              <p className="mb-2 font-medium">{date(tanggal_peminjaman)}</p>
+                              <p>{time(tanggal_peminjaman)} wib</p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th className="border p-2 lg:p-3 tracking-wide bg-blue-400 text-white font-medium leading-none text-start text-xs">
+                              Status
+                            </th>
+                            <td className="border p-2 lg:p-3 tracking-wide leading-none text-xs">
+                              <p
+                                className={`${
+                                  status === "Pending" ? "bg-zinc-400" : "bg-green-400"
+                                } text-xs text-white text-center py-2 px-5 rounded-full tracking-wide leading-none`}>
+                                {status}
+                              </p>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </AccordionDetails>
+                  </Accordion>
+                );
+              })
+            ) : (
+              <div>
+                <p className="p-2 border text-xs text-center">{mahasiswaPeminjamanData?.message}</p>
+              </div>
+            )}
+          </div>
         ) : (
-          mahasiswaPeminjamanData?.data?.map((values, index) => {
-            const { id, barang, status, tanggal_peminjaman } = values;
-
-            return (
-              <tr key={id}>
-                <td className="w-fit border bg-zinc-50 p-2 text-xs text-zinc-600 text-center">{index + 1}</td>
-                <td className="w-fit border bg-zinc-50 p-2 text-xs text-zinc-600 text-left">{barang?.nama_barang}</td>
-                <td className="w-fit border bg-zinc-50 p-2 text-xs text-zinc-600 text-left">
-                  {time(tanggal_peminjaman)} wib
-                </td>
-                <td className="w-fit border bg-zinc-50 p-2 text-xs text-zinc-600 text-left">
-                  {date(tanggal_peminjaman)}
-                </td>
-                <td className="w-fit border bg-zinc-50 p-2 text-xs text-zinc-600 text-left">
-                  <p
-                    className={`${
-                      status === "Pending" ? "bg-zinc-300" : status === "Diterima" ? "bg-green-300" : "bg-red-400"
-                    } p-1 rounded-sm text-center`}>
-                    {status}
-                  </p>
-                </td>
+          <table className="mb-3 w-full">
+            <thead>
+              <tr>
+                <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-left font-medium text-zinc-400 w-[70%]">
+                  Data Barang
+                </th>
+                <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-left font-medium text-zinc-400 w-[20%]">
+                  Waktu & Tanggal
+                </th>
+                <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-center font-medium text-zinc-400 w-[10%]">
+                  Status
+                </th>
               </tr>
-            );
-          })
-        )}
-      </tbody>
-    </table>
-  );
-};
+            </thead>
+            <tbody>
+              {mahasiswaPeminjamanData?.data?.data?.length > 0 ? (
+                mahasiswaPeminjamanData?.data?.data?.map((values) => {
+                  const { id, barang, status, tanggal_peminjaman } = values;
 
-MahasiswaDetailPeminjamanTable.propTypes = {
-  mahasiswaPeminjamanData: PropTypes.any,
+                  const regex = new RegExp(`(${peminjamanKeywords})`, "gi");
+                  const searchedBarang = barang?.nama_barang.replace(regex, (match) => `<td><b>${match}</b></td>`);
+
+                  return (
+                    <tr key={id}>
+                      <td className="border-b border-zinc-300 p-2">
+                        <div className="w-full flex justify-start items-center">
+                          <img
+                            src={toolsIcon}
+                            alt="Barang Praktikum Icon"
+                            width={36}
+                            height={36}
+                            className="aspect-square mr-5"
+                          />
+                          <div>
+                            <p
+                              className="text-sm font-semibold"
+                              dangerouslySetInnerHTML={{ __html: searchedBarang }}></p>
+                            <p className="text-xs tracking-wide text-zinc-400">{barang?.kode_barang}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="border-b border-zinc-300 p-2">
+                        <p className="text-sm font-semibold">{date(tanggal_peminjaman)}</p>
+                        <p className="text-xs tracking-wide text-zinc-400">{time(tanggal_peminjaman)} wib</p>
+                      </td>
+                      <td className=" border-b border-zinc-300 p-2">
+                        <p
+                          className={`${
+                            status === "Pending" ? "bg-zinc-400" : "bg-green-400"
+                          } text-xs text-white text-center py-2 px-5 rounded-full tracking-wide leading-none`}>
+                          {status}
+                        </p>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan={7} className="p-2 border text-xs text-center">
+                    {mahasiswaPeminjamanData.message || "Tidak ada barang dipinjam yang telah disetujui!"}
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default MahasiswaDetailPeminjamanTable;

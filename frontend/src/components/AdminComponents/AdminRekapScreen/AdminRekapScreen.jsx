@@ -4,6 +4,7 @@ import AdminRekapScreenDocument from "./AdminRekapScreenDocument";
 import AdminRekapScreenTransaksi from "./AdminRekapScreenTransaksi";
 import jsPDF from "jspdf";
 import * as htmlToImage from "html-to-image";
+import AdminRekapTransaksiPerMonth from "./AdminRekapTransaksiPerMonth";
 
 const AdminRekapScreen = () => {
   const { allMonth, currentMonth } = getMonth(new Date().getMonth());
@@ -15,16 +16,19 @@ const AdminRekapScreen = () => {
   const handleDownload = () => {
     const document1 = document.getElementById("document1");
     const document2 = document.getElementById("document2");
+    const document3 = document.getElementById("document3");
     const width = 21; // Ukuran A4 dalam cm
     const height = 29.7; // Ukuran A4 dalam cm
 
-    Promise.all([htmlToImage.toPng(document1), htmlToImage.toPng(document2)])
-      .then(([image1, image2]) => {
+    Promise.all([htmlToImage.toPng(document1), htmlToImage.toPng(document2), htmlToImage.toPng(document3)])
+      .then(([image1, image2, image3]) => {
         const pdf = new jsPDF("p", "cm", [width, height]);
         pdf.addImage(image1, "PNG", 0, 0, width, height, "", "BEST");
         pdf.addPage();
         pdf.addImage(image2, "PNG", 0, 0, width, height, "", "BEST");
-        pdf.save("download.pdf");
+        pdf.addPage();
+        pdf.addImage(image3, "PNG", 0, 0, width, height, "", "BEST");
+        pdf.save(`Rekap Transaksi Peminjaman Alat dan Bahan Bulan ${selectedMonth} Tahun ${selectedYear}.pdf`);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -65,7 +69,7 @@ const AdminRekapScreen = () => {
               const { id, monthName } = months;
 
               return (
-                <option key={id} value={monthName} className="text-md tracking-wide">
+                <option key={id} value={id} className="text-md tracking-wide">
                   {monthName}
                 </option>
               );
@@ -85,6 +89,7 @@ const AdminRekapScreen = () => {
       <div className="flex flex-col items-center">
         <AdminRekapScreenDocument selectedMonth={selectedMonth} selectedYear={selectedYear} />
         <AdminRekapScreenTransaksi selectedMonth={selectedMonth} selectedYear={selectedYear} />
+        <AdminRekapTransaksiPerMonth selectedMonth={selectedMonth} selectedYear={selectedYear} />
       </div>
     </div>
   );

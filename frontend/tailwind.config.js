@@ -14,6 +14,7 @@ export default {
     extend: {
       backgroundImage: {
         "forgot-password": "url('/src/assets/images/forgot-bg.jpg')",
+        "mahasiswa-welcome-bg": "url('/src/assets/images/welcome-mahasiswa-bg.jpg')"
       },
       colors: {
         main: "#2D1B6B",

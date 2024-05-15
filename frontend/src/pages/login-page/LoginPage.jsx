@@ -59,7 +59,7 @@ const LoginPage = () => {
   const { fetchData: fetchLogin } = useFetchOnClick();
 
   return (
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] lg:w-[80%] shadow-md">
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[98%] lg:w-[80%] shadow-md">
       <div className={`${alert.isShow ? "block" : "hidden"} absolute -right-32 -top-5`}>
         <Alert severity={alert.alertType} variant="filled">
           <AlertTitle>{alert.alertTitle}</AlertTitle>
@@ -70,17 +70,17 @@ const LoginPage = () => {
         <div className="hidden lg:block col-span-3">
           <img src={loginThumbnailImage} alt="Login Thumbnail Image" className="h-full" />
         </div>
-        <div className="col-span-2 p-10 shadow-lg mx-8 my-5 lg:m-5 lg:mx-14 lg:my-8 rounded-lg relative">
+        <div className="col-span-2 p-8 shadow-lg mx-4 my-5 lg:m-5 lg:mx-14 lg:my-8 rounded-lg relative">
           <img src={waveImage2} alt="Wave Top Image" className="absolute w-1/2 top-0 left-0 h-1/4 rounded-tl-lg" />
           <h1 className="text-4xl tracking-wider font-extrabold text-center mb-10">LOGIN</h1>
           <div className="mb-8">
             <Formik initialValues={initialValues} validate={loginFormValidation} onSubmit={handleSubmit}>
               {({ isValid }) => (
                 <Form>
-                  <div className="mb-4">
+                  <div className="mb-4 bg-white">
                     <FormField formType="text" formName="username" labelText="NIP/NIM" />
                   </div>
-                  <div className="mb-6">
+                  <div className="mb-6 bg-white">
                     <FormField formType="password" formName="password" labelText="Password" />
                   </div>
                   <div className="mb-8 flex justify-end">

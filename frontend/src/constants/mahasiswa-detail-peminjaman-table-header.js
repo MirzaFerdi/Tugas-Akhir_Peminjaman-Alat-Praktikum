@@ -2,7 +2,7 @@ export const mahasiswaDetailPeminjamanTableHeader = [
   {
     id: 1,
     row: "No",
-    width: "10%"
+    width: "5%"
   },
   {
     id: 2,
@@ -12,12 +12,12 @@ export const mahasiswaDetailPeminjamanTableHeader = [
   {
     id: 3,
     row: "Waktu",
-    width: "20%"
+    width: "15%"
   },
   {
     id: 4,
     row: "Tanggal",
-    width: "20%"
+    width: "30%"
   },
   {
     id: 5,

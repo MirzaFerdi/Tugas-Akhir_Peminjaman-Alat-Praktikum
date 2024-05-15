@@ -1,20 +1,34 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { PieChart, Pie, Sector, ResponsiveContainer } from "recharts";
+import { useFetchOnMount } from "../../../hooks/useFetchOnMount";
 
 const AdminDashboardCharts2 = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const { data: mahasiswaDataKelas1 } = useFetchOnMount({
+    url: "/user/kelas/1",
+  });
+  const { data: mahasiswaDataKelas2 } = useFetchOnMount({
+    url: "/user/kelas/2",
+  });
+  const { data: mahasiswaDataKelas3 } = useFetchOnMount({
+    url: "/user/kelas/3",
+  });
+  const { data: mahasiswaDataKelas4 } = useFetchOnMount({
+    url: "/user/kelas/4",
+  });
 
   const handleOnMouseEnter = (_, index) => {
     setActiveIndex(index);
   };
 
   const data = [
-    { name: "Kelas 1", value: 32 },
-    { name: "Kelas 2", value: 33 },
-    { name: "Kelas 3", value: 33 },
-    { name: "Kelas 4", value: 35 },
-  ];  
+    { name: "Kelas 1", value: mahasiswaDataKelas1?.total },
+    { name: "Kelas 2", value: mahasiswaDataKelas2?.total },
+    { name: "Kelas 3", value: mahasiswaDataKelas3?.total },
+    { name: "Kelas 4", value: mahasiswaDataKelas4?.total },
+  ];
 
   const RenderActiveShape = (props) => {
     const RADIAN = Math.PI / 180;
@@ -54,45 +68,47 @@ const AdminDashboardCharts2 = () => {
         />
         <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={fill} fill="none" />
         <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
-        <text className="text-sm" x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="#333">{`PV ${value}`}</text>
+        <text className="text-sm" x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="#333">
+          {`${value} Mhs`}
+        </text>
         <text className="text-xs" x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={18} textAnchor={textAnchor} fill="#999">
-          {`(Rate ${(percent * 100).toFixed(2)}%)`}
+          {`(${(percent * 100).toFixed(0)}%)`}
         </text>
       </g>
     );
   };
 
   RenderActiveShape.propTypes = {
-    cx:PropTypes.any,
-    cy:PropTypes.any,
-    midAngle:PropTypes.any,
-    innerRadius:PropTypes.any,
-    outerRadius:PropTypes.any,
-    startAngle:PropTypes.any,
-    endAngle:PropTypes.any,
-    fill:PropTypes.any,
-    payload:PropTypes.any,
-    percent:PropTypes.any,
-    value:PropTypes.any,
+    cx: PropTypes.any,
+    cy: PropTypes.any,
+    midAngle: PropTypes.any,
+    innerRadius: PropTypes.any,
+    outerRadius: PropTypes.any,
+    startAngle: PropTypes.any,
+    endAngle: PropTypes.any,
+    fill: PropTypes.any,
+    payload: PropTypes.any,
+    percent: PropTypes.any,
+    value: PropTypes.any,
   };
 
   return (
     <ResponsiveContainer maxWidth={300} maxHeight={300} width="100%" height="100%">
-        <PieChart width={300} height={300}>
-          <Pie
-            activeIndex={activeIndex}
-            activeShape={RenderActiveShape}
-            data={data}
-            cx="50%"
-            cy="50%"
-            innerRadius={60}
-            outerRadius={80}
-            fill="#8884d8"
-            dataKey="value"
-            onMouseEnter={handleOnMouseEnter}
-          />
-        </PieChart>
-      </ResponsiveContainer>
+      <PieChart width={300} height={300}>
+        <Pie
+          activeIndex={activeIndex}
+          activeShape={RenderActiveShape}
+          data={data}
+          cx="50%"
+          cy="50%"
+          innerRadius={60}
+          outerRadius={80}
+          fill="#8884d8"
+          dataKey="value"
+          onMouseEnter={handleOnMouseEnter}
+        />
+      </PieChart>
+    </ResponsiveContainer>
   );
 };
 
