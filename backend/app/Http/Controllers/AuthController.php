@@ -66,18 +66,21 @@ class AuthController extends Controller
         }
 
         // Generate a unique token for the password reset process
-        $token = Str::random(10);
+        $token = Str::random(255);
+        $nama = $user->nama;
+        $email = $user->email;
 
         // Store the token in a temporary storage mechanism (e.g., database)
         DB::table('password_reset_tokens')->insert([
             'email' => $request->email,
+            'nama' => $nama,
             'token' => $token,
             'created_at' => now(),
         ]);
 
         // Optionally, send an email to the user with a link containing the token
         // Your email sending logic here...
-        $email = new SendEmail($token);
+        $email = new SendEmail($email,$nama,$token);
         Mail::to($request->email)->send($email);
 
         return response()->json(['success' => true, 'message' => 'Token reset password dikirimkan ke email anda', 'email' => $user->email]);
