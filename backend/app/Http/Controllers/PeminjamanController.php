@@ -11,7 +11,7 @@ class PeminjamanController extends Controller
 {
     public function index()
     {
-        $peminjaman = Peminjaman::with('user', 'barang')->paginate(8);
+        $peminjaman = Peminjaman::with('user', 'barang')->orderByDesc('tanggal_peminjaman')->paginate(8);
         ;
 
         if (!$peminjaman) {
@@ -133,11 +133,19 @@ class PeminjamanController extends Controller
     public function approve($id)
     {
         $peminjaman = Peminjaman::find($id);
+        $barang = Barang::find($peminjaman->barang_id);
 
         if (!$peminjaman) {
             return response()->json([
                 'success' => false,
                 'message' => 'Peminjaman tidak ditemukan!',
+            ]);
+        }
+
+        if($barang->stok_tersedia <= 0){
+            return response()->json([
+                'success' => false,
+                'message' => 'jumlah stok yang tersedia tidak ada!',
             ]);
         }
 
@@ -151,7 +159,6 @@ class PeminjamanController extends Controller
         $peminjaman->status = 'Diterima';
         $peminjaman->save();
 
-        $barang = Barang::find($peminjaman->barang_id);
         $barang->stok_tersedia = $barang->stok_tersedia - 1;
         $barang->save();
 
@@ -200,9 +207,9 @@ class PeminjamanController extends Controller
         ]);
     }
 
-    public function peminjamanByUserId($id)
+    public function peminjamanByUserId($userId)
     {
-        $peminjaman = Peminjaman::with('user', 'barang', 'pengembalian')->where('user_id', $id)->paginate(8);
+        $peminjaman = Peminjaman::with('user', 'barang', 'pengembalian')->where('user_id', $userId)->orderByDesc('tanggal_peminjaman')->paginate(8);
 
         if ($peminjaman) {
             return response()->json([
@@ -245,9 +252,9 @@ class PeminjamanController extends Controller
     }
 
 
-    public function peminjamanApproved($id)
+    public function peminjamanApproved($userId)
     {
-        $peminjaman = Peminjaman::with('user', 'barang', 'pengembalian')->where('status', 'Diterima')->where('user_id', $id)->paginate(8);
+        $peminjaman = Peminjaman::with('user', 'barang', 'pengembalian')->where('status', 'Diterima')->where('user_id', $userId)->orderByDesc('tanggal_peminjaman')->paginate(8);
 
         if ($peminjaman->isEmpty()) {
             return response()->json([
@@ -263,10 +270,29 @@ class PeminjamanController extends Controller
         }
     }
 
-    public function rekap($bulan, $tahun)
+    public function transaksiBulanan($bulan, $tahun)
     {
         $peminjaman = Peminjaman::with('user', 'barang')->whereMonth('tanggal_peminjaman', $bulan)->whereYear('tanggal_peminjaman', $tahun)->get();
         $pengembalian = Pengembalian::with('user', 'barang')->whereMonth('tanggal_pengembalian', $bulan)->whereYear('tanggal_pengembalian', $tahun)->get();
+
+        if ($peminjaman->isEmpty() && $pengembalian->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data peminjaman tidak ditemukan!',
+            ]);
+        } else {
+            return response()->json([
+                'success' => true,
+                'message' => 'Data peminjaman ditemukan!',
+                'peminjaman' => $peminjaman,
+                'pengembalian' => $pengembalian
+            ]);
+        }
+    }
+
+    public function transaksiHarian($hari, $bulan, $tahun){
+        $peminjaman = Peminjaman::with('user', 'barang')->whereDay('tanggal_peminjaman', $hari)->whereMonth('tanggal_peminjaman', $bulan)->whereYear('tanggal_peminjaman', $tahun)->get();
+        $pengembalian = Pengembalian::with('user', 'barang')->whereDay('tanggal_pengembalian', $hari)->whereMonth('tanggal_pengembalian', $bulan)->whereYear('tanggal_pengembalian', $tahun)->get();
 
         if ($peminjaman->isEmpty() && $pengembalian->isEmpty()) {
             return response()->json([

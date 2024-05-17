@@ -37,8 +37,8 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    public function showByKelas($id){
-        $user = User::where('kelas_id', $id)->with('kelas')->paginate(8);
+    public function showByKelas($kelasId){
+        $user = User::where('kelas_id', $kelasId)->with('kelas')->paginate(8);
 
         if(!$user){
             return response()->json([
@@ -50,8 +50,8 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    public function searchMahasiswaKelas($kelasid,$keywords){
-        $user = User::where('role_id', 2)->where('kelas_id',$kelasid)->where(function ($query) use ($keywords){
+    public function searchMahasiswaKelas($idKelas,$keywords){
+        $user = User::where('role_id', 2)->where('kelas_id',$idKelas)->where(function ($query) use ($keywords){
             $query->where('nama', 'like', '%'.$keywords.'%')
                 ->orWhere('username', 'like', '%'.$keywords.'%')
                 ->orWhere('email', 'like', '%'.$keywords.'%');
@@ -103,8 +103,8 @@ class UserController extends Controller
         ]);
     }
 
-    public function mahasiswaByKelasId($kelasid, $id) {
-        $user = User::where('role_id', 2)->where('kelas_id', $kelasid)->where('id', $id)->get();
+    public function mahasiswaByKelasId($kelasId, $id) {
+        $user = User::where('role_id', 2)->where('kelas_id', $kelasId)->where('id', $id)->get();
 
         if ($user->isEmpty()) {
             return response()->json([
@@ -215,7 +215,6 @@ class UserController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'User berhasil dihapus!',
-                'data' => $user
             ]);
         }else{
             return response()->json([

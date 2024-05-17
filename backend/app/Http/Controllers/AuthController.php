@@ -23,11 +23,11 @@ class AuthController extends Controller
             $user = User::where('username', $request->username)->first();
 
             if(!$user){
-                return response()->json(['error' => 'Username tidak ditemukan!!!'], Response::HTTP_NOT_FOUND);
+                return response()->json(['error' => 'NIP atau NIM anda tidak ditemukan!'], Response::HTTP_NOT_FOUND);
             }
 
             if (!Hash::check($request->password, $user->password)) {
-                return response()->json(['error' => 'Password salah!!!'], Response::HTTP_UNAUTHORIZED);
+                return response()->json(['error' => 'Password yang anda masukkan salah!'], Response::HTTP_UNAUTHORIZED);
             }
 
             return response()->json(['error' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
@@ -62,22 +62,25 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
-            return response()->json(['success' => false, 'message' => 'Email tidak ditemukan'], Response::HTTP_NOT_FOUND);
+            return response()->json(['success' => false, 'message' => 'Email yang anda masukkan tidak ditemukan'], Response::HTTP_NOT_FOUND);
         }
 
         // Generate a unique token for the password reset process
-        $token = Str::random(60);
+        $token = Str::random(255);
+        $nama = $user->nama;
+        $email = $user->email;
 
         // Store the token in a temporary storage mechanism (e.g., database)
         DB::table('password_reset_tokens')->insert([
             'email' => $request->email,
+            'nama' => $nama,
             'token' => $token,
             'created_at' => now(),
         ]);
 
         // Optionally, send an email to the user with a link containing the token
         // Your email sending logic here...
-        $email = new SendEmail($token);
+        $email = new SendEmail($email,$nama,$token);
         Mail::to($request->email)->send($email);
 
         return response()->json(['success' => true, 'message' => 'Token reset password dikirimkan ke email anda', 'email' => $user->email]);
@@ -101,7 +104,7 @@ class AuthController extends Controller
             ->first();
 
         if (!$token) {
-            return response()->json(['success' => false, 'message' => 'Token salah atau kadaluarsa'], Response::HTTP_BAD_REQUEST);
+            return response()->json(['success' => false, 'message' => 'Token yang anda masukkan salah!'], Response::HTTP_BAD_REQUEST);
         }
 
         // Update user's password

@@ -35,11 +35,20 @@ class KelasController extends Controller
     }
 
     public function store(Request $request){
+        $cekKelas = Kelas::where('kelas', $request->kelas)->exists();
+
+        if($cekKelas){
+            return response()->json([
+                'success' => false,
+                'message' => 'Kelas sudah ada!',
+            ]);
+        }
+
+
         $kelas = new Kelas;
         $kelas->kelas = $request->kelas;
         $kelas->dpa = $request->dpa;
         $kelas->tahun_ajaran = $request->tahun_ajaran;
-        $kelas->user_id = $request->user_id;
         $kelas->save();
 
         if($kelas){
@@ -58,23 +67,44 @@ class KelasController extends Controller
 
     public function update(Request $request, $id){
         $kelas = Kelas::find($id);
-        $kelas->kelas = $request->kelas;
-        $kelas->dpa = $request->dpa;
-        $kelas->tahun_ajaran = $request->tahun_ajaran;
-        $kelas->user_id = $request->user_id;
-        $kelas->save();
 
-        if($kelas){
+        if(!$kelas){
+            return response()->json([
+                'success' => false,
+                'message' => 'kelas tidak ditemukan!',
+            ]);
+        }
+
+        if($request->kelas == $kelas->kelas){
+            $kelas->dpa = $request->dpa;
+            $kelas->tahun_ajaran = $request->tahun_ajaran;
+            $kelas->save();
+
             return response()->json([
                 'success' => true,
                 'message' => 'Kelas berhasil diupdate!',
                 'data' => $kelas
             ]);
         }else{
-            return response()->json([
-                'success' => false,
-                'message' => 'Kelas gagal diupdate!',
-            ]);
+            $cekKelas = Kelas::where('kelas', $request->kelas)->where('id', '!=', $id)->exists();
+
+            if($cekKelas){
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Kelas sudah ada!',
+                ]);
+            }else{
+                $kelas->kelas = $request->kelas;
+                $kelas->dpa = $request->dpa;
+                $kelas->tahun_ajaran = $request->tahun_ajaran;
+                $kelas->save();
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Kelas berhasil diupdate!',
+                    'data' => $kelas
+                ]);
+            }
         }
     }
 

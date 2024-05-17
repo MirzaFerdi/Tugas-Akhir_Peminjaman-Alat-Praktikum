@@ -12,13 +12,17 @@ use Illuminate\Queue\SerializesModels;
 class SendEmail extends Mailable
 {
     use Queueable, SerializesModels;
+    public $email;
+    public $nama;
     public $token;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($token)
+    public function __construct($email,$nama,$token)
     {
+        $this->email = $email;
+        $this->nama = $nama;
         $this->token = $token;
     }
 
@@ -54,8 +58,12 @@ class SendEmail extends Mailable
 
     public function build()
     {
-        return $this->subject('Password Reset') // Set the email subject
+        return $this->subject('Reset Password') // Set the email subject
                     ->view('emails.email_template') // Set the email view template
-                    ->with(['token' => $this->token]); // Pass the token to the view
+                    ->with([
+                        'email' => $this->email,
+                        'nama' => $this->nama,
+                        'token' => $this->token
+                    ]); // Pass the token to the view
     }
 }
