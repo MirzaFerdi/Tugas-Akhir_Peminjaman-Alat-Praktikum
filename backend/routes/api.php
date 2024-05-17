@@ -103,7 +103,7 @@ Route::middleware('auth:api', 'role:Admin|Mahasiswa')->group(function () {
     Route::get('/barang/pagination/alat/{limit}', [BarangController::class, 'paginationAlat'])->name('barang.paginationAlat');
     Route::get('/barang/pagination/bahan/{limit}', [BarangController::class, 'paginationBahan'])->name('barang.paginationBahan');
     Route::get('/barang/kategori/{kategoriId}', [BarangController::class, 'showByKategori'])->name('barang.showByKategori');
-    Route::get('/barang/search/{keywords}', [BarangController::class, 'search'])->name('barang.search');
+    Route::get('/barang/search/{kategoriId}/{keywords}', [BarangController::class, 'search'])->name('barang.search');
 
     // Peminjaman
     Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman.index');

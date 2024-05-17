@@ -11,7 +11,7 @@ class PeminjamanController extends Controller
 {
     public function index()
     {
-        $peminjaman = Peminjaman::with('user', 'barang')->paginate(8);
+        $peminjaman = Peminjaman::with('user', 'barang')->orderByDesc('tanggal_peminjaman')->paginate(8);
         ;
 
         if (!$peminjaman) {
@@ -209,7 +209,7 @@ class PeminjamanController extends Controller
 
     public function peminjamanByUserId($userId)
     {
-        $peminjaman = Peminjaman::with('user', 'barang', 'pengembalian')->where('user_id', $userId)->paginate(8);
+        $peminjaman = Peminjaman::with('user', 'barang', 'pengembalian')->where('user_id', $userId)->orderByDesc('tanggal_peminjaman')->paginate(8);
 
         if ($peminjaman) {
             return response()->json([
@@ -254,7 +254,7 @@ class PeminjamanController extends Controller
 
     public function peminjamanApproved($userId)
     {
-        $peminjaman = Peminjaman::with('user', 'barang', 'pengembalian')->where('status', 'Diterima')->where('user_id', $userId)->paginate(8);
+        $peminjaman = Peminjaman::with('user', 'barang', 'pengembalian')->where('status', 'Diterima')->where('user_id', $userId)->orderByDesc('tanggal_peminjaman')->paginate(8);
 
         if ($peminjaman->isEmpty()) {
             return response()->json([

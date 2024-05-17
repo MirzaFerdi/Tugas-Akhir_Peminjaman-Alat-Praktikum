@@ -21,5 +21,17 @@ class BroadcastSeeder extends Seeder
             'judul' => 'Pengumuman Untuk Seluruh Mahasiswa TRO',
             'pesan' => 'Hari Rabu, 15 Mei 2024, Untuk peminjaman alat, lakukan request dan ambil di Gudang Peralatan Lab. Tidak perlu menunggu persetujuan dari saya, baik untuk peminjaman maupun pengembalian. Setelah selesai test SOP, saya akan cek request. Terima kasih!',
         ]);
+        DB::table('broadcast')->insert([
+            'judul' => 'Pengumuman Untuk Seluruh Mahasiswa TRO',
+            'pesan' => 'Hari Rabu, 15 Mei 2024, Untuk peminjaman alat, lakukan request dan ambil di Gudang Peralatan Lab. Tidak perlu menunggu persetujuan dari saya, baik untuk peminjaman maupun pengembalian. Setelah selesai test SOP, saya akan cek request. Terima kasih!',
+        ]);
+        DB::table('broadcast')->insert([
+            'judul' => 'Pengumuman Untuk Seluruh Mahasiswa TRO',
+            'pesan' => 'Hari Rabu, 15 Mei 2024, Untuk peminjaman alat, lakukan request dan ambil di Gudang Peralatan Lab. Tidak perlu menunggu persetujuan dari saya, baik untuk peminjaman maupun pengembalian. Setelah selesai test SOP, saya akan cek request. Terima kasih!',
+        ]);
+        DB::table('broadcast')->insert([
+            'judul' => 'Pengumuman Untuk Seluruh Mahasiswa TRO',
+            'pesan' => 'Hari Rabu, 15 Mei 2024, Untuk peminjaman alat, lakukan request dan ambil di Gudang Peralatan Lab. Tidak perlu menunggu persetujuan dari saya, baik untuk peminjaman maupun pengembalian. Setelah selesai test SOP, saya akan cek request. Terima kasih!',
+        ]);
     }
 }

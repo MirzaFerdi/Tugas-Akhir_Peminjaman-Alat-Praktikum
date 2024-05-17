@@ -9,7 +9,7 @@ class BroadcastController extends Controller
 {
     public function index()
     {
-        $broadcast = Broadcast::all();
+        $broadcast = Broadcast::orderByDesc('id')->limit(2)->get();
 
         if (!$broadcast) {
             return response()->json([
