@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Barang;
 use App\Models\Peminjaman;
 use App\Models\Pengembalian;
+use App\Events\MyNotificationEvent;
 use Illuminate\Http\Request;
 
 class PeminjamanController extends Controller
@@ -50,6 +51,14 @@ class PeminjamanController extends Controller
 
 
         if ($peminjaman) {
+            $message = response()->json([
+                'success' => true,
+                'message' => 'Ada peminjaman baru!',
+                'data' => $peminjaman
+            ]);
+
+            event(new MyNotificationEvent($message));
+
             return response()->json([
                 'success' => true,
                 'message' => 'Peminjaman berhasil ditambahkan!',
@@ -162,6 +171,15 @@ class PeminjamanController extends Controller
         $barang->stok_tersedia = $barang->stok_tersedia - 1;
         $barang->save();
 
+
+        $message = response()->json([
+            'success' => true,
+            'message' => 'Peminjaman anda berhasil diterima!',
+            'data' => $peminjaman
+        ]);
+
+        event(new MyNotificationEvent($message));
+
         return response()->json([
             'success' => true,
             'message' => 'Peminjaman berhasil diterima!',
@@ -176,6 +194,15 @@ class PeminjamanController extends Controller
         $peminjaman->save();
 
         if ($peminjaman) {
+
+            $message = response()->json([
+                'success' => true,
+                'message' => 'Peminjaman anda ditolak!',
+                'data' => $peminjaman
+            ]);
+
+            event(new MyNotificationEvent($message));
+
             return response()->json([
                 'success' => true,
                 'message' => 'Peminjaman berhasil ditolak!',

@@ -13,37 +13,21 @@ class PeminjamanSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('peminjaman')->insert([
-            'user_id' => 2,
-            'barang_id' => 1,
-            'pengembalian_id' => null,
-            'keterangan' => 'Peminjaman barang untuk keperluan tugas akhir',
-            'status' => 'Pending',
-            'tanggal_peminjaman' => '2024-02-12 14:53:53',
-        ]);
-        DB::table('peminjaman')->insert([
-            'user_id' => 2,
-            'barang_id' => 1,
-            'pengembalian_id' => null,
-            'keterangan' => 'Peminjaman barang untuk keperluan tugas akhir',
-            'status' => 'Pending',
-            'tanggal_peminjaman' => '2024-02-15 14:53:53',
-        ]);
-        DB::table('peminjaman')->insert([
-            'user_id' => 2,
-            'barang_id' => 1,
-            'pengembalian_id' => null,
-            'keterangan' => 'Peminjaman barang untuk keperluan tugas akhir',
-            'status' => 'Pending',
-            'tanggal_peminjaman' => '2024-02-09 14:53:53',
-        ]);
-        DB::table('peminjaman')->insert([
-            'user_id' => 3,
-            'barang_id' => 2,
-            'pengembalian_id' => null,
-            'keterangan' => 'Peminjaman barang untuk keperluan praktikum',
-            'status' => 'Pending',
-            'tanggal_peminjaman' => '2024-05-15 10:50:00',
-        ]);
+        // DB::table('peminjaman')->insert([
+        //     'user_id' => 2,
+        //     'barang_id' => 1,
+        //     'pengembalian_id' => null,
+        //     'keterangan' => 'Peminjaman barang untuk keperluan tugas akhir',
+        //     'status' => 'Pending',
+        //     'tanggal_peminjaman' => '2024-02-12 14:53:53',
+        // ]);
+        // DB::table('peminjaman')->insert([
+        //     'user_id' => 2,
+        //     'barang_id' => 1,
+        //     'pengembalian_id' => null,
+        //     'keterangan' => 'Peminjaman barang untuk keperluan tugas akhir',
+        //     'status' => 'Pending',
+        //     'tanggal_peminjaman' => '2024-02-15 14:53:53',
+        // ]);
     }
 }

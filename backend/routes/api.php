@@ -113,6 +113,9 @@ Route::middleware('auth:api', 'role:Admin|Mahasiswa')->group(function () {
     Route::get('/peminjaman/sort/{keywords}', [PeminjamanController::class, 'sortTimestamps'])->name('peminjaman.sort');
     Route::get('/peminjaman/user/{userId}', [PeminjamanController::class, 'peminjamanByUserId'])->name('peminjaman.showByUser');
     Route::post('/peminjaman', [PeminjamanController::class, 'store'])->name('peminjaman.store');
+
+
+
     Route::put('/peminjaman/{id}', [PeminjamanController::class, 'update'])->name('peminjaman.update');
     Route::put('/peminjaman/pengembalian/id/{id}', [PeminjamanController::class, 'updatePengembalian'])->name('peminjaman.pengembalian');
     Route::delete('/peminjaman/{id}', [PeminjamanController::class, 'destroy'])->name('peminjaman.destroy');

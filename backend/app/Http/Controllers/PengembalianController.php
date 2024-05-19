@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use App\Models\Pengembalian;
+use App\Events\MyNotificationEvent;
 use Illuminate\Http\Request;
 
 class PengembalianController extends Controller
@@ -48,6 +49,15 @@ class PengembalianController extends Controller
         $pengembalian->save();
 
         if ($pengembalian) {
+
+            $message = response()->json([
+                'success' => true,
+                'message' => 'Ada pengembalian baru!',
+                'data' => $pengembalian
+            ]);
+
+            event(new MyNotificationEvent($message));
+
             return response()->json([
                 'success' => true,
                 'message' => 'Pengembalian berhasil ditambahkan!',
@@ -129,6 +139,15 @@ class PengembalianController extends Controller
         $barang->stok_tersedia = $barang->stok_tersedia + 1;
         $barang->save();
 
+
+        $message = response()->json([
+            'success' => true,
+            'message' => 'Pengembalian anda berhasil diterima!',
+            'data' => $pengembalian
+        ]);
+
+        event(new MyNotificationEvent($message));
+
         return response()->json([
             'success' => true,
             'message' => 'Pengembalian berhasil diterima!',
@@ -143,6 +162,15 @@ class PengembalianController extends Controller
         $pengembalian->save();
 
         if ($pengembalian) {
+
+            $message = response()->json([
+                'success' => true,
+                'message' => 'Pengembalian anda ditolak!',
+                'data' => $pengembalian
+            ]);
+
+            event(new MyNotificationEvent($message));
+
             return response()->json([
                 'success' => true,
                 'message' => 'Pengembalian berhasil ditolak!',
