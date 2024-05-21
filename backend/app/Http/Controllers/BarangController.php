@@ -45,7 +45,7 @@ class BarangController extends Controller
         return response()->json($barang);
     }
 
-    public function search($kategoriId,$keywords){
+    public function search($kategoriId, $keywords){
         $barang = Barang::where('kategori_id', $kategoriId)->where(function ($query) use ($keywords){
             $query->where('nama_barang', 'like', "%$keywords%")
                 ->orWhere('kode_barang', 'like', "%$keywords%");
@@ -64,14 +64,8 @@ class BarangController extends Controller
         ]);
     }
 
-    public function paginationAlat($limit){
-        $barang = Barang::where('kategori_id', 1)->paginate($limit);
-
-        return response()->json($barang);
-    }
-
-    public function paginationBahan($limit){
-        $barang = Barang::where('kategori_id', 2)->paginate($limit);
+    public function paginationBarang($kategoriId, $limit){
+        $barang = Barang::where('kategori_id', $kategoriId)->paginate($limit);
 
         return response()->json($barang);
     }
