@@ -50,6 +50,7 @@ class BroadcastController extends Controller
 
         $message = response()->json([
             'success' => true,
+            'id' => 2,
             'message' => 'Pengumuman Baru!',
             'data' => $broadcast
         ]);

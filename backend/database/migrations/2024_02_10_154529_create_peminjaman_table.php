@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('keterangan');
             $table->string('status');
             $table->timestamp('tanggal_peminjaman')->nullable()->default(null);
+            $table->timestamp('tenggat_peminjaman')->nullable()->default(null);
         });
     }
 

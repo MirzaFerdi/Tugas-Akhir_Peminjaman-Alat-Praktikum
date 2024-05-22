@@ -6,6 +6,7 @@ use App\Models\Barang;
 use App\Models\Peminjaman;
 use App\Models\Pengembalian;
 use App\Events\MyNotificationEvent;
+use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 
 class PeminjamanController extends Controller
@@ -53,6 +54,7 @@ class PeminjamanController extends Controller
         if ($peminjaman) {
             $message = response()->json([
                 'success' => true,
+                'id' => 1,
                 'message' => 'Ada peminjaman baru!',
                 'data' => $peminjaman
             ]);
@@ -141,6 +143,8 @@ class PeminjamanController extends Controller
 
     public function approve($id)
     {
+        date_default_timezone_set('Asia/Jakarta');
+
         $peminjaman = Peminjaman::find($id);
         $barang = Barang::find($peminjaman->barang_id);
 
@@ -151,7 +155,7 @@ class PeminjamanController extends Controller
             ]);
         }
 
-        if($barang->stok_tersedia <= 0){
+        if ($barang->stok_tersedia <= 0) {
             return response()->json([
                 'success' => false,
                 'message' => 'jumlah stok yang tersedia tidak ada!',
@@ -166,6 +170,7 @@ class PeminjamanController extends Controller
         }
 
         $peminjaman->status = 'Diterima';
+        $peminjaman->tenggat_peminjaman = Carbon::now()->addDays(7);
         $peminjaman->save();
 
         $barang->stok_tersedia = $barang->stok_tersedia - 1;
@@ -174,6 +179,7 @@ class PeminjamanController extends Controller
 
         $message = response()->json([
             'success' => true,
+            'id' => 2,
             'message' => 'Peminjaman anda berhasil diterima!',
             'data' => $peminjaman
         ]);
@@ -197,6 +203,7 @@ class PeminjamanController extends Controller
 
             $message = response()->json([
                 'success' => true,
+                'id' => 2,
                 'message' => 'Peminjaman anda ditolak!',
                 'data' => $peminjaman
             ]);
@@ -239,6 +246,16 @@ class PeminjamanController extends Controller
         $peminjaman = Peminjaman::with('user', 'barang', 'pengembalian')->where('user_id', $userId)->orderByDesc('tanggal_peminjaman')->paginate(8);
 
         if ($peminjaman) {
+
+            $message = response()->json([
+                'success' => true,
+                'id' => 2,
+                'message' => 'Peminjaman anda berhasil diterima!',
+                'data' => $peminjaman
+            ]);
+
+            event(new MyNotificationEvent($message));
+
             return response()->json([
                 'success' => true,
                 'message' => 'Data peminjaman ditemukan!',
@@ -281,20 +298,43 @@ class PeminjamanController extends Controller
 
     public function peminjamanApproved($userId)
     {
-        $peminjaman = Peminjaman::with('user', 'barang', 'pengembalian')->where('status', 'Diterima')->where('user_id', $userId)->orderByDesc('tanggal_peminjaman')->paginate(8);
+
+        $peminjaman = Peminjaman::with('user', 'barang', 'pengembalian')
+            ->where('status', 'Diterima')
+            ->where('user_id', $userId)
+            ->orderByDesc('tanggal_peminjaman')
+            ->paginate(8);
 
         if ($peminjaman->isEmpty()) {
             return response()->json([
                 'success' => false,
                 'message' => 'Tidak ada transaksi peminjaman yang sudah disetujui oleh admin!',
             ]);
-        } else {
-            return response()->json([
-                'success' => true,
-                'message' => 'Data peminjaman ditemukan!',
-                'data' => $peminjaman
-            ]);
         }
+
+        // Memeriksa setiap record peminjaman untuk kondisi tenggat_peminjaman
+        foreach ($peminjaman as $item) {
+            $tanggalPeminjaman = Carbon::parse($item->tanggal_peminjaman);
+            $tenggatPeminjaman = Carbon::parse($item->tenggat_peminjaman);
+            $sekarang = now();
+
+            if ($tenggatPeminjaman->greaterThan($tanggalPeminjaman) && $tenggatPeminjaman->diffInDays($sekarang) < 2) {
+                $message = response()->json([
+                    'success' => true,
+                    'id' => 2,
+                    'message' => 'Tenggat peminjaman kurang dari 2 hari!',
+                    'data' => $item
+                ]);
+
+                event(new MyNotificationEvent($message));
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data peminjaman ditemukan!',
+            'data' => $peminjaman
+        ]);
     }
 
     public function transaksiBulanan($bulan, $tahun)
@@ -317,7 +357,8 @@ class PeminjamanController extends Controller
         }
     }
 
-    public function transaksiHarian($hari, $bulan, $tahun){
+    public function transaksiHarian($hari, $bulan, $tahun)
+    {
         $peminjaman = Peminjaman::with('user', 'barang')->whereDay('tanggal_peminjaman', $hari)->whereMonth('tanggal_peminjaman', $bulan)->whereYear('tanggal_peminjaman', $tahun)->get();
         $pengembalian = Pengembalian::with('user', 'barang')->whereDay('tanggal_pengembalian', $hari)->whereMonth('tanggal_pengembalian', $bulan)->whereYear('tanggal_pengembalian', $tahun)->get();
 

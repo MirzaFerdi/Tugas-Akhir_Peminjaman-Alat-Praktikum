@@ -14,27 +14,27 @@ class KelasSeeder extends Seeder
     public function run(): void
     {
         DB::table('kelas')->insert([
-            'kelas' => 1,
+            'kelas' => 'Kelas 1',
             'dpa' => 'Alvionithasari S.Kom, M.Kom',
             'tahun_ajaran' => '2023/2024',
         ]);
         DB::table('kelas')->insert([
-            'kelas' => 2,
+            'kelas' => 'Kelas 2',
             'dpa' => 'Very Sugiarto, S.Kom, M.Kom',
             'tahun_ajaran' => '2022/2023',
         ]);
         DB::table('kelas')->insert([
-            'kelas' => 3,
+            'kelas' => 'Kelas 3',
             'dpa' => 'Gunawan Budi Prasetyo, S.Kom, M.Kom',
             'tahun_ajaran' => '2021/2022',
         ]);
         DB::table('kelas')->insert([
-            'kelas' => 4,
+            'kelas' => 'Kelas 4',
             'dpa' => 'Rahmat Hidayat, S.Kom, M.Kom',
             'tahun_ajaran' => '2020/2021',
         ]);
         DB::table('kelas')->insert([
-            'kelas' => 5,
+            'kelas' => 'Alumni',
             'dpa' => 'Alumni',
             'tahun_ajaran' => '2023/2024',
         ]);

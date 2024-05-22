@@ -87,8 +87,10 @@ class UserController extends Controller
         $user = User::where('role_id', 2)->where(function ($query) use ($keywords){
             $query->where('nama', 'like', '%'.$keywords.'%')
                 ->orWhere('username', 'like', '%'.$keywords.'%')
-                ->orWhere('kelas_id', 'like', '%'.$keywords.'%');
-        })->get();
+                ->orWhereHas('kelas', function ($query) use ($keywords){
+                    $query->where('kelas', 'like', '%'.$keywords.'%');
+                });
+        })->with('kelas')->get();
 
         if($user->isEmpty()){
             return response()->json([

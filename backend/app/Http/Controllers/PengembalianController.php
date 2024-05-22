@@ -52,6 +52,7 @@ class PengembalianController extends Controller
 
             $message = response()->json([
                 'success' => true,
+                'id' => 1,
                 'message' => 'Ada pengembalian baru!',
                 'data' => $pengembalian
             ]);
@@ -142,6 +143,7 @@ class PengembalianController extends Controller
 
         $message = response()->json([
             'success' => true,
+            'id' => 2,
             'message' => 'Pengembalian anda berhasil diterima!',
             'data' => $pengembalian
         ]);
@@ -165,6 +167,7 @@ class PengembalianController extends Controller
 
             $message = response()->json([
                 'success' => true,
+                'id' => 2,
                 'message' => 'Pengembalian anda ditolak!',
                 'data' => $pengembalian
             ]);
