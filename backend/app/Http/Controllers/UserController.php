@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Barang;
 use App\Models\Peminjaman;
 use App\Models\Pengembalian;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -166,6 +167,14 @@ class UserController extends Controller
         $user->nohp = $request->nohp;
         $user->kelas_id = $request->kelas_id;
         $user->role_id = $request->role_id;
+
+
+        if ($request->hasFile('foto')) {
+            $file = $request->file('foto');
+            $path = $file->store('public/foto');
+            $user->foto = Storage::url($path);
+        }
+
         $user->save();
 
 
@@ -185,27 +194,50 @@ class UserController extends Controller
     }
 
     public function update(Request $request, $id){
+
         $user = User::find($id);
+
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Pengguna tidak ditemukan!',
+            ]);
+        }
+
+        if ($user->username !== $request->username && User::where('username', $request->username)->exists()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Username sudah terdaftar!',
+            ]);
+        }
+
+        if ($user->email !== $request->email && User::where('email', $request->email)->exists()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Email sudah terdaftar!',
+            ]);
+        }
+
         $user->nama = $request->nama;
         $user->username = $request->username;
         $user->email = $request->email;
         $user->nohp = $request->nohp;
         $user->kelas_id = $request->kelas_id;
         $user->role_id = $request->role_id;
+
+        if ($request->hasFile('foto')) {
+            $file = $request->file('foto');
+            $path = $file->store('public/foto');
+            $user->foto = Storage::url($path);
+        }
+
         $user->save();
 
-        if($user){
-            return response()->json([
-                'success' => true,
-                'message' => 'User berhasil diupdate!',
-                'data' => $user
-            ]);
-        }else{
-            return response()->json([
-                'success' => false,
-                'message' => 'User gagal diupdate!',
-            ]);
-        }
+        return response()->json([
+            'success' => true,
+            'message' => 'User berhasil diupdate!',
+            'data' => $user
+        ]);
     }
 
     public function destroy($id){
