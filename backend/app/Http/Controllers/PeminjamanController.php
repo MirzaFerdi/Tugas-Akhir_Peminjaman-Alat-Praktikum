@@ -246,16 +246,6 @@ class PeminjamanController extends Controller
         $peminjaman = Peminjaman::with('user', 'barang', 'pengembalian')->where('user_id', $userId)->orderByDesc('tanggal_peminjaman')->paginate(8);
 
         if ($peminjaman) {
-
-            $message = response()->json([
-                'success' => true,
-                'id' => 2,
-                'message' => 'Peminjaman anda berhasil diterima!',
-                'data' => $peminjaman
-            ]);
-
-            event(new MyNotificationEvent($message));
-
             return response()->json([
                 'success' => true,
                 'message' => 'Data peminjaman ditemukan!',

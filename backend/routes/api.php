@@ -50,7 +50,6 @@ Route::middleware('auth:api', 'role:Admin')->group(function () {
     Route::get('/user/search/mahasiswa/{kelasId}/{keywords}', [UserController::class, 'searchMahasiswaKelas'])->name('user.searchMahasiswa');
     Route::get('/user/mahasiswa/{kelasId}/{id}', [UserController::class, 'mahasiswaByKelasId'])->name('user.mahasiswaByKelasId');
     Route::post('/user', [UserController::class, 'store'])->name('user.store');
-    Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
     Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 
     //Broadcast
@@ -92,6 +91,7 @@ Route::middleware('auth:api', 'role:Admin')->group(function () {
 Route::middleware('auth:api', 'role:Admin|Mahasiswa')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/countall', [UserController::class, 'countAll'])->name('countAll');
+    Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
 
     //Broadcast
     Route::get('/broadcast', [BroadcastController::class, 'index'])->name('broadcast.index');
