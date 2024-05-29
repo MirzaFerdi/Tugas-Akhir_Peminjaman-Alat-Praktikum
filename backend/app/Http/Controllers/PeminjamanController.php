@@ -42,11 +42,29 @@ class PeminjamanController extends Controller
 
     public function store(Request $request)
     {
+
+        $barang = Barang::find($request->barang_id);
+
+        if (!$barang) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Barang tidak ditemukan!',
+            ]);
+        }
+
+        if ($request->jumlah_peminjaman > $barang->stok_tersedia) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Jumlah peminjaman melebihi stok yang tersedia!',
+            ]);
+        }
+
         $peminjaman = new Peminjaman;
         $peminjaman->user_id = $request->user_id;
         $peminjaman->barang_id = $request->barang_id;
         $peminjaman->keterangan = $request->keterangan;
         $peminjaman->status = $request->status;
+        $peminjaman->jumlah_peminjaman = $request->jumlah_peminjaman;
         $peminjaman->tanggal_peminjaman = $request->tanggal_peminjaman;
         $peminjaman->save();
 
@@ -81,6 +99,7 @@ class PeminjamanController extends Controller
         $peminjaman->barang_id = $request->barang_id;
         $peminjaman->keterangan = $request->keterangan;
         $peminjaman->status = $request->status;
+        $peminjaman->jumlah_peminjaman = $request->jumlah_peminjaman;
         $peminjaman->tanggal_peminjaman = $request->tanggal_peminjaman;
         $peminjaman->save();
 
@@ -122,10 +141,6 @@ class PeminjamanController extends Controller
     {
         $peminjaman = Peminjaman::find($id);
         $peminjaman->delete();
-
-        $barang = Barang::find($peminjaman->barang_id);
-        $barang->stok_tersedia = $barang->stok_tersedia + 1;
-        $barang->save();
 
         if ($peminjaman) {
             $peminjaman = Peminjaman::find($id);
@@ -173,7 +188,7 @@ class PeminjamanController extends Controller
         $peminjaman->tenggat_peminjaman = Carbon::now()->addDays(7);
         $peminjaman->save();
 
-        $barang->stok_tersedia = $barang->stok_tersedia - 1;
+        $barang->stok_tersedia = $barang->stok_tersedia - $peminjaman->jumlah_peminjaman;
         $barang->save();
 
 

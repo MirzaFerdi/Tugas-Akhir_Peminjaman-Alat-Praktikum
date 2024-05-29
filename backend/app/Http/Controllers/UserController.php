@@ -7,6 +7,8 @@ use App\Models\Barang;
 use App\Models\Peminjaman;
 use App\Models\Pengembalian;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -26,7 +28,7 @@ class UserController extends Controller
     }
 
     public function show($id){
-        $user = User::find($id);
+        $user = User::with('kelas','role')->find($id);
 
         if(!$user){
             return response()->json([
@@ -194,6 +196,26 @@ class UserController extends Controller
     }
 
     public function update(Request $request, $id){
+
+        // Log request data
+        // Log::info('Request data:', $request->all());
+
+        // $validator = Validator::make($request->all(), [
+        //     'nama' => 'required|string|max:255',
+        //     'username' => 'required|string|max:255|unique:users,username,'.$id,
+        //     'email' => 'required|string|email|max:255|unique:users,email,'.$id,
+        //     'nohp' => 'required|string|max:20',
+        //     'kelas_id' => 'required|integer',
+        //     'role_id' => 'required|integer',
+        //     'foto' => 'nullable|file|image|max:2048', // Foto bisa kosong
+        // ]);
+
+        // if ($validator->fails()) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => $validator->errors(),
+        //     ], 400);
+        // }
 
         $user = User::find($id);
 

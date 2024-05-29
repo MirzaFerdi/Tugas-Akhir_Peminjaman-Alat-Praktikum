@@ -42,7 +42,10 @@ class BarangController extends Controller
                 'message' => 'Kategori tidak ditemukan!',
             ]);
         }
-        return response()->json($barang);
+        return response()->json([
+            'success' => true,
+            'data' => $barang
+        ]);
     }
 
     public function search($kategoriId, $keywords){

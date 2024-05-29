@@ -19,6 +19,7 @@ class Pengembalian extends Model
         'peminjaman_id',
         'keterangan',
         'status',
+        'jumlah_pengembalian',
         'tanggal_pengembalian',
     ];
 
@@ -30,5 +31,9 @@ class Pengembalian extends Model
     }
     public function peminjaman(){
         return $this->belongsTo(Peminjaman::class);
+    }
+
+    public function kondisiBarang(){
+        return $this->hasMany(KondisiBarang::class);
     }
 }

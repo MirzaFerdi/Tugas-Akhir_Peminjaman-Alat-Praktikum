@@ -28,7 +28,8 @@ class DatabaseSeeder extends Seeder
             PeminjamanSeeder::class,
             PengembalianSeeder::class,
             BroadcastSeeder::class,
-
+            NotifikasiSeeder::class,
+            KondisiBarangSeeder::class,
         ]);
     }
 }

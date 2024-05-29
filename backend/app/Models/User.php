@@ -50,11 +50,19 @@ class User extends Authenticatable implements JWTSubject
         'password' => 'hashed',
     ];
 
+    public function notifikasi(){
+        return $this->hasMany(Notifikasi::class);
+    }
+
     public function role(){
         return $this->belongsTo(Role::class);
     }
     public function kelas(){
         return $this->belongsTo(Kelas::class);
+    }
+
+    public function kondisiBarang(){
+        return $this->hasMany(KondisiBarang::class);
     }
 
     public function getJWTIdentifier()

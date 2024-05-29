@@ -4,11 +4,13 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\BroadcastController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\KondisiBarangController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\PengembalianController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\NotifikasiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -43,7 +45,6 @@ Route::middleware('auth:api', 'role:Admin')->group(function () {
 
     // User
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
-    Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
     Route::get('/user/mahasiswa/pagination', [UserController::class, 'mahasiswaAll'])->name('user.mahasiswaAll');
     Route::get('/user/search/{keywords}', [UserController::class, 'searchMahasiswaAll'])->name('user.search');
     Route::get('/user/kelas/{kelasId}', [UserController::class, 'showByKelas'])->name('user.showByKelas');
@@ -51,6 +52,12 @@ Route::middleware('auth:api', 'role:Admin')->group(function () {
     Route::get('/user/mahasiswa/{kelasId}/{id}', [UserController::class, 'mahasiswaByKelasId'])->name('user.mahasiswaByKelasId');
     Route::post('/user', [UserController::class, 'store'])->name('user.store');
     Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+
+
+    //Kondisi Barang
+    Route::get('/kondisibarang', [KondisiBarangController::class, 'index'])->name('kondisibarang.index');
+    Route::put('/kondisibarang/{id}', [KondisiBarangController::class, 'update'])->name('kondisibarang.update');
+    Route::delete('/kondisibarang/{id}', [KondisiBarangController::class, 'destroy'])->name('kondisibarang.destroy');
 
     //Broadcast
     Route::post('/broadcast', [BroadcastController::class, 'store'])->name('broadcast.store');
@@ -91,11 +98,23 @@ Route::middleware('auth:api', 'role:Admin')->group(function () {
 Route::middleware('auth:api', 'role:Admin|Mahasiswa')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/countall', [UserController::class, 'countAll'])->name('countAll');
+
+    // User
+    Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
     Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
+
+    //Kondisi Barang
+    Route::post('/kondisibarang', [KondisiBarangController::class, 'store'])->name('kondisibarang.store');
 
     //Broadcast
     Route::get('/broadcast', [BroadcastController::class, 'index'])->name('broadcast.index');
     Route::get('/broadcast/{id}', [BroadcastController::class, 'show'])->name('broadcast.show');
+
+    //Notifikasi
+    Route::get('/notifikasi/{userId}', [NotifikasiController::class, 'notifikasiByUser'])->name('notifikasi.notifikasiByUser');
+    Route::post('/notifikasi', [NotifikasiController::class, 'store'])->name('notifikasi.store');
+    Route::put('/notifikasi/{id}', [NotifikasiController::class, 'dibaca'])->name('notifikasi.update');
+    Route::delete('/notifikasi/{userId}', [NotifikasiController::class, 'destroy'])->name('notifikasi.destroy');
 
     // Barang
     Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
