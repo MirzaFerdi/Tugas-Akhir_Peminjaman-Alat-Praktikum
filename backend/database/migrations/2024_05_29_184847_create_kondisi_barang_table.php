@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('barang_id')->constrained('barang');
             $table->foreignId('pengembalian_id')->constrained('pengembalian');
             $table->string('kondisi_barang');
+            $table->integer('jumlah_kondisi');
         });
     }
 

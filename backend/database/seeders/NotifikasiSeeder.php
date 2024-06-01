@@ -23,5 +23,30 @@ class NotifikasiSeeder extends Seeder
             'pesan' => 'Selamat datang di aplikasi ini',
             'dibaca' => 0,
         ]);
+        DB::table('notifikasi')->insert([
+            'user_id' => 2,
+            'pesan' => 'Selamat datang di aplikasi ini',
+            'dibaca' => 0,
+        ]);
+        DB::table('notifikasi')->insert([
+            'user_id' => 2,
+            'pesan' => 'Selamat datang di aplikasi ini',
+            'dibaca' => 0,
+        ]);
+        DB::table('notifikasi')->insert([
+            'user_id' => 2,
+            'pesan' => 'Selamat datang di aplikasi ini',
+            'dibaca' => 0,
+        ]);
+        DB::table('notifikasi')->insert([
+            'user_id' => 2,
+            'pesan' => 'Selamat datang di aplikasi ini',
+            'dibaca' => 0,
+        ]);
+        DB::table('notifikasi')->insert([
+            'user_id' => 2,
+            'pesan' => 'Selamat datang di aplikasi ini',
+            'dibaca' => 0,
+        ]);
     }
 }

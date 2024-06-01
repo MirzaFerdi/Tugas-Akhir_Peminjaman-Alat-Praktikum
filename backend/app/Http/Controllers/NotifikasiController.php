@@ -10,7 +10,13 @@ class NotifikasiController extends Controller
 
     public function notifikasiByUser($userId)
     {
-        $notifikasi = Notifikasi::with('user')->where('user_id', $userId)->get();
+        $notifikasi = Notifikasi::with('user')->where('user_id', $userId)->orderByDesc('id')->get();
+
+        if (!$notifikasi) {
+            return response()->json([
+                'message' => 'Notifikasi tidak ditemukan!',
+            ]);
+        }
 
         return response()->json([
             'message' => 'Notifikasi ditemukan!',
@@ -32,14 +38,30 @@ class NotifikasiController extends Controller
         ]);
     }
 
-    public function dibaca(Request $request, $id)
+    public function dibaca(Request $request, $userId, $id)
     {
-        $notifikasi = Notifikasi::find($id);
+        $notifikasi = Notifikasi::where('user_id', $userId)->where('id', $id)->first();
         $notifikasi->dibaca = '1';
         $notifikasi->save();
 
         return response()->json([
             'message' => 'Notifikasi berhasil diubah',
+            'data' => $notifikasi
+        ]);
+    }
+
+    public function belumDibaca($userId)
+    {
+        $notifikasi = Notifikasi::where('user_id', $userId)->where('dibaca', '0')->get();
+
+        if (!$notifikasi) {
+            return response()->json([
+                'message' => 'Notifikasi belum dibaca tidak ditemukan!',
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Notifikasi belum dibaca ditemukan!',
             'data' => $notifikasi
         ]);
     }

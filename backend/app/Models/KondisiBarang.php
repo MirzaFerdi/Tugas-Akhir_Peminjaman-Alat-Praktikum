@@ -18,6 +18,7 @@ class KondisiBarang extends Model
         'barang_id',
         'pengembalian_id',
         'kondisi_barang',
+        'jumlah_kondisi',
     ];
 
     public function user(){

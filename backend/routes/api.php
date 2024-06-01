@@ -72,6 +72,8 @@ Route::middleware('auth:api', 'role:Admin')->group(function () {
 
     //Pengembalian
     Route::put('/pengembalian/approve/{id}', [PengembalianController::class, 'approve'])->name('pengembalian.approve');
+    Route::put('/pengembalian/approve/barangrusak/{id}', [PengembalianController::class, 'approveBarangRusak'])->name('pengembalian.approveBarangRusak');
+    Route::put('/pengembalian/approve/bahanhabis/{id}', [PengembalianController::class, 'approveBahanHabis'])->name('pengembalian.approveBahanHabis');
     Route::put('/pengembalian/reject/{id}', [PengembalianController::class, 'reject'])->name('pengembalian.reject');
 
     //Barang
@@ -101,7 +103,7 @@ Route::middleware('auth:api', 'role:Admin|Mahasiswa')->group(function () {
 
     // User
     Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
-    Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::post('/user/{id}', [UserController::class, 'update'])->name('user.update');
 
     //Kondisi Barang
     Route::post('/kondisibarang', [KondisiBarangController::class, 'store'])->name('kondisibarang.store');
@@ -112,8 +114,9 @@ Route::middleware('auth:api', 'role:Admin|Mahasiswa')->group(function () {
 
     //Notifikasi
     Route::get('/notifikasi/{userId}', [NotifikasiController::class, 'notifikasiByUser'])->name('notifikasi.notifikasiByUser');
+    Route::get('/notifikasi/belumdibaca/{userId}', [NotifikasiController::class, 'belumDibaca'])->name('notifikasi.belumDibaca');
     Route::post('/notifikasi', [NotifikasiController::class, 'store'])->name('notifikasi.store');
-    Route::put('/notifikasi/{id}', [NotifikasiController::class, 'dibaca'])->name('notifikasi.update');
+    Route::put('/notifikasi/{userId}/{id}', [NotifikasiController::class, 'dibaca'])->name('notifikasi.update');
     Route::delete('/notifikasi/{userId}', [NotifikasiController::class, 'destroy'])->name('notifikasi.destroy');
 
     // Barang

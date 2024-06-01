@@ -7,8 +7,6 @@ use App\Models\Barang;
 use App\Models\Peminjaman;
 use App\Models\Pengembalian;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -160,7 +158,6 @@ class UserController extends Controller
             ]);
         }
 
-
         $user = new User;
         $user->nama = $request->nama;
         $user->username = $request->username;
@@ -173,8 +170,9 @@ class UserController extends Controller
 
         if ($request->hasFile('foto')) {
             $file = $request->file('foto');
-            $path = $file->store('public/foto');
-            $user->foto = Storage::url($path);
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('public/foto', $filename);
+            $user->foto = $filename;
         }
 
         $user->save();
@@ -197,25 +195,6 @@ class UserController extends Controller
 
     public function update(Request $request, $id){
 
-        // Log request data
-        // Log::info('Request data:', $request->all());
-
-        // $validator = Validator::make($request->all(), [
-        //     'nama' => 'required|string|max:255',
-        //     'username' => 'required|string|max:255|unique:users,username,'.$id,
-        //     'email' => 'required|string|email|max:255|unique:users,email,'.$id,
-        //     'nohp' => 'required|string|max:20',
-        //     'kelas_id' => 'required|integer',
-        //     'role_id' => 'required|integer',
-        //     'foto' => 'nullable|file|image|max:2048', // Foto bisa kosong
-        // ]);
-
-        // if ($validator->fails()) {
-        //     return response()->json([
-        //         'success' => false,
-        //         'message' => $validator->errors(),
-        //     ], 400);
-        // }
 
         $user = User::find($id);
 
@@ -247,10 +226,14 @@ class UserController extends Controller
         $user->kelas_id = $request->kelas_id;
         $user->role_id = $request->role_id;
 
-        if ($request->hasFile('foto')) {
+        if($request->hasFile('foto')){
+            if($user->foto && Storage::exists('public/foto/' . $user->foto)){
+                Storage::delete('public/foto/' . $user->foto);
+            }
             $file = $request->file('foto');
-            $path = $file->store('public/foto');
-            $user->foto = Storage::url($path);
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('public/foto', $filename);
+            $user->foto = $filename;
         }
 
         $user->save();

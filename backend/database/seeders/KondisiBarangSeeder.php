@@ -17,6 +17,7 @@ class KondisiBarangSeeder extends Seeder
             'user_id' => 3,
             'barang_id' => 2,
             'pengembalian_id' => 1,
+            'jumlah_kondisi' => 2,
             'kondisi_barang' => 'Baik',
         ]);
     }
