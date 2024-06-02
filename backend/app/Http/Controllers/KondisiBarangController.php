@@ -25,14 +25,14 @@ class KondisiBarangController extends Controller
 
         $pengembalian = Pengembalian::find($request->pengembalian_id);
 
-        if($request->jumlah_kondisi > $pengembalian->jumlah_barang){
+        if($request->jumlah_kondisi > $pengembalian->jumlah_pengembalian){
             return response()->json([
                 'success' => false,
                 'message' => 'Jumlah kondisi tidak boleh melebihi jumlah barang yang dikembalikan!',
             ]);
         }
 
-        if($request->kondisi_barang = 0){
+        if($request->jumlah_kondisi == 0){
             return response()->json([
                 'success' => false,
                 'message' => 'Kondisi barang tidak boleh kosong!',
