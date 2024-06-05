@@ -72,12 +72,11 @@ class PeminjamanController extends Controller
         if ($peminjaman) {
             $message = response()->json([
                 'success' => true,
-                'id' => 1,
                 'message' => 'Ada peminjaman baru!',
                 'data' => $peminjaman
             ]);
 
-            event(new MyNotificationEvent($message));
+            event(new MyNotificationEvent($message, 1));
 
             return response()->json([
                 'success' => true,
@@ -194,12 +193,11 @@ class PeminjamanController extends Controller
 
         $message = response()->json([
             'success' => true,
-            'id' => 2,
             'message' => 'Peminjaman anda berhasil diterima!',
             'data' => $peminjaman
         ]);
 
-        event(new MyNotificationEvent($message));
+        event(new MyNotificationEvent($message, $peminjaman->user_id));
 
         return response()->json([
             'success' => true,
@@ -218,12 +216,11 @@ class PeminjamanController extends Controller
 
             $message = response()->json([
                 'success' => true,
-                'id' => 2,
                 'message' => 'Peminjaman anda ditolak!',
                 'data' => $peminjaman
             ]);
 
-            event(new MyNotificationEvent($message));
+            event(new MyNotificationEvent($message, $peminjaman->user_id));
 
             return response()->json([
                 'success' => true,
@@ -326,12 +323,11 @@ class PeminjamanController extends Controller
             if ($tenggatPeminjaman->greaterThan($tanggalPeminjaman) && $tenggatPeminjaman->diffInDays($sekarang) < 2) {
                 $message = response()->json([
                     'success' => true,
-                    'id' => 2,
                     'message' => 'Tenggat peminjaman kurang dari 2 hari!',
                     'data' => $item
                 ]);
 
-                event(new MyNotificationEvent($message));
+                event(new MyNotificationEvent($message, $item->user_id));
             }
         }
 

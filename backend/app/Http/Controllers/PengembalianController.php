@@ -80,12 +80,11 @@ class PengembalianController extends Controller
 
             $message = response()->json([
                 'success' => true,
-                'id' => 1,
                 'message' => 'Ada pengembalian baru!',
                 'data' => $pengembalian
             ]);
 
-            event(new MyNotificationEvent($message));
+            event(new MyNotificationEvent($message, 1));
 
             return response()->json([
                 'success' => true,
@@ -172,12 +171,11 @@ class PengembalianController extends Controller
 
         $message = response()->json([
             'success' => true,
-            'id' => 2,
             'message' => 'Pengembalian anda berhasil diterima!',
             'data' => $pengembalian
         ]);
 
-        event(new MyNotificationEvent($message));
+        event(new MyNotificationEvent($message, $pengembalian->user_id));
 
         return response()->json([
             'success' => true,
@@ -215,12 +213,11 @@ class PengembalianController extends Controller
 
         $message = response()->json([
             'success' => true,
-            'id' => 2,
             'message' => 'Pengembalian anda berhasil diterima!',
             'data' => $pengembalian
         ]);
 
-        event(new MyNotificationEvent($message));
+        event(new MyNotificationEvent($message, $pengembalian->user_id));
 
         return response()->json([
             'success' => true,
@@ -259,12 +256,11 @@ class PengembalianController extends Controller
 
         $message = response()->json([
             'success' => true,
-            'id' => 2,
             'message' => 'Pengembalian anda berhasil diterima!',
             'data' => $pengembalian
         ]);
 
-        event(new MyNotificationEvent($message));
+        event(new MyNotificationEvent($message, $pengembalian->user_id));
 
         return response()->json([
             'success' => true,
@@ -283,12 +279,11 @@ class PengembalianController extends Controller
 
             $message = response()->json([
                 'success' => true,
-                'id' => 2,
                 'message' => 'Pengembalian anda ditolak!',
                 'data' => $pengembalian
             ]);
 
-            event(new MyNotificationEvent($message));
+            event(new MyNotificationEvent($message, $pengembalian->user_id));
 
             return response()->json([
                 'success' => true,

@@ -8,17 +8,21 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class MyNotificationEvent implements ShouldBroadcastNow
+
+class BroadcastNotification implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $message;
-    public $userId;
 
-    public function __construct($message, $userId)
+    public $message;
+
+
+    /**
+     * Create a new event instance.
+     */
+    public function __construct($message)
     {
         $this->message = $message;
-        $this->userId = $userId;
     }
 
     /**
@@ -30,7 +34,7 @@ class MyNotificationEvent implements ShouldBroadcastNow
 
     public function broadcastOn()
     {
-        return new Channel('backend-notification-channel' . $this->userId);
+        return new Channel('backend-notification-channel');
     }
 
     public function broadcastAs()
