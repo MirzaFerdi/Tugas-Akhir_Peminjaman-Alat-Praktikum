@@ -36,7 +36,15 @@ class PengembalianController extends Controller
             ]);
         }
 
-        return response()->json($pengembalian);
+        $kondisi_barang = KondisiBarang::where('pengembalian_id', $id)->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'pengembalian' => $pengembalian,
+                'kondisi_barang' => $kondisi_barang,
+            ]
+        ]);
     }
 
     public function store(Request $request)
@@ -51,14 +59,14 @@ class PengembalianController extends Controller
             ]);
         }
 
-        if($request->jumlah_pengembalian > $peminjaman->jumlah_peminjaman){
+        if ($request->jumlah_pengembalian > $peminjaman->jumlah_peminjaman) {
             return response()->json([
                 'success' => false,
                 'message' => 'Jumlah pengembalian melebihi jumlah peminjaman!',
             ]);
         }
 
-        if($request->jumlah_pengembalian < $peminjaman->jumlah_peminjaman){
+        if ($request->jumlah_pengembalian < $peminjaman->jumlah_peminjaman) {
             return response()->json([
                 'success' => false,
                 'message' => 'Jumlah pengembalian kurang dari jumlah peminjaman!',
@@ -84,7 +92,7 @@ class PengembalianController extends Controller
                 'data' => $pengembalian
             ]);
 
-            event(new MyNotificationEvent($message, 1));
+            event(new MyNotificationEvent($message, 1, $pengembalian->user_id));
 
             return response()->json([
                 'success' => true,
@@ -175,7 +183,7 @@ class PengembalianController extends Controller
             'data' => $pengembalian
         ]);
 
-        event(new MyNotificationEvent($message, $pengembalian->user_id));
+        event(new MyNotificationEvent($message, 2, $pengembalian->user_id));
 
         return response()->json([
             'success' => true,
@@ -217,7 +225,7 @@ class PengembalianController extends Controller
             'data' => $pengembalian
         ]);
 
-        event(new MyNotificationEvent($message, $pengembalian->user_id));
+        event(new MyNotificationEvent($message, 2, $pengembalian->user_id));
 
         return response()->json([
             'success' => true,
@@ -251,7 +259,7 @@ class PengembalianController extends Controller
         $barang = Barang::find($pengembalian->barang_id);
         $jumlahKondisi = KondisiBarang::where('pengembalian_id', $id);
         $barang->stok_tersedia = $barang->stok_tersedia - $jumlahKondisi->jumlah_kondisi;
-        $barang->stok_awal = $barang->stok_awal -  $jumlahKondisi->jumlah_kondisi;
+        $barang->stok_awal = $barang->stok_awal - $jumlahKondisi->jumlah_kondisi;
         $barang->save();
 
         $message = response()->json([
@@ -260,7 +268,7 @@ class PengembalianController extends Controller
             'data' => $pengembalian
         ]);
 
-        event(new MyNotificationEvent($message, $pengembalian->user_id));
+        event(new MyNotificationEvent($message, 2, $pengembalian->user_id));
 
         return response()->json([
             'success' => true,
@@ -283,7 +291,7 @@ class PengembalianController extends Controller
                 'data' => $pengembalian
             ]);
 
-            event(new MyNotificationEvent($message, $pengembalian->user_id));
+            event(new MyNotificationEvent($message, 2, $pengembalian->user_id));
 
             return response()->json([
                 'success' => true,

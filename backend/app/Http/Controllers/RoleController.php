@@ -8,10 +8,11 @@ use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $role = Role::all();
 
-        if(!$role){
+        if (!$role) {
             return response()->json([
                 'success' => false,
                 'message' => 'Data role tidak ditemukan!',
@@ -21,10 +22,11 @@ class RoleController extends Controller
         return response()->json($role);
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $role = Role::find($id);
 
-        if(!$role){
+        if (!$role) {
             return response()->json([
                 'success' => false,
                 'message' => 'Data role tidak ditemukan!',
@@ -34,18 +36,19 @@ class RoleController extends Controller
         return response()->json($role);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $role = new Role;
         $role->nama = $request->nama;
         $role->save();
 
-        if($role){
+        if ($role) {
             return response()->json([
                 'success' => true,
                 'message' => 'Role berhasil ditambahkan!',
                 'data' => $role
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Role gagal ditambahkan!',
@@ -53,18 +56,19 @@ class RoleController extends Controller
         }
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         $role = Role::find($id);
         $role->nama = $request->nama;
         $role->save();
 
-        if($role){
+        if ($role) {
             return response()->json([
                 'success' => true,
                 'message' => 'Role berhasil diupdate!',
                 'data' => $role
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Role gagal diupdate!',
@@ -72,17 +76,18 @@ class RoleController extends Controller
         }
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $role = Role::find($id);
         $role->delete();
 
-        if($role){
+        if ($role) {
             $role = Role::find($id);
             return response()->json([
                 'success' => true,
                 'message' => 'Role berhasil dihapus!',
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Role gagal dihapus!',

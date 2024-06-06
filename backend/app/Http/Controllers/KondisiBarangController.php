@@ -8,10 +8,11 @@ use Illuminate\Http\Request;
 
 class KondisiBarangController extends Controller
 {
-    public function index(){
-        $kondisiBarang = KondisiBarang::with('user','barang','pengembalian')->get();
+    public function index()
+    {
+        $kondisiBarang = KondisiBarang::with('user', 'barang', 'pengembalian')->get();
 
-        if(!$kondisiBarang){
+        if (!$kondisiBarang) {
             return response()->json([
                 'success' => false,
                 'message' => 'Data kondisi barang tidak ditemukan!',
@@ -21,18 +22,19 @@ class KondisiBarangController extends Controller
         return response()->json($kondisiBarang);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
         $pengembalian = Pengembalian::find($request->pengembalian_id);
 
-        if($request->jumlah_kondisi > $pengembalian->jumlah_pengembalian){
+        if ($request->jumlah_kondisi > $pengembalian->jumlah_pengembalian) {
             return response()->json([
                 'success' => false,
                 'message' => 'Jumlah kondisi tidak boleh melebihi jumlah barang yang dikembalikan!',
             ]);
         }
 
-        if($request->jumlah_kondisi == 0){
+        if ($request->jumlah_kondisi == 0) {
             return response()->json([
                 'success' => false,
                 'message' => 'Kondisi barang tidak boleh kosong!',
@@ -54,10 +56,11 @@ class KondisiBarangController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         $kondisiBarang = KondisiBarang::find($id);
 
-        if(!$kondisiBarang){
+        if (!$kondisiBarang) {
             return response()->json([
                 'success' => false,
                 'message' => 'Data kondisi barang tidak ditemukan!',
@@ -78,10 +81,11 @@ class KondisiBarangController extends Controller
         ]);
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $kondisiBarang = KondisiBarang::find($id);
 
-        if(!$kondisiBarang){
+        if (!$kondisiBarang) {
             return response()->json([
                 'success' => false,
                 'message' => 'Data kondisi barang tidak ditemukan!',

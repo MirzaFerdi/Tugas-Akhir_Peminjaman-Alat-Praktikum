@@ -16,13 +16,14 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         $credentials = $request->only('username', 'password');
 
-        if(!$token = JWTAuth::attempt($credentials)){
+        if (!$token = JWTAuth::attempt($credentials)) {
             $user = User::where('username', $request->username)->first();
 
-            if(!$user){
+            if (!$user) {
                 return response()->json(['error' => 'NIP atau NIM anda tidak ditemukan!'], Response::HTTP_NOT_FOUND);
             }
 
@@ -34,14 +35,15 @@ class AuthController extends Controller
         }
 
         $user = $request->user();
-        return response()->json(compact('user','token'));
+        return response()->json(compact('user', 'token'));
     }
 
 
-    public function logout(){
+    public function logout()
+    {
         $removeToken = JWTAuth::invalidate(JWTAuth::getToken());
 
-        if($removeToken) {
+        if ($removeToken) {
             //return response JSON
             return response()->json([
                 'success' => true,
@@ -50,7 +52,8 @@ class AuthController extends Controller
         }
     }
 
-    public function forgotPassword(Request $request){
+    public function forgotPassword(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
         ]);
@@ -80,12 +83,13 @@ class AuthController extends Controller
 
         // Optionally, send an email to the user with a link containing the token
         // Your email sending logic here...
-        $email = new SendEmail($email,$nama,$token);
+        $email = new SendEmail($email, $nama, $token);
         Mail::to($request->email)->send($email);
 
         return response()->json(['success' => true, 'message' => 'Token reset password dikirimkan ke email anda', 'email' => $user->email]);
     }
-    public function resetPassword(Request $request){
+    public function resetPassword(Request $request)
+    {
         // Validate the request data
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',

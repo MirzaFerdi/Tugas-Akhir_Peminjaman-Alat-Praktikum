@@ -13,12 +13,16 @@ class MyNotificationEvent implements ShouldBroadcastNow
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $message;
+
+    public $role;
     public $userId;
 
-    public function __construct($message, $userId)
+    public function __construct($message, $role , $userId)
     {
         $this->message = $message;
+        $this->role = $role;
         $this->userId = $userId;
+
     }
 
     /**
@@ -30,7 +34,7 @@ class MyNotificationEvent implements ShouldBroadcastNow
 
     public function broadcastOn()
     {
-        return new Channel('backend-notification-channel' . $this->userId);
+        return new Channel('backend-notification-channel-'. $this->role. '-' . $this->userId);
     }
 
     public function broadcastAs()

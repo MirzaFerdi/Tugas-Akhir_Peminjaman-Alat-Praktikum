@@ -12,10 +12,11 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
 
-    public function index(){
-        $user = User::with('kelas','role')->get();
+    public function index()
+    {
+        $user = User::with('kelas', 'role')->get();
 
-        if(!$user){
+        if (!$user) {
             return response()->json([
                 'success' => false,
                 'message' => 'Data user tidak ditemukan!',
@@ -25,10 +26,11 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    public function show($id){
-        $user = User::with('kelas','role')->find($id);
+    public function show($id)
+    {
+        $user = User::with('kelas', 'role')->find($id);
 
-        if(!$user){
+        if (!$user) {
             return response()->json([
                 'success' => false,
                 'message' => 'Data user tidak ditemukan!',
@@ -38,10 +40,11 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    public function showByKelas($kelasId){
+    public function showByKelas($kelasId)
+    {
         $user = User::where('kelas_id', $kelasId)->with('kelas')->paginate(8);
 
-        if(!$user){
+        if (!$user) {
             return response()->json([
                 'success' => false,
                 'message' => 'Data user dengan kelas tersebut tidak ditemukan!',
@@ -51,14 +54,15 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    public function searchMahasiswaKelas($idKelas,$keywords){
-        $user = User::where('role_id', 2)->where('kelas_id',$idKelas)->where(function ($query) use ($keywords){
-            $query->where('nama', 'like', '%'.$keywords.'%')
-                ->orWhere('username', 'like', '%'.$keywords.'%')
-                ->orWhere('email', 'like', '%'.$keywords.'%');
+    public function searchMahasiswaKelas($idKelas, $keywords)
+    {
+        $user = User::where('role_id', 2)->where('kelas_id', $idKelas)->where(function ($query) use ($keywords) {
+            $query->where('nama', 'like', '%' . $keywords . '%')
+                ->orWhere('username', 'like', '%' . $keywords . '%')
+                ->orWhere('email', 'like', '%' . $keywords . '%');
         })->get();
 
-        if($user->isEmpty()){
+        if ($user->isEmpty()) {
             return response()->json([
                 'success' => false,
                 'message' => 'Mahasiswa tidak ditemukan!',
@@ -71,10 +75,11 @@ class UserController extends Controller
         ]);
     }
 
-    public function mahasiswaAll(){
+    public function mahasiswaAll()
+    {
         $user = User::where('role_id', 2)->paginate(8);
 
-        if($user->isEmpty()){
+        if ($user->isEmpty()) {
             return response()->json([
                 'success' => false,
                 'message' => 'Mahasiswa tidak ditemukan!',
@@ -84,16 +89,17 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    public function searchMahasiswaAll($keywords){
-        $user = User::where('role_id', 2)->where(function ($query) use ($keywords){
-            $query->where('nama', 'like', '%'.$keywords.'%')
-                ->orWhere('username', 'like', '%'.$keywords.'%')
-                ->orWhereHas('kelas', function ($query) use ($keywords){
-                    $query->where('kelas', 'like', '%'.$keywords.'%');
+    public function searchMahasiswaAll($keywords)
+    {
+        $user = User::where('role_id', 2)->where(function ($query) use ($keywords) {
+            $query->where('nama', 'like', '%' . $keywords . '%')
+                ->orWhere('username', 'like', '%' . $keywords . '%')
+                ->orWhereHas('kelas', function ($query) use ($keywords) {
+                    $query->where('kelas', 'like', '%' . $keywords . '%');
                 });
         })->with('kelas')->get();
 
-        if($user->isEmpty()){
+        if ($user->isEmpty()) {
             return response()->json([
                 'success' => false,
                 'message' => 'Mahasiswa tidak ditemukan!',
@@ -106,7 +112,8 @@ class UserController extends Controller
         ]);
     }
 
-    public function mahasiswaByKelasId($kelasId, $id) {
+    public function mahasiswaByKelasId($kelasId, $id)
+    {
         $user = User::where('role_id', 2)->where('kelas_id', $kelasId)->where('id', $id)->get();
 
         if ($user->isEmpty()) {
@@ -120,13 +127,14 @@ class UserController extends Controller
     }
 
 
-    public function countAll(){
+    public function countAll()
+    {
         $user = User::where('role_id', 2)->count();
         $barang = Barang::count();
         $peminjaman = Peminjaman::count();
         $pengembalian = Pengembalian::count();
 
-        if(!$user){
+        if (!$user) {
             return response()->json([
                 'success' => false,
                 'message' => 'Data user tidak ditemukan!',
@@ -142,16 +150,17 @@ class UserController extends Controller
         ]);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
-        if(User::where('username', $request->username)->exists()){
+        if (User::where('username', $request->username)->exists()) {
             return response()->json([
                 'success' => false,
                 'message' => 'Username sudah terdaftar!',
             ]);
         }
 
-        if(User::where('email', $request->email)->exists()){
+        if (User::where('email', $request->email)->exists()) {
             return response()->json([
                 'success' => false,
                 'message' => 'Email sudah terdaftar!',
@@ -179,13 +188,13 @@ class UserController extends Controller
 
 
 
-        if($user){
+        if ($user) {
             return response()->json([
                 'success' => true,
                 'message' => 'User berhasil ditambahkan!',
                 'data' => $user
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'User gagal ditambahkan!',
@@ -193,7 +202,8 @@ class UserController extends Controller
         }
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
 
 
         $user = User::find($id);
@@ -226,8 +236,8 @@ class UserController extends Controller
         $user->kelas_id = $request->kelas_id;
         $user->role_id = $request->role_id;
 
-        if($request->hasFile('foto')){
-            if($user->foto && Storage::exists('public/foto/' . $user->foto)){
+        if ($request->hasFile('foto')) {
+            if ($user->foto && Storage::exists('public/foto/' . $user->foto)) {
                 Storage::delete('public/foto/' . $user->foto);
             }
             $file = $request->file('foto');
@@ -245,17 +255,18 @@ class UserController extends Controller
         ]);
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $user = User::find($id);
         $user->delete();
 
-        if($user){
+        if ($user) {
             $user = User::find($id);
             return response()->json([
                 'success' => true,
                 'message' => 'User berhasil dihapus!',
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'User gagal dihapus!',

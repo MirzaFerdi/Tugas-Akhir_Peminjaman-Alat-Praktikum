@@ -48,14 +48,14 @@ class BroadcastController extends Controller
 
         if ($broadcast) {
 
-        $message = response()->json([
-            'success' => true,
-            'id' => 2,
-            'message' => 'Pengumuman Baru!',
-            'data' => $broadcast
-        ]);
+            $message = response()->json([
+                'success' => true,
+                'id' => 2,
+                'message' => 'Pengumuman Baru!',
+                'data' => $broadcast
+            ]);
 
-        event(new BroadcastNotification($message));
+            event(new BroadcastNotification($message));
 
             return response()->json([
                 'success' => true,
