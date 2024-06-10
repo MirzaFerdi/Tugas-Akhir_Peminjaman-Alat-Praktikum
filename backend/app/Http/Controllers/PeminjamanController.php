@@ -327,7 +327,7 @@ class PeminjamanController extends Controller
                     'data' => $item
                 ]);
 
-                event(new MyNotificationEvent($message, $item->user_id));
+                event(new MyNotificationEvent($message, 2, $item->user_id));
             }
         }
 
