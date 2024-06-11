@@ -22,7 +22,7 @@ export const useFetchOnClick = () => {
       const response = await api({
         url: url,
         method: method,
-        data: body,
+        data: body,        
       });
 
       if (response.status === 200) {

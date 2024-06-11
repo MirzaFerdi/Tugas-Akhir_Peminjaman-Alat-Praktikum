@@ -7,7 +7,7 @@ const AdminBroadcastMessagePreview = ({ broadcastMessage }) => {
   const { isBroadcastPreviewDialogOpen, closeBroadcastPreview } = useAdminBroadcastPreviewDialog();
 
   return (
-    <Dialog open={isBroadcastPreviewDialogOpen}>
+    <Dialog open={isBroadcastPreviewDialogOpen} sx={{zIndex: 20}}>
       <div className="flex justify-between">
         <div className="py-3 px-6 bg-blue-400 w-full">
           <p className="text-lg font-semibold tracking-wider text-white">Preview Pesan Broadcast</p>

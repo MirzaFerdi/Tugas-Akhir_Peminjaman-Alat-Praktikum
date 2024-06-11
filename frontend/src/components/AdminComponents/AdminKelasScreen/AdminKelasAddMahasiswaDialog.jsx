@@ -11,8 +11,8 @@ import { useCallback } from "react";
 
 const AdminKelasAddMahasiswaDialog = ({ kelas }) => {
   const { isAdminAddMahasiswaDialogOpen, closeAddMahasiswaDialog } = useAdminAddMahasiswaDialog();
-  const { openConfirmDialog, closeConfirmDialog } = useConfirmDialog();
-  const { openAlertComponent, closeAlertComponent } = useAlert();
+  const { openConfirmDialog } = useConfirmDialog();
+  const { openAlertComponent } = useAlert();
 
   const { fetchData: fetchAddMahasiswa } = useFetchOnClick();
 
@@ -23,27 +23,23 @@ const AdminKelasAddMahasiswaDialog = ({ kelas }) => {
     nohp: "",
     password: "",
     role_id: 2,
+    foto: "",
     kelas_id: kelas?.id,
   };
 
   const handleAddMahasiswaSuccessResponse = useCallback(
     (addMahasiswaSuccessResponse) => {
-      if (addMahasiswaSuccessResponse?.message === true) {
+      console.log(addMahasiswaSuccessResponse)
+
+      if (addMahasiswaSuccessResponse?.success === true) {
         openAlertComponent({
           alertType: "success",
           alertTitle: "BERHASIL!",
           alertMessage: addMahasiswaSuccessResponse?.message,
-        });
-
-        setTimeout(() => {
-          closeAlertComponent();
-          closeConfirmDialog();
-          closeAddMahasiswaDialog();
-          window.location.reload();
-        }, 2000);
+        });        
       }
     },
-    [closeAddMahasiswaDialog, closeAlertComponent, closeConfirmDialog, openAlertComponent]
+    [openAlertComponent]
   );
 
   const handleAddMahasiswaErrorResponse = useCallback(
@@ -53,17 +49,10 @@ const AdminKelasAddMahasiswaDialog = ({ kelas }) => {
           alertType: "error",
           alertTitle: "ERROR!",
           alertMessage: addMahasiswaErrorResponse?.message,
-        });
-
-        setTimeout(() => {
-          closeAlertComponent();
-          closeConfirmDialog();
-          closeAddMahasiswaDialog();
-          window.location.reload();
-        }, 2000);
+        });        
       }
     },
-    [closeAddMahasiswaDialog, closeAlertComponent, closeConfirmDialog, openAlertComponent]
+    [openAlertComponent]
   );
 
   const handleSubmit = (values) => {
@@ -83,7 +72,7 @@ const AdminKelasAddMahasiswaDialog = ({ kelas }) => {
   };
 
   return (
-    <Dialog open={isAdminAddMahasiswaDialogOpen} onClose={() => closeAddMahasiswaDialog()}>
+    <Dialog open={isAdminAddMahasiswaDialogOpen} onClose={() => closeAddMahasiswaDialog()} sx={{zIndex: 20}}>
       <div className="flex justify-between">
         <div className="py-2 lg:py-3 px-3 lg:px-6 bg-blue-400 w-full">
           <p className="text-sm leading-snug lg:text-lg font-semibold tracking-wider text-white">Formulir Tambah Mahasiswa Kelas {kelas?.id}</p>

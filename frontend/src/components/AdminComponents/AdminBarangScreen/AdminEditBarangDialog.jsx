@@ -12,8 +12,8 @@ const AdminEditBarangDialog = () => {
   const [isAddStockDisabled, setIsAddStockDisabled] = useState(true);
 
   const { isAdminEditBarangDialogOpen, dataBarangById, closeEditBarangDialog } = useAdminEditBarangDialog();
-  const { openConfirmDialog, closeConfirmDialog } = useConfirmDialog();
-  const { openAlertComponent, closeAlertComponent } = useAlert();
+  const { openConfirmDialog } = useConfirmDialog();
+  const { openAlertComponent } = useAlert();
 
   const { fetchData: editDataBarang } = useFetchOnClick();
 
@@ -34,17 +34,10 @@ const AdminEditBarangDialog = () => {
           alertType: "success",
           alertTitle: "BERHASIL!",
           alertMessage: editBarangSuccessResponse?.message,
-        });
-
-        setTimeout(() => {
-          closeAlertComponent();
-          closeConfirmDialog();
-          closeEditBarangDialog();
-          window.location.reload();
-        }, 2000);
+        });        
       }
     },
-    [closeAlertComponent, closeConfirmDialog, closeEditBarangDialog, openAlertComponent]
+    [openAlertComponent]
   );
 
   const handleEditBarangErrorResponse = useCallback((editBarangErrorResponse) => {
@@ -83,7 +76,7 @@ const AdminEditBarangDialog = () => {
   };
 
   return (
-    <Dialog open={isAdminEditBarangDialogOpen} onClose={() => handleCloseEditBarangDialog()}>
+    <Dialog open={isAdminEditBarangDialogOpen} onClose={() => handleCloseEditBarangDialog()} sx={{zIndex: 20}}>
       <div className="flex justify-between">
         <div className="py-3 px-6 bg-blue-400 w-full">
           <p className="text-lg font-semibold tracking-wider text-white">
@@ -97,7 +90,7 @@ const AdminEditBarangDialog = () => {
       </div>
       <div className="p-5">
         <Formik initialValues={initialValues} validate={editBarangFormValidation} onSubmit={handleSubmit}>
-          {({ isValid, values, handleChange, setFieldValue }) => (
+          {({ isValid, values, handleChange }) => (
             <Form>
               <div className="mb-6">
                 <FormField formType="text" formName="namaBarang" labelText="Nama Barang" />

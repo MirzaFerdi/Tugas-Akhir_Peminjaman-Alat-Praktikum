@@ -7,14 +7,14 @@ const AdminTransaksiInformation = () => {
   const currentTransaksiCategory = JSON.parse(localStorage.getItem("last_visited_admin_page_id"));
 
   const { data: dataTransaksi } = useFetchOnMount({
-    url: currentTransaksiCategory === 9 ? "/peminjaman" : "pengembalian",
+    url: currentTransaksiCategory === 11 ? "/peminjaman" : "pengembalian",
     method: "GET"
   })
 
   const { isTransaksiInformationDialogOpen, closeTransaksiInformationDialog } = useAdminTransaksiInformationDialog();  
 
   return (
-    <Dialog open={isTransaksiInformationDialogOpen} onClose={() => closeTransaksiInformationDialog()}>
+    <Dialog open={isTransaksiInformationDialogOpen} onClose={() => closeTransaksiInformationDialog()} sx={{zIndex: 20}}>
       <div className="flex justify-between">
         <div className="py-2 lg:py-3 px-4 lg:px-6 bg-green-600 w-full">
           <p className="text-md lg:text-lg font-semibold tracking-wider text-white">Detail Data Informasi Barang Praktikum</p>
@@ -30,7 +30,7 @@ const AdminTransaksiInformation = () => {
             <tr>
               <th className="border-2 p-3 text-start text-sm font-medium tracking-wide">Tipe Transaksi</th>
               <td className="border-2 p-3 tracking-wide text-sm">
-                {currentTransaksiCategory === 9 ? "Request Peminjaman" : "Request Pengembalian"}
+                {currentTransaksiCategory === 11 ? "Request Peminjaman" : "Request Pengembalian"}
               </td>
             </tr>
             <tr>

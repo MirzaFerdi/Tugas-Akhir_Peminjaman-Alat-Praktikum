@@ -9,12 +9,12 @@ const AdminBarangInformation = ({ barangKategori }) => {
   const { isBarangInformationDialogOpen, closeBarangInformationDialog } = useAdminBarangInformationDialog();
 
   const { data: dataBarangPraktikum } = useFetchOnMount({
-    url: `/barang/pagination/${barangKategori?.id === 1 ? "alat" : "bahan"}/8`,
+    url: `/barang/pagination/${barangKategori?.id}/8`,
     method: "GET",
-  });  
+  });
 
   return (
-    <Dialog open={isBarangInformationDialogOpen} onClose={() => closeBarangInformationDialog()}>
+    <Dialog open={isBarangInformationDialogOpen} onClose={() => closeBarangInformationDialog()} sx={{ zIndex: 20 }}>
       <div className="flex justify-between">
         <div className="py-3 px-6 bg-green-600 w-full">
           <p className="text-lg font-semibold tracking-wider text-white">Detail Data Informasi Barang Praktikum</p>

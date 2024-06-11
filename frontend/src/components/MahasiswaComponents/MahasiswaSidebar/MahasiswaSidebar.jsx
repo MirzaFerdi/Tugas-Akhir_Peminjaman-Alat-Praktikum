@@ -12,15 +12,20 @@ import {
 } from "@mui/icons-material";
 import { Collapse, List, ListItemButton, ListItemIcon, ListItemText, ListSubheader } from "@mui/material";
 import { useMediaQuery } from "react-responsive";
+import { useMahasiswaPageId } from "../../../hooks/usePage";
+import { useSidebar } from "../../../hooks/useSidebar";
 
-const MahasiswaSidebar = ({ mahasiswaPageId, handleChangeMahasiswaPageId, handleToggleSidebar }) => {  
+const MahasiswaSidebar = () => {  
   const isMobile = useMediaQuery({ query: "(max-width: 1439px)" });
+
+  const { mahasiswaPageId, handleChangeMahasiswaPageId } = useMahasiswaPageId();
+  const { closeSidebar } = useSidebar();    
 
   const [openDetailTransaksiSubNav, setOpenDetailTransaksiSubNav] = useState(true);  
 
   const handleChangePage = (id) => {
     handleChangeMahasiswaPageId(id);
-    isMobile && handleToggleSidebar();
+    isMobile && closeSidebar()
   }
 
   return (
@@ -148,7 +153,6 @@ const MahasiswaSidebar = ({ mahasiswaPageId, handleChangeMahasiswaPageId, handle
 };
 
 MahasiswaSidebar.propTypes = {
-  handleChangeMahasiswaPageId: PropTypes.func,
   handleChangePage: PropTypes.func,
   handleToggleSidebar: PropTypes.func,
   mahasiswaPageId: PropTypes.number

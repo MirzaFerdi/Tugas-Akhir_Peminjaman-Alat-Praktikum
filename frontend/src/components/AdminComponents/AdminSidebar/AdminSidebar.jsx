@@ -10,26 +10,24 @@ import {
   Looks4,
   School,
   HomeRepairService,
-  Plumbing,
   Construction,
   DateRange,
   ReceiptLong,
   Dashboard,
   Upgrade,
+  AutoDelete,
+  HealthAndSafety,
+  AddToPhotos,
+  PlaylistAddCheck,
+  Plumbing,
 } from "@mui/icons-material";
-import { useMediaQuery } from "react-responsive";
+import SidebarNavigationButton from "./SidebarNavigationButton";
 
-const AdminSidebar = ({ adminPageId, handleChangeAdminPageId, handleToggleSidebar }) => {
-  const isMobile = useMediaQuery({ query: "(max-width: 1439px)" });
-
+const AdminSidebar = () => {
   const [openKelasSubNav, setOpenKelasSubNav] = useState(false);
   const [openBarangSubNav, setOpenBarangSubNav] = useState(false);
   const [openTransaksiSubNav, setOpenTransaksiSubNav] = useState(false);  
 
-  const handleChangePage = (id) => {
-    handleChangeAdminPageId(id);
-    isMobile && handleToggleSidebar();
-  };  
   return (
     <List
       subheader={
@@ -47,22 +45,12 @@ const AdminSidebar = ({ adminPageId, handleChangeAdminPageId, handleToggleSideba
         overflowY: "auto",
       }}
       disablePadding>
-      <ListItemButton
-        onClick={() => handleChangePage(1)}
-        sx={{
-          backgroundColor: adminPageId === 1 ? "#1D0C5A" : "inherit",
-          ":hover": {
-            backgroundColor: adminPageId === 1 ? "#1D0C5A" : "#1D0C5A",
-          },
-        }}>
-        <ListItemIcon>
-          <Dashboard sx={{ color: "white" }} fontSize="small" />
-        </ListItemIcon>
-        <ListItemText
-          primary="Halaman Utama"
-          primaryTypographyProps={{ fontSize: "0.8em", fontFamily: "Poppins", color: "white" }}
-        />
-      </ListItemButton>
+      <SidebarNavigationButton
+        menuId={1}
+        menuIcon={<Dashboard sx={{ color: "white" }} fontSize="small" />}
+        menuText="Halaman Utama"
+      />
+
       <ListItemButton
         sx={{
           ":hover": {
@@ -85,93 +73,39 @@ const AdminSidebar = ({ adminPageId, handleChangeAdminPageId, handleToggleSideba
       </ListItemButton>
       <Collapse in={openKelasSubNav} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItemButton
-            sx={{
-              pl: 4,
-              backgroundColor: adminPageId === 2 ? "#1D0C5A" : "inherit",
-              ":hover": {
-                backgroundColor: adminPageId === 2 ? "#1D0C5A" : "#1D0C5A",
-              },
-            }}
-            onClick={() => handleChangePage(2)}>
-            <ListItemIcon>
-              <LooksOne sx={{ color: "white" }} fontSize="small" />
-            </ListItemIcon>
-            <ListItemText
-              primary="Mahasiswa Kelas 1"
-              primaryTypographyProps={{ fontSize: "0.8em", fontFamily: "Poppins", color: "white" }}
-            />
-          </ListItemButton>
-          <ListItemButton
-            sx={{
-              pl: 4,
-              backgroundColor: adminPageId === 3 ? "#1D0C5A" : "inherit",
-              ":hover": {
-                backgroundColor: adminPageId === 3 ? "#1D0C5A" : "#1D0C5A",
-              },
-            }}
-            onClick={() => handleChangePage(3)}>
-            <ListItemIcon>
-              <LooksTwo sx={{ color: "white" }} fontSize="small" />
-            </ListItemIcon>
-            <ListItemText
-              primary="Mahasiswa Kelas 2"
-              primaryTypographyProps={{ fontSize: "0.8em", fontFamily: "Poppins", color: "white" }}
-            />
-          </ListItemButton>
-          <ListItemButton
-            sx={{
-              pl: 4,
-              backgroundColor: adminPageId === 4 ? "#1D0C5A" : "inherit",
-              ":hover": {
-                backgroundColor: adminPageId === 4 ? "#1D0C5A" : "#1D0C5A",
-              },
-            }}
-            onClick={() => handleChangePage(4)}>
-            <ListItemIcon>
-              <Looks3 sx={{ color: "white" }} fontSize="small" />
-            </ListItemIcon>
-            <ListItemText
-              primary="Mahasiswa Kelas 3"
-              primaryTypographyProps={{ fontSize: "0.8em", fontFamily: "Poppins", color: "white" }}
-            />
-          </ListItemButton>
-          <ListItemButton
-            sx={{
-              pl: 4,
-              backgroundColor: adminPageId === 5 ? "#1D0C5A" : "inherit",
-              ":hover": {
-                backgroundColor: adminPageId === 5 ? "#1D0C5A" : "#1D0C5A",
-              },
-            }}
-            onClick={() => handleChangePage(5)}>
-            <ListItemIcon>
-              <Looks4 sx={{ color: "white" }} fontSize="small" />
-            </ListItemIcon>
-            <ListItemText
-              primary="Mahasiswa Kelas 4"
-              primaryTypographyProps={{ fontSize: "0.8em", fontFamily: "Poppins", color: "white" }}
-            />
-          </ListItemButton>
-          <ListItemButton
-            sx={{
-              pl: 4,
-              backgroundColor: adminPageId === 6 ? "#1D0C5A" : "inherit",
-              ":hover": {
-                backgroundColor: adminPageId === 6 ? "#1D0C5A" : "#1D0C5A",
-              },
-            }}
-            onClick={() => handleChangePage(6)}>
-            <ListItemIcon>
-              <Upgrade sx={{ color: "white" }} fontSize="small" />
-            </ListItemIcon>
-            <ListItemText
-              primary="Manajemen Naik Kelas"
-              primaryTypographyProps={{ fontSize: "0.8em", fontFamily: "Poppins", color: "white" }}
-            />
-          </ListItemButton>
+          <SidebarNavigationButton
+            menuId={2}
+            menuIcon={<LooksOne sx={{ color: "white" }} fontSize="small" />}
+            menuText="Mahasiswa Kelas 1"
+            pl={4}
+          />
+          <SidebarNavigationButton
+            menuId={3}
+            menuIcon={<LooksTwo sx={{ color: "white" }} fontSize="small" />}
+            menuText="Mahasiswa Kelas 2"
+            pl={4}
+          />
+          <SidebarNavigationButton
+            menuId={4}
+            menuIcon={<Looks3 sx={{ color: "white" }} fontSize="small" />}
+            menuText="Mahasiswa Kelas 3"
+            pl={4}
+          />
+          <SidebarNavigationButton
+            menuId={5}
+            menuIcon={<Looks4 sx={{ color: "white" }} fontSize="small" />}
+            menuText="Mahasiswa Kelas 4"
+            pl={4}
+          />
+          <SidebarNavigationButton
+            menuId={6}
+            menuIcon={<Upgrade sx={{ color: "white" }} fontSize="small" />}
+            menuText="Manajemen Naik Kelas"
+            pl={4}
+          />
         </List>
       </Collapse>
+
       <ListItemButton
         sx={{
           ":hover": {
@@ -194,44 +128,33 @@ const AdminSidebar = ({ adminPageId, handleChangeAdminPageId, handleToggleSideba
       </ListItemButton>
       <Collapse in={openBarangSubNav} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItemButton
-            sx={{
-              pl: 4,
-              backgroundColor: adminPageId === 7 ? "#1D0C5A" : "inherit",
-              ":hover": {
-                backgroundColor: adminPageId === 7 ? "#1D0C5A" : "#1D0C5A",
-              },
-            }}
-            onClick={() => handleChangePage(7)}>
-            <ListItemIcon>
-              <Plumbing sx={{ color: "white" }} fontSize="small" />
-            </ListItemIcon>
-            <ListItemText
-              primary="Manajemen Alat Praktikum"
-              primaryTypographyProps={{ fontSize: "0.8em", fontFamily: "Poppins", color: "white" }}
-            />
-          </ListItemButton>
-        </List>
-        <List component="div" disablePadding>
-          <ListItemButton
-            sx={{
-              pl: 4,
-              backgroundColor: adminPageId === 8 ? "#1D0C5A" : "inherit",
-              ":hover": {
-                backgroundColor: adminPageId === 8 ? "#1D0C5A" : "#1D0C5A",
-              },
-            }}
-            onClick={() => handleChangePage(8)}>
-            <ListItemIcon>
-              <Construction sx={{ color: "white" }} fontSize="small" />
-            </ListItemIcon>
-            <ListItemText
-              primary="Manajemen Bahan Praktikum"
-              primaryTypographyProps={{ fontSize: "0.8em", fontFamily: "Poppins", color: "white" }}
-            />
-          </ListItemButton>
+          <SidebarNavigationButton
+            menuId={7}
+            menuIcon={<Construction sx={{ color: "white" }} fontSize="small" />}
+            menuText="Daftar Alat Praktikum"
+            pl={4}
+          />
+          <SidebarNavigationButton
+            menuId={8}
+            menuIcon={<Plumbing sx={{ color: "white" }} fontSize="small" />}
+            menuText="Daftar Bahan Praktikum"
+            pl={4}
+          />
+          <SidebarNavigationButton
+            menuId={9}
+            menuIcon={<HealthAndSafety sx={{ color: "white" }} fontSize="small" />}
+            menuText="Detail Alat Rusak"
+            pl={4}
+          />
+          <SidebarNavigationButton
+            menuId={10}
+            menuIcon={<AutoDelete sx={{ color: "white" }} fontSize="small" />}
+            menuText="Detail Bahan Habis"
+            pl={4}
+          />
         </List>
       </Collapse>
+
       <ListItemButton
         sx={{
           ":hover": {
@@ -253,68 +176,31 @@ const AdminSidebar = ({ adminPageId, handleChangeAdminPageId, handleToggleSideba
         )}
       </ListItemButton>
       <Collapse in={openTransaksiSubNav} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton
-            sx={{
-              pl: 4,
-              backgroundColor: adminPageId === 9 ? "#1D0C5A" : "inherit",
-              ":hover": {
-                backgroundColor: adminPageId === 9 ? "#1D0C5A" : "#1D0C5A",
-              },
-            }}
-            onClick={() => handleChangePage(9)}>
-            <ListItemIcon>
-              <Plumbing sx={{ color: "white" }} fontSize="small" />
-            </ListItemIcon>
-            <ListItemText
-              primary="Request Peminjaman"
-              primaryTypographyProps={{ fontSize: "0.8em", fontFamily: "Poppins", color: "white" }}
-            />
-          </ListItemButton>
-        </List>
-        <List component="div" disablePadding>
-          <ListItemButton
-            sx={{
-              pl: 4,
-              backgroundColor: adminPageId === 10 ? "#1D0C5A" : "inherit",
-              ":hover": {
-                backgroundColor: adminPageId === 10 ? "#1D0C5A" : "#1D0C5A",
-              },
-            }}
-            onClick={() => handleChangePage(10)}>
-            <ListItemIcon>
-              <Construction sx={{ color: "white" }} fontSize="small" />
-            </ListItemIcon>
-            <ListItemText
-              primary="Request Pengembalian"
-              primaryTypographyProps={{ fontSize: "0.8em", fontFamily: "Poppins", color: "white" }}
-            />
-          </ListItemButton>
-        </List>
-      </Collapse>
-      <ListItemButton
-        sx={{
-          backgroundColor: adminPageId === 11 ? "#1D0C5A" : "inherit",
-          ":hover": {
-            backgroundColor: adminPageId === 11 ? "#1D0C5A" : "#1D0C5A",
-          },
-        }}
-        onClick={() => handleChangePage(11)}>
-        <ListItemIcon>
-          <ReceiptLong sx={{ color: "white" }} fontSize="small" />
-        </ListItemIcon>
-        <ListItemText
-          primary="Rekap Bulanan"
-          primaryTypographyProps={{ fontSize: "0.8em", fontFamily: "Poppins", color: "white" }}
+        <SidebarNavigationButton
+          menuId={11}
+          menuIcon={<AddToPhotos sx={{ color: "white" }} fontSize="small" />}
+          menuText="Request Peminjaman"
+          pl={4}
         />
-      </ListItemButton>
+        <SidebarNavigationButton
+          menuId={12}
+          menuIcon={<PlaylistAddCheck sx={{ color: "white" }} fontSize="small" />}
+          menuText="Request Pengembalian"
+          pl={4}
+        />
+      </Collapse>
+
+      <SidebarNavigationButton
+        menuId={13}
+        menuIcon={<ReceiptLong sx={{ color: "white" }} fontSize="small" />}
+        menuText="Rekap Bulanan"        
+      />
     </List>
   );
 };
 
 AdminSidebar.propTypes = {
   adminPageId: PropTypes.number,
-  handleChangeAdminPageId: PropTypes.func,
   handleToggleSidebar: PropTypes.func,
 };
 

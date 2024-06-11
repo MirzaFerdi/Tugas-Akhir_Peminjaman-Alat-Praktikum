@@ -1,37 +1,32 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { ErrorOutline, ExpandMore, OpenInNew, Search } from "@mui/icons-material";
 import { date, time } from "../../../../utils/datetime";
-import { useAdminTransaksiDialog, useAdminTransaksiInformationDialog } from "../../../../hooks/useDialog";
+import { useAdminRequestPengembalianDialog, useAdminTransaksiInformationDialog } from "../../../../hooks/useDialog";
 import { useFetchOnMount } from "../../../../hooks/useFetchOnMount";
 import { mahasiswaIcon } from "../../../../assets";
-import { useFetchOnClick } from "../../../../hooks/useFetchOnClick";
-import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Pagination } from "@mui/material";
 import { useMediaQuery } from "react-responsive";
 
 const RequestPengembalianTableData = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 1439px)" });
 
+  const [pengembalianPaginationPage, setPengembalianPaginationPage] = useState(1);
   const [transaksiPengembalianKeywords, setTransaksiPengembalianKeywords] = useState("");
 
-  const { openTransaksiDialog } = useAdminTransaksiDialog();
+  const { openRequestPengembalianDialog } = useAdminRequestPengembalianDialog();
   const { openTransaksiInformationDialog } = useAdminTransaksiInformationDialog();
 
-  const { fetchData: dataPengembalianById } = useFetchOnClick();
   const { data: dataTransaksiPengembalian } = useFetchOnMount({
-    url: transaksiPengembalianKeywords === "" ? "/pengembalian" : `/pengembalian/search/${transaksiPengembalianKeywords}`,
+    url:
+      transaksiPengembalianKeywords === ""
+        ? `/pengembalian?page=${pengembalianPaginationPage}`
+        : `/pengembalian/search/${transaksiPengembalianKeywords}`,
     method: "GET",
   });
 
-  const handleGetDataPengembalianByIdSuccessResponse = useCallback(
-    (getDataPengembalianByIdSuccessResponse) => {
-      openTransaksiDialog(getDataPengembalianByIdSuccessResponse);
-    },
-    [openTransaksiDialog]
-  );
-
-  const handleGetDataPengembalianByIdErrorResponse = useCallback((getDataPengembalianByIdErrorResponse) => {
-    console.log(getDataPengembalianByIdErrorResponse);
-  }, []);
+  const handlePagination = (event, value) => {
+    setPengembalianPaginationPage(value);
+  };
 
   return (
     <React.Fragment>
@@ -114,6 +109,14 @@ const RequestPengembalianTableData = () => {
                           </tr>
                           <tr>
                             <th className="border p-2 lg:p-3 tracking-wide bg-blue-400 text-white font-medium leading-none text-start text-xs">
+                              Keterlambatan
+                            </th>
+                            <td className="border p-2 lg:p-3 tracking-wide leading-none text-xs">
+                              <p className="mb-1">-</p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th className="border p-2 lg:p-3 tracking-wide bg-blue-400 text-white font-medium leading-none text-start text-xs">
                               Status
                             </th>
                             <td className="border p-2 lg:p-3 tracking-wide leading-none text-xs">
@@ -136,14 +139,7 @@ const RequestPengembalianTableData = () => {
                             <td className="border p-2 lg:p-3 tracking-wide leading-none text-xs">
                               <button
                                 disabled={status === "Pending" ? false : true}
-                                onClick={() =>
-                                  dataPengembalianById({
-                                    url: `/pengembalian/${id}`,
-                                    method: "GET",
-                                    onSuccess: handleGetDataPengembalianByIdSuccessResponse,
-                                    onError: handleGetDataPengembalianByIdErrorResponse,
-                                  })
-                                }
+                                onClick={() => openRequestPengembalianDialog(values)}
                                 className="disabled:bg-zinc-400 disabled:hover:bg-zinc-400 text-xs w-full flex justify-center items-center py-2 px-5 bg-main hover:bg-main-hover transition-colors duration-150 rounded-full text-white">
                                 <OpenInNew sx={{ fontSize: "1.4em" }} className="mr-3" />{" "}
                                 <p className="leading-none">Detail</p>
@@ -158,7 +154,7 @@ const RequestPengembalianTableData = () => {
               })
             ) : (
               <div>
-                <p className="p-2 border text-xs text-center">{dataTransaksiPengembalian?.message}</p>
+                <p className="p-2 border text-xs text-center">Tidak ada request pengembalian terjadi!</p>
               </div>
             )}
           </div>
@@ -166,14 +162,20 @@ const RequestPengembalianTableData = () => {
           <table className="mb-3 w-full">
             <thead>
               <tr>
-                <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-left font-medium text-zinc-400 w-[40%]">
+                <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-left font-medium text-zinc-400 w-[30%]">
                   Data Mahasiswa
                 </th>
                 <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-left font-medium text-zinc-400 w-[10%]">
                   Data Barang
                 </th>
-                <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-left font-medium text-zinc-400 w-[20%]">
+                <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-left font-medium text-zinc-400 w-[15%]">
+                  Jumlah Peminjaman
+                </th>
+                <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-left font-medium text-zinc-400 w-[15%]">
                   Waktu & Tanggal
+                </th>
+                <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-center font-medium text-zinc-400 w-[10%]">
+                  Keterlambatan
                 </th>
                 <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-center font-medium text-zinc-400 w-[10%]">
                   Status
@@ -184,9 +186,9 @@ const RequestPengembalianTableData = () => {
               </tr>
             </thead>
             <tbody>
-              {dataTransaksiPengembalian?.data?.length > 0 ? (
+              {dataTransaksiPengembalian?.total > 0 ? (
                 dataTransaksiPengembalian?.data?.map((values) => {
-                  const { id, user, barang, status, tanggal_pengembalian } = values;
+                  const { id, user, barang, status, tanggal_pengembalian, jumlah_pengembalian } = values;
 
                   const regex = new RegExp(`(${transaksiPengembalianKeywords})`, "gi");
                   const searchedNama = user?.nama?.replace(regex, (match) => `<td><b>${match}</b></td>`);
@@ -218,8 +220,14 @@ const RequestPengembalianTableData = () => {
                           dangerouslySetInnerHTML={{ __html: searchedBarang }}></p>
                       </td>
                       <td className="border-b border-zinc-300 p-2">
+                        <p className="text-sm font-semibold">{jumlah_pengembalian}</p>
+                      </td>
+                      <td className="border-b border-zinc-300 p-2">
                         <p className="text-sm font-semibold">{date(tanggal_pengembalian)}</p>
                         <p className="text-xs tracking-wide text-zinc-400">{time(tanggal_pengembalian)} wib</p>
+                      </td>
+                      <td className="border-b border-zinc-300 p-2 text-center">
+                        <p className="text-xs tracking-wide text-zinc-400">-</p>
                       </td>
                       <td className="border-b border-zinc-300 p-2">
                         <p
@@ -229,17 +237,11 @@ const RequestPengembalianTableData = () => {
                           {status}
                         </p>
                       </td>
+
                       <td className="border-b border-zinc-300 p-2 w-fit">
                         <button
                           disabled={status === "Pending" ? false : true}
-                          onClick={() =>
-                            dataPengembalianById({
-                              url: `/Pengembalian/${id}`,
-                              method: "GET",
-                              onSuccess: handleGetDataPengembalianByIdSuccessResponse,
-                              onError: handleGetDataPengembalianByIdErrorResponse,
-                            })
-                          }
+                          onClick={() => openRequestPengembalianDialog(values)}
                           className="disabled:bg-zinc-400 disabled:hover:bg-zinc-400 text-xs w-full flex justify-center items-center py-2 px-5 bg-main hover:bg-main-hover transition-colors duration-150 rounded-full text-white">
                           <OpenInNew sx={{ fontSize: "1.4em" }} className="mr-3" />{" "}
                           <p className="leading-none">Detail</p>
@@ -251,13 +253,22 @@ const RequestPengembalianTableData = () => {
               ) : (
                 <tr>
                   <td colSpan={7} className="p-2 border text-xs text-center">
-                    {dataTransaksiPengembalian?.message}
+                    Tidak ada request pengembalian terjadi!
                   </td>
                 </tr>
               )}
             </tbody>
           </table>
         )}
+        <div className="flex justify-end">
+          <Pagination
+            count={dataTransaksiPengembalian?.last_page}
+            onChange={handlePagination}
+            shape="rounded"
+            color="primary"
+            variant="outlined"
+          />
+        </div>
       </div>
     </React.Fragment>
   );

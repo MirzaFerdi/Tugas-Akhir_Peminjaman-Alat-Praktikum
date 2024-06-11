@@ -10,16 +10,13 @@ import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 
 const MahasiswaPengembalianScreen = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 1439px)" });
-  const userPayloads = JSON.parse(localStorage.getItem("user_payloads"));
+  const { userId } = JSON.parse(localStorage.getItem("user_payloads"));
 
   const [pengembalianKeywords, setPengembalianKeywords] = useState("");
 
   const { openMahasiswaPengembalianDialog } = useMahasiswaPengembalianDialog();
   const { data: dataApprovedPeminjaman } = useFetchOnMount({
-    url:
-      pengembalianKeywords === ""
-        ? `/peminjaman/approved/${userPayloads?.user?.id}`
-        : `/peminjaman/search/${pengembalianKeywords}`,
+    url: pengembalianKeywords === "" ? `/peminjaman/approved/${userId}` : `/peminjaman/search/${pengembalianKeywords}`,
     method: "GET",
   });
 
@@ -78,9 +75,10 @@ const MahasiswaPengembalianScreen = () => {
                               <p>{barang?.kode_barang}</p>
                             </td>
                           </tr>
+
                           <tr>
                             <th className="border p-2 lg:p-3 tracking-wide bg-blue-400 text-white font-medium leading-none text-start text-xs">
-                              Waktu & Tanggal
+                              Waktu & Tanggal Peminjaman
                             </th>
                             <td className="border p-2 lg:p-3 tracking-wide leading-none text-xs">
                               <p className="mb-2 font-medium">{date(tanggal_peminjaman)}</p>
@@ -141,13 +139,19 @@ const MahasiswaPengembalianScreen = () => {
           <table className="mb-3 w-full table-fixed">
             <thead>
               <tr>
-                <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-left font-medium text-zinc-400 w-[50%]">
+                <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-left font-medium text-zinc-400 w-[30%]">
                   Data Barang
                 </th>
-                <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-left font-medium text-zinc-400 w-[20%]">
-                  Waktu & Tanggal
+                <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-left font-medium text-zinc-400 w-[10%]">
+                  Jumlah Peminjaman
                 </th>
-                <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-center font-medium text-zinc-400 w-[30%]">
+                <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-left font-medium text-zinc-400 w-[20%]">
+                  Waktu & Tanggal Peminjaman
+                </th>
+                <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-left font-medium text-zinc-400 w-[20%]">
+                  Tenggat
+                </th>
+                <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-center font-medium text-zinc-400 w-[20%]">
                   Aksi
                 </th>
               </tr>
@@ -155,8 +159,9 @@ const MahasiswaPengembalianScreen = () => {
             <tbody>
               {dataApprovedPeminjaman?.data?.data?.length > 0 ? (
                 dataApprovedPeminjaman?.data?.data?.map((values) => {
-                  const { id, barang, status, pengembalian_id, pengembalian, tanggal_peminjaman } = values;
-
+                  const { id, barang, status, pengembalian_id, pengembalian, tanggal_peminjaman, tenggat_peminjaman, jumlah_peminjaman } =
+                    values;                  
+                  
                   const regex = new RegExp(`(${pengembalianKeywords})`, "gi");
                   const searchedBarang = barang?.nama_barang.replace(regex, (match) => `<td><b>${match}</b></td>`);
 
@@ -180,8 +185,15 @@ const MahasiswaPengembalianScreen = () => {
                         </div>
                       </td>
                       <td className="border-b border-zinc-300 p-2">
+                        <p className="text-sm font-semibold">{jumlah_peminjaman}</p>                        
+                      </td>
+                      <td className="border-b border-zinc-300 p-2">
                         <p className="text-sm font-semibold">{date(tanggal_peminjaman)}</p>
                         <p className="text-xs tracking-wide text-zinc-400">{time(tanggal_peminjaman)} wib</p>
+                      </td>
+                      <td className="border-b border-zinc-300 p-2">
+                        <p className="text-sm font-semibold">{date(tenggat_peminjaman)}</p>
+                        <p className="text-xs tracking-wide text-zinc-400">{time(tenggat_peminjaman)} wib</p>
                       </td>
                       <td className="border-b border-zinc-300 p-2 w-fit">
                         <button

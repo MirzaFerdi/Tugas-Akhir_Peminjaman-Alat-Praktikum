@@ -7,16 +7,16 @@ const ConfirmDialog = () => {
     useConfirmDialog();
 
   return (
-    <Dialog open={isConfirmDialogOpen}>
-      <div className="py-8 px-12">
+    <Dialog open={isConfirmDialogOpen} sx={{zIndex: 20}}>
+      <div className="py-4 lg:py-8 px-6 lg:px-12">
         <div className="flex flex-col justify-center items-center mb-8">
           <img
             src={warningIcon}
             alt="Warning Icon Confirm Dialog"            
             className="aspect-square w-[78px] lg:w-[128px] h-[78px] lg:h-[128px] mb-3"
           />
-          <h1 className="text-md lg:text-lg tracking-wide font-bold mb-1 lg:mb-0">{confrimDialogTitle}</h1>
-          <p className="text-sm lg:text-md text-center">{confirmDialogMessage}</p>
+          <h1 className="text-md text-center leading-snug lg:text-lg tracking-wide font-bold mb-3 lg:mb-0">{confrimDialogTitle}</h1>
+          <p className="text-xs lg:text-sm lg:text-md text-center">{confirmDialogMessage}</p>
         </div>
         <div className="flex justify-between items-center gap-5">
           <button

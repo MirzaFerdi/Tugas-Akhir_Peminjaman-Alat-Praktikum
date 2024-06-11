@@ -21,8 +21,8 @@ const AdminDashboardScreenUpClass = () => {
     method: "GET",
   });
   const { fetchData: fetchMahasiswaNaikKelas } = useFetchOnClick();
-  const { openConfirmDialog, closeConfirmDialog } = useConfirmDialog();
-  const { openAlertComponent, closeAlertComponent } = useAlert();
+  const { openConfirmDialog } = useConfirmDialog();
+  const { openAlertComponent } = useAlert();
 
   const toggleCheckbox = (id) => {
     setCheckedItems((prevState) => ({
@@ -55,14 +55,9 @@ const AdminDashboardScreenUpClass = () => {
           alertTitle: "BERHASIL!",
           alertMessage: mahasiswaNaikKelasSuccessResponse?.message,
         });
-        setTimeout(() => {
-          closeConfirmDialog();
-          closeAlertComponent();
-          window.location.reload();
-        }, 2000);
       }
     },
-    [closeAlertComponent, closeConfirmDialog, openAlertComponent]
+    [openAlertComponent]
   );
 
   const handleErrorNaikKelas = useCallback((mahasiswaNaikKelasErrorResponse) => {

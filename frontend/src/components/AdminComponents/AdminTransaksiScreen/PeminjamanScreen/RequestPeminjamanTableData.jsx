@@ -1,37 +1,32 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { ErrorOutline, ExpandMore, OpenInNew, Search } from "@mui/icons-material";
 import { date, time } from "../../../../utils/datetime";
-import { useAdminTransaksiDialog, useAdminTransaksiInformationDialog } from "../../../../hooks/useDialog";
+import { useAdminRequestPeminjamanDialog, useAdminTransaksiInformationDialog } from "../../../../hooks/useDialog";
 import { useFetchOnMount } from "../../../../hooks/useFetchOnMount";
 import { mahasiswaIcon } from "../../../../assets";
-import { useFetchOnClick } from "../../../../hooks/useFetchOnClick";
-import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Pagination } from "@mui/material";
 import { useMediaQuery } from "react-responsive";
 
 const RequestPeminjamanTableData = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 1439px)" });
 
+  const [peminjamanPaginationPage, setPeminjamanPaginationPage] = useState(1);
   const [transaksiPeminjamanKeywords, setTransaksiPeminjamanKeywords] = useState("");
 
-  const { openTransaksiDialog } = useAdminTransaksiDialog();
+  const { openRequestPeminjamanDialog } = useAdminRequestPeminjamanDialog();
   const { openTransaksiInformationDialog } = useAdminTransaksiInformationDialog();
-
-  const { fetchData: dataPeminjamanById } = useFetchOnClick();
+  
   const { data: dataTransaksiPeminjaman } = useFetchOnMount({
-    url: transaksiPeminjamanKeywords === "" ? "/peminjaman" : `/peminjaman/search/${transaksiPeminjamanKeywords}`,
+    url:
+      transaksiPeminjamanKeywords === ""
+        ? `/peminjaman?page=${peminjamanPaginationPage}`
+        : `/peminjaman/search/${transaksiPeminjamanKeywords}`,
     method: "GET",
   });
 
-  const handleGetDataPeminjamanByIdSuccessResponse = useCallback(
-    (getDataPeminjamanByIdSuccessResponse) => {
-      openTransaksiDialog(getDataPeminjamanByIdSuccessResponse);
-    },
-    [openTransaksiDialog]
-  );
-
-  const handleGetDataPeminjamanByIdErrorResponse = useCallback((getDataPeminjamanByIdErrorResponse) => {
-    console.log(getDataPeminjamanByIdErrorResponse);
-  }, []);
+  const handlePagination = (event, value) => {
+    setPeminjamanPaginationPage(value);
+  };
 
   return (
     <React.Fragment>
@@ -136,14 +131,7 @@ const RequestPeminjamanTableData = () => {
                             <td className="border p-2 lg:p-3 tracking-wide leading-none text-xs">
                               <button
                                 disabled={status === "Pending" ? false : true}
-                                onClick={() =>
-                                  dataPeminjamanById({
-                                    url: `/peminjaman/${id}`,
-                                    method: "GET",
-                                    onSuccess: handleGetDataPeminjamanByIdSuccessResponse,
-                                    onError: handleGetDataPeminjamanByIdErrorResponse,
-                                  })
-                                }
+                                onClick={() => openRequestPeminjamanDialog(values)}
                                 className="disabled:bg-zinc-400 disabled:hover:bg-zinc-400 text-xs w-full flex justify-center items-center py-2 px-5 bg-main hover:bg-main-hover transition-colors duration-150 rounded-full text-white">
                                 <OpenInNew sx={{ fontSize: "1.4em" }} className="mr-3" />{" "}
                                 <p className="leading-none">Detail</p>
@@ -172,7 +160,10 @@ const RequestPeminjamanTableData = () => {
                 <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-left font-medium text-zinc-400 w-[10%]">
                   Data Barang
                 </th>
-                <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-left font-medium text-zinc-400 w-[20%]">
+                <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-left font-medium text-zinc-400 w-[15%]">
+                  Jumlah Peminjaman
+                </th>
+                <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-left font-medium text-zinc-400 w-[15%]">
                   Waktu & Tanggal
                 </th>
                 <th className="border-b border-zinc-300 px-2 py-3 text-xs tracking-wide leading-none text-center font-medium text-zinc-400 w-[10%]">
@@ -184,9 +175,9 @@ const RequestPeminjamanTableData = () => {
               </tr>
             </thead>
             <tbody>
-              {dataTransaksiPeminjaman?.data?.length > 0 ? (
+              {dataTransaksiPeminjaman?.total > 0 ? (
                 dataTransaksiPeminjaman?.data?.map((values) => {
-                  const { id, user, barang, status, tanggal_peminjaman } = values;
+                  const { id, user, barang, status, tanggal_peminjaman, jumlah_peminjaman } = values;
 
                   const regex = new RegExp(`(${transaksiPeminjamanKeywords})`, "gi");
                   const searchedNama = user?.nama?.replace(regex, (match) => `<td><b>${match}</b></td>`);
@@ -218,6 +209,9 @@ const RequestPeminjamanTableData = () => {
                           dangerouslySetInnerHTML={{ __html: searchedBarang }}></p>
                       </td>
                       <td className="border-b border-zinc-300 p-2">
+                        <p className="text-sm font-semibold">{jumlah_peminjaman}</p>
+                      </td>
+                      <td className="border-b border-zinc-300 p-2">
                         <p className="text-sm font-semibold">{date(tanggal_peminjaman)}</p>
                         <p className="text-xs tracking-wide text-zinc-400">{time(tanggal_peminjaman)} wib</p>
                       </td>
@@ -232,14 +226,7 @@ const RequestPeminjamanTableData = () => {
                       <td className="border-b border-zinc-300 p-2 w-fit">
                         <button
                           disabled={status === "Pending" ? false : true}
-                          onClick={() =>
-                            dataPeminjamanById({
-                              url: `/peminjaman/${id}`,
-                              method: "GET",
-                              onSuccess: handleGetDataPeminjamanByIdSuccessResponse,
-                              onError: handleGetDataPeminjamanByIdErrorResponse,
-                            })
-                          }
+                          onClick={() => openRequestPeminjamanDialog(values)}
                           className="disabled:bg-zinc-400 disabled:hover:bg-zinc-400 text-xs w-full flex justify-center items-center py-2 px-5 bg-main hover:bg-main-hover transition-colors duration-150 rounded-full text-white">
                           <OpenInNew sx={{ fontSize: "1.4em" }} className="mr-3" />{" "}
                           <p className="leading-none">Detail</p>
@@ -251,13 +238,22 @@ const RequestPeminjamanTableData = () => {
               ) : (
                 <tr>
                   <td colSpan={7} className="p-2 border text-xs text-center">
-                    {dataTransaksiPeminjaman?.message}
+                    Tidak ada request peminjaman terjadi!
                   </td>
                 </tr>
               )}
             </tbody>
           </table>
         )}
+        <div className="flex justify-end">
+          <Pagination
+            count={dataTransaksiPeminjaman?.last_page}
+            onChange={handlePagination}
+            shape="rounded"
+            color="primary"
+            variant="outlined"
+          />
+        </div>
       </div>
     </React.Fragment>
   );

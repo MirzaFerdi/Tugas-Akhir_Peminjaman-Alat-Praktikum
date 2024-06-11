@@ -11,8 +11,8 @@ import { useCallback } from "react";
 
 const AdminKelasEditMahasiswaDialog = () => {
   const { isAdminEditMahasiswaDialogOpen, mahasiswaDataById, closeEditMahasiswaDialog } = useAdminEditMahasiswaDialog();
-  const { openConfirmDialog, closeConfirmDialog } = useConfirmDialog();
-  const { openAlertComponent, closeAlertComponent } = useAlert();
+  const { openConfirmDialog } = useConfirmDialog();
+  const { openAlertComponent } = useAlert();
 
   const { fetchData: editDataMahasiswa } = useFetchOnClick();
 
@@ -34,16 +34,9 @@ const AdminKelasEditMahasiswaDialog = () => {
           alertTitle: "BERHASIL!",
           alertMessage: editMahasiswaSuccessResponse?.message,
         });
-
-        setTimeout(() => {
-          closeAlertComponent();
-          closeConfirmDialog();
-          closeEditMahasiswaDialog();
-          window.location.reload();
-        }, 2000);
       }
     },
-    [closeAlertComponent, closeConfirmDialog, closeEditMahasiswaDialog, openAlertComponent]
+    [openAlertComponent]
   );
 
   const handleEditMahasiswaErrorResponse = useCallback((editMahasiswaErrorResponse) => {
@@ -57,7 +50,7 @@ const AdminKelasEditMahasiswaDialog = () => {
       okAction: () => {
         editDataMahasiswa({
           url: `/user/${values?.id}`,
-          method: "PUT",
+          method: "POST",
           body: values,
           onSuccess: handleEditMahasiswaSuccessResponse,
           onError: handleEditMahasiswaErrorResponse,
@@ -67,7 +60,7 @@ const AdminKelasEditMahasiswaDialog = () => {
   };
 
   return (
-    <Dialog open={isAdminEditMahasiswaDialogOpen} onClose={() => closeEditMahasiswaDialog()}>
+    <Dialog open={isAdminEditMahasiswaDialogOpen} onClose={() => closeEditMahasiswaDialog()} sx={{zIndex: 20}}>
       <div className="flex justify-between">
         <div className="py-3 px-6 bg-blue-400 w-full">
           <p className="text-lg font-semibold tracking-wider text-white">

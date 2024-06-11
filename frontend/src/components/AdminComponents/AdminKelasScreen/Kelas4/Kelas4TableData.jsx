@@ -5,6 +5,7 @@ import {
   useAdminAddMahasiswaDialog,
   useAdminEditMahasiswaDialog,
   useAdminKelasInformationDialog,
+  useAdminPreviewPhotoDialog,
   useConfirmDialog,
 } from "../../../../hooks/useDialog";
 import { useAlert } from "../../../../hooks/useAlert";
@@ -19,10 +20,11 @@ const Kelas1TableData = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 1439px)" });
 
   const { openAddMahasiswaDialog } = useAdminAddMahasiswaDialog();
-  const { openConfirmDialog, closeConfirmDialog } = useConfirmDialog();
-  const { openAlertComponent, closeAlertComponent } = useAlert();
+  const { openConfirmDialog } = useConfirmDialog();
+  const { openAlertComponent } = useAlert();
   const { openEditMahasiswaDialog } = useAdminEditMahasiswaDialog();
   const { openKelasInformationDialog } = useAdminKelasInformationDialog();
+  const { openPreviewPhoto } = useAdminPreviewPhotoDialog();
 
   const { fetchData: getDataMahasiswaById } = useFetchOnClick();
   const { fetchData: deleteMahasiswa } = useFetchOnClick();
@@ -54,15 +56,9 @@ const Kelas1TableData = () => {
           alertTitle: "BERHASIL!",
           alertMessage: deleteMahasiswaSuccessResponse?.message,
         });
-
-        setTimeout(() => {
-          closeAlertComponent();
-          closeConfirmDialog();
-          window.location.reload();
-        }, 2000);
       }
     },
-    [closeAlertComponent, closeConfirmDialog, openAlertComponent]
+    [openAlertComponent]
   );
 
   const handleDeleteMahasiswa = (idMahasiswa) => {
@@ -126,7 +122,7 @@ const Kelas1TableData = () => {
 
                 return (
                   <Accordion key={id}>
-                    <AccordionSummary sx={{ px: 1 }} expandIcon={<ExpandMore fontSize="smal"/>}>
+                    <AccordionSummary sx={{ px: 1 }} expandIcon={<ExpandMore fontSize="smal" />}>
                       <p className="text-xs" dangerouslySetInnerHTML={{ __html: searchedNama }}></p>
                     </AccordionSummary>
                     <AccordionDetails sx={{ px: 1 }}>
@@ -170,7 +166,9 @@ const Kelas1TableData = () => {
               })
             ) : (
               <div>
-                <p className="p-2 border text-xs text-center">{dataMahasiswaKelas4OnSearch?.message}</p>
+                <p className="p-2 text-xs text-center">
+                  {dataMahasiswaKelas4OnSearch?.total === 0 && "Mahasiswa kelas 4 tidak ada!"}
+                </p>
               </div>
             )}
           </div>
@@ -197,18 +195,27 @@ const Kelas1TableData = () => {
             <tbody>
               {dataMahasiswaKelas4OnSearch?.data?.length > 0 ? (
                 dataMahasiswaKelas4OnSearch?.data?.map((values) => {
-                  const { id, nama, email, username, nohp } = values;
+                  const { id, nama, email, foto, username, nohp } = values;
 
                   return (
                     <tr key={id}>
                       <td className="border-b border-zinc-300 p-2">
                         <div className="w-full flex justify-start items-center">
-                          <img
-                            src={mahasiswaIcon}
+                        <img
+                            onClick={() =>
+                              openPreviewPhoto(
+                                `https://api.sipeminjam.indonesiadigitalsolutions.com/storage/foto/${foto}`
+                              )
+                            }
+                            src={
+                              foto
+                                ? `https://api.sipeminjam.indonesiadigitalsolutions.com/storage/foto/${foto}`
+                                : mahasiswaIcon
+                            }
                             alt="Mahasiswa User Icon"
                             width={40}
                             height={40}
-                            className="aspect-square mr-5"
+                            className="aspect-square mr-5 shadow-md hover:border-2 rounded-full p-1 cursor-pointer"
                           />
                           <div>
                             <p className="text-sm font-semibold">{nama}</p>
@@ -237,8 +244,10 @@ const Kelas1TableData = () => {
                 })
               ) : (
                 <tr>
-                  <td colSpan={7} className="p-2 border text-xs text-center">
-                    {dataMahasiswaKelas4OnSearch?.message}
+                  <td colSpan={4} className="p-2 border text-xs text-center">
+                    {dataMahasiswaKelas4OnSearch?.total === 0
+                      ? "Mahasiswa kelas 4 tidak ada!"
+                      : dataMahasiswaKelas4OnSearch?.message}
                   </td>
                 </tr>
               )}

@@ -1,5 +1,5 @@
 export const pengembalianFormValidation = (values) => {
-  const { keterangan } = values;
+  const { keterangan, jumlah_kondisi, kondisi } = values;
 
   const keteranganNumberOnlyRegex = /^(?![0-9]+$).+$/;
 
@@ -17,11 +17,21 @@ export const pengembalianFormValidation = (values) => {
     errors.keterangan = "Keterangan tidak boleh hanya terdapat angka!";
   }
 
+  if (kondisi) {
+    if (jumlah_kondisi == 0) {
+      errors.jumlah_kondisi = "Jumlah kondisi tidak boleh kosong!";
+    }
+
+    if (keteranganNumberOnlyRegex.test(jumlah_kondisi)) {
+      errors.jumlah_kondisi = "Jumlah kondisi hanya boleh terdapat angka!";
+    }
+  }
+
   return errors;
 };
 
 export const peminjamanFormValidation = (values) => {
-  const { keterangan } = values;
+  const { keterangan, jumlah_peminjaman } = values;
 
   const keteranganNumberOnlyRegex = /^(?![0-9]+$).+$/;
 
@@ -33,6 +43,14 @@ export const peminjamanFormValidation = (values) => {
 
   if (keterangan.length < 10) {
     errors.keterangan = "Keterangan tidak boleh kurang dari 10 karakter!";
+  }
+
+  if (jumlah_peminjaman == 0) {
+    errors.jumlah_peminjaman = "Jumlah peminjaman tidak boleh 0!";
+  }
+
+  if (keteranganNumberOnlyRegex.test(jumlah_peminjaman)) {
+    errors.jumlah_peminjaman = "Jumlah peminjaman hanya boleh angka!";
   }
 
   if (!keteranganNumberOnlyRegex.test(keterangan)) {
@@ -99,16 +117,16 @@ export const forgotPasswordValidation = (values) => {
 };
 
 export const forgotPasswordEmailAuthenticationValidation = (values) => {
-  const { token } = values;
+  const { resetToken } = values;
 
   const errors = {};
 
-  if (!token) {
-    errors.token = "Token autentikasi email harus di isi!";
+  if (!resetToken) {
+    errors.resetToken = "Token autentikasi email harus di isi!";
   }
 
-  if (token.length < 10) {
-    errors.token = "Token yang anda masukkan tidak valid!";
+  if (resetToken.length < 10) {
+    errors.resetToken = "Token yang anda masukkan tidak valid!";
   }
 
   return errors;
@@ -373,10 +391,45 @@ export const editBarangFormValidation = (values) => {
 
   if (stokTersediaRegex.test(stokTersedia)) {
     errors.stokTersedia = "Jumlah stok tersedia harus berupa angka!";
-  }  
+  }
 
   if (stokMasukRegex.test(stokMasuk)) {
     errors.stokMasuk = "Jumlah stok masuk harus berupa angka!";
+  }
+
+  return errors;
+};
+
+export const editKelasFormValidation = (values) => {
+  const { dpa, tahunAjaran } = values;
+
+  const dpaRegex = /^[^\d]+(?: [^\d]+)*$/;
+  const tahunAjaranRegex = /^(20\d{2})\/(20\d{2})$/;
+
+  const errors = {};
+
+  if (!dpa) {
+    errors.dpa = "Nama dosen pembimbing akademik tidak boleh kosong!";
+  }
+
+  if (dpa.length < 5) {
+    errors.dpa = "Nama dosen pembimbing akademik tidak valid!";
+  }
+
+  if (!dpaRegex.test(dpa)) {
+    errors.dpa = "Nama dosen pembimbing akademik tidak valid!";
+  }
+
+  if (!tahunAjaran) {
+    errors.tahunAjaran = "Tahun ajaran tidak boleh kosong!";
+  }
+
+  if (tahunAjaran.length < 5) {
+    errors.tahunAjaran = "Tahun ajaran tidak valid";
+  }
+
+  if (!tahunAjaranRegex.test(tahunAjaran)) {
+    errors.tahunAjaran = "Tahun ajaran tidak valid!";
   }
 
   return errors;

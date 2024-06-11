@@ -1,13 +1,13 @@
 import RequestPeminjamanTableData from "./RequestPeminjamanTableData";
-import AdminPeminjamanDialog from "../AdminTransaksiDialog";
 import AdminTransaksiInformation from "../AdminTransaksiInformation";
+import AdminRequestPeminjamanDialog from "../AdminRequestPeminjamanDialog";
 
 const AdminPeminjamanScreen = () => {
   return (
     <div className="mb-8">      
       <RequestPeminjamanTableData />
       <AdminTransaksiInformation />
-      <AdminPeminjamanDialog />      
+      <AdminRequestPeminjamanDialog />
     </div>
   );
 };

@@ -5,13 +5,14 @@ import {
   useAdminAddMahasiswaDialog,
   useAdminEditMahasiswaDialog,
   useAdminKelasInformationDialog,
+  useAdminPreviewPhotoDialog,
   useConfirmDialog,
 } from "../../../../hooks/useDialog";
 import { useAlert } from "../../../../hooks/useAlert";
 import { useFetchOnClick } from "../../../../hooks/useFetchOnClick";
-import { mahasiswaIcon } from "../../../../assets";
-import { Accordion, AccordionDetails, AccordionSummary, Tooltip } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Pagination, Tooltip } from "@mui/material";
 import { useMediaQuery } from "react-responsive";
+import { mahasiswaIcon } from "../../../../assets";
 
 const Kelas1TableData = () => {
   const [keywords, setKeywords] = useState("");
@@ -19,15 +20,16 @@ const Kelas1TableData = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 1439px)" });
 
   const { openAddMahasiswaDialog } = useAdminAddMahasiswaDialog();
-  const { openConfirmDialog, closeConfirmDialog } = useConfirmDialog();
-  const { openAlertComponent, closeAlertComponent } = useAlert();
+  const { openConfirmDialog } = useConfirmDialog();
+  const { openAlertComponent } = useAlert();
   const { openEditMahasiswaDialog } = useAdminEditMahasiswaDialog();
   const { openKelasInformationDialog } = useAdminKelasInformationDialog();
+  const { openPreviewPhoto } = useAdminPreviewPhotoDialog();
 
   const { fetchData: getDataMahasiswaById } = useFetchOnClick();
   const { fetchData: deleteMahasiswa } = useFetchOnClick();
   const { data: dataMahasiswaKelas1OnSearch } = useFetchOnMount({
-    url: keywords === "" ? `/user/kelas/1` : `/user/search/mahasiswa/1/${keywords}`,
+    url: !keywords ? `/user/kelas/1` : `/user/search/mahasiswa/1/${keywords}`,
     method: "GET",
   });
 
@@ -54,15 +56,9 @@ const Kelas1TableData = () => {
           alertTitle: "BERHASIL!",
           alertMessage: deleteMahasiswaSuccessResponse?.message,
         });
-
-        setTimeout(() => {
-          closeAlertComponent();
-          closeConfirmDialog();
-          window.location.reload();
-        }, 2000);
       }
     },
-    [closeAlertComponent, closeConfirmDialog, openAlertComponent]
+    [openAlertComponent]
   );
 
   const handleDeleteMahasiswa = (idMahasiswa) => {
@@ -126,7 +122,7 @@ const Kelas1TableData = () => {
 
                 return (
                   <Accordion key={id}>
-                    <AccordionSummary sx={{ px: 1 }} expandIcon={<ExpandMore fontSize="smal"/>}>
+                    <AccordionSummary sx={{ px: 1 }} expandIcon={<ExpandMore fontSize="smal" />}>
                       <p className="text-xs" dangerouslySetInnerHTML={{ __html: searchedNama }}></p>
                     </AccordionSummary>
                     <AccordionDetails sx={{ px: 1 }}>
@@ -170,7 +166,9 @@ const Kelas1TableData = () => {
               })
             ) : (
               <div>
-                <p className="p-2 border text-xs text-center">{dataMahasiswaKelas1OnSearch?.message}</p>
+                <p className="p-2 text-xs text-center">
+                  {dataMahasiswaKelas1OnSearch?.total === 0 && "Mahasiswa kelas 1 tidak ada!"}
+                </p>
               </div>
             )}
           </div>
@@ -197,19 +195,29 @@ const Kelas1TableData = () => {
             <tbody>
               {dataMahasiswaKelas1OnSearch?.data?.length > 0 ? (
                 dataMahasiswaKelas1OnSearch?.data?.map((values) => {
-                  const { id, nama, email, username, nohp } = values;
+                  const { id, nama, email, username, nohp, foto } = values;
 
                   return (
                     <tr key={id}>
                       <td className="border-b border-zinc-300 p-2">
                         <div className="w-full flex justify-start items-center">
                           <img
-                            src={mahasiswaIcon}
+                            onClick={() =>
+                              openPreviewPhoto(
+                                `https://api.sipeminjam.indonesiadigitalsolutions.com/storage/foto/${foto}`
+                              )
+                            }
+                            src={
+                              foto
+                                ? `https://api.sipeminjam.indonesiadigitalsolutions.com/storage/foto/${foto}`
+                                : mahasiswaIcon
+                            }
                             alt="Mahasiswa User Icon"
                             width={40}
                             height={40}
-                            className="aspect-square mr-5"
+                            className="aspect-square mr-5 shadow-md hover:border-2 rounded-full p-1 cursor-pointer"
                           />
+
                           <div>
                             <p className="text-sm font-semibold">{nama}</p>
                             <p className="text-xs tracking-wide text-zinc-400">{email}</p>
@@ -237,8 +245,10 @@ const Kelas1TableData = () => {
                 })
               ) : (
                 <tr>
-                  <td colSpan={7} className="p-2 border text-xs text-center">
-                    {dataMahasiswaKelas1OnSearch?.message}
+                  <td colSpan={4} className="p-2 border text-xs text-center">
+                    {dataMahasiswaKelas1OnSearch?.total === 0
+                      ? "Data mahasiswa kelas 1 kosong!"
+                      : dataMahasiswaKelas1OnSearch?.message}
                   </td>
                 </tr>
               )}
@@ -246,11 +256,14 @@ const Kelas1TableData = () => {
           </table>
         )}
 
-        <button
-          onClick={() => openAddMahasiswaDialog()}
-          className="mt-5 flex items-center bg-blue-900 hover:bg-blue-950 transition-all duration-100 py-2 px-5 rounded-sm text-white">
-          <p className="text-xs tracking-wide mr-2">Tambah Mahasiswa</p> <AddCircleOutline fontSize="small" />
-        </button>
+        <div className="mt-5 flex justify-between items-center">
+          <button
+            onClick={() => openAddMahasiswaDialog()}
+            className="flex items-center bg-blue-900 hover:bg-blue-950 transition-all duration-100 py-2 px-5 rounded-sm text-white">
+            <p className="text-xs tracking-wide mr-2">Tambah Mahasiswa</p> <AddCircleOutline fontSize="small" />
+          </button>
+          {dataMahasiswaKelas1OnSearch?.last_page > 1 && <Pagination count={dataMahasiswaKelas1OnSearch?.last_page} />}
+        </div>
       </div>
     </React.Fragment>
   );

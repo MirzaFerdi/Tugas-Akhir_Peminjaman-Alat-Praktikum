@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import {
   Email,
   KeyboardDoubleArrowLeft,
@@ -14,13 +13,24 @@ import { useCallback, useState } from "react";
 import { useConfirmDialog } from "../../../hooks/useDialog";
 import { useAlert } from "../../../hooks/useAlert";
 import { useFetchOnClick } from "../../../hooks/useFetchOnClick";
+import { useMahasiswaPageId } from "../../../hooks/usePage";
+import { useSidebar } from "../../../hooks/useSidebar";
+import { useFetchOnMount } from "../../../hooks/useFetchOnMount";
 
-const MahasiswaNavbar = ({ mahasiswaPageId, handleChangeMahasiswaPageId, isSidebarOpen, handleToggleSidebar }) => {
+const MahasiswaNavbar = () => {
+  const { userId } = JSON.parse(localStorage.getItem("user_payloads"));
+
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
-  const { openConfirmDialog, closeConfirmDialog } = useConfirmDialog();
-  const { openAlertComponent, closeAlertComponent } = useAlert();
+  const { mahasiswaPageId, handleChangeMahasiswaPageId } = useMahasiswaPageId();
+  const { isSidebarDrawerOpen, openSidebar, closeSidebar } = useSidebar();
+  const { openConfirmDialog } = useConfirmDialog();
+  const { openAlertComponent } = useAlert();
 
+  const { data: unreadNotif } = useFetchOnMount({
+    url: `/notifikasi/belumdibaca/${userId}`,
+    method: "GET",
+  });
   const { fetchData: logout } = useFetchOnClick();
 
   const handleChangePageFromNavbar = (id) => {
@@ -37,16 +47,11 @@ const MahasiswaNavbar = ({ mahasiswaPageId, handleChangeMahasiswaPageId, isSideb
           alertType: "success",
           alertTitle: "BERHASIL!",
           alertMessage: successLogoutResponse?.message,
+          navigateTo: "/login",
         });
-
-        setTimeout(() => {
-          closeAlertComponent();
-          closeConfirmDialog();
-          window.location.reload();
-        }, 2000);
       }
     },
-    [closeAlertComponent, closeConfirmDialog, openAlertComponent]
+    [openAlertComponent]
   );
 
   const handleErrorLogoutResponse = useCallback((errorLogoutResponse) => {
@@ -72,8 +77,8 @@ const MahasiswaNavbar = ({ mahasiswaPageId, handleChangeMahasiswaPageId, isSideb
     <div className="shadow-md flex flex-col justify-center relative h-full w-full top-0 bg-white">
       <div className="h-full grid grid-cols-2 items-center px-4 lg:mb-0">
         <div>
-          <button onClick={() => handleToggleSidebar()}>
-            {isSidebarOpen ? <KeyboardDoubleArrowLeft /> : <KeyboardDoubleArrowRight />}
+          <button onClick={isSidebarDrawerOpen ? () => closeSidebar() : () => openSidebar()}>
+            {isSidebarDrawerOpen ? <KeyboardDoubleArrowLeft /> : <KeyboardDoubleArrowRight />}
           </button>
         </div>
         <div className="flex items-center justify-end gap-3">
@@ -89,8 +94,14 @@ const MahasiswaNavbar = ({ mahasiswaPageId, handleChangeMahasiswaPageId, isSideb
             </button>
           </Tooltip>
           <Tooltip placement="bottom-start" title="Notifikasi" sx={{ position: "relative" }}>
-            <button className="p-2 leading-none text-xs border-2 rounded-full text-zinc-600 tracking-wide transition-all duration-100 hover:bg-main hover:text-white">
-              <Badge badgeContent={4} color="info">
+            <button
+              onClick={() => handleChangeMahasiswaPageId(15)}
+              className={
+                mahasiswaPageId === 15
+                  ? "p-2 leading-none text-xs border-2 text-white bg-main rounded-full tracking-wide transition-all duration-100 hover:bg-main hover:text-white"
+                  : "p-2 leading-none text-xs border-2 rounded-full text-zinc-600 tracking-wide transition-all duration-100 hover:bg-main hover:text-white"
+              }>
+              <Badge badgeContent={unreadNotif?.data?.length} color="info">
                 <Notifications />
               </Badge>
             </button>
@@ -141,12 +152,5 @@ const MahasiswaNavbar = ({ mahasiswaPageId, handleChangeMahasiswaPageId, isSideb
     </div>
   );
 };
-
-MahasiswaNavbar.propTypes = {
-  handleChangeMahasiswaPageId: PropTypes.func,
-  handleToggleSidebar: PropTypes.func,
-  isSidebarOpen: PropTypes.any,
-  mahasiswaPageId: PropTypes.any
-}
 
 export default MahasiswaNavbar;

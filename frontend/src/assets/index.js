@@ -16,6 +16,10 @@ import adminIcon from "./icons/admin.png";
 import adminsIcon from "./icons/admins.png";
 import mahasiswaIcon from "./icons/mahasiswa.png";
 import toolsIcon from "./icons/tools.png";
+import bcIcon from "./icons/bc.png";
+import recapIcon from "./icons/recap.png";
+import notifIcon from "./icons/notif.png";
+import fakeIcon from "./icons/fake.png";
 
 // image import files
 import logoImage from "./images/logo.png";
@@ -26,6 +30,9 @@ import forgotBgIamge from "./images/forgot-bg.jpg";
 import qrCodeImage from "./images/qrcode.png";
 import welcomeMahasiswaImage from "./images/welcome-mahasiswa.png";
 import welcomeMahasiswaBgImage from "./images/welcome-mahasiswa-bg.jpg";
+
+// sound import files
+import notificationSound from "./audio/notification.mp3";
 
 export {
   numberOneIcon,
@@ -45,6 +52,9 @@ export {
   adminsIcon,
   mahasiswaIcon,
   toolsIcon,
+  bcIcon,
+  recapIcon,
+  notifIcon,
   logoImage,
   loginThumbnailImage,
   waveImage,
@@ -53,4 +63,6 @@ export {
   qrCodeImage,
   welcomeMahasiswaImage,
   welcomeMahasiswaBgImage,
+  fakeIcon,
+  notificationSound,
 };

@@ -13,8 +13,8 @@ const AdminBroadcastMessage = () => {
   const [message, setMessage] = useState("");
 
   const { openBroadcastPreview } = useAdminBroadcastPreviewDialog();
-  const { openConfirmDialog, closeConfirmDialog } = useConfirmDialog();
-  const { openAlertComponent, closeAlertComponent } = useAlert();
+  const { openConfirmDialog } = useConfirmDialog();
+  const { openAlertComponent } = useAlert();
 
   const { fetchData: sendBroadcastMessage } = useFetchOnClick();
 
@@ -26,15 +26,9 @@ const AdminBroadcastMessage = () => {
           alertTitle: "BERHASIL!",
           alertMessage: sendBroadcastSuccessResponse?.message,
         });
-
-        setTimeout(() => {
-          closeAlertComponent();
-          closeConfirmDialog();
-          window.location.reload();
-        }, 2000);
       }
     },
-    [closeAlertComponent, closeConfirmDialog, openAlertComponent]
+    [openAlertComponent]
   );
 
   const handleSendBroadcastErrorResponse = useCallback((sendBroadcastErrorResponse) => {
@@ -62,7 +56,7 @@ const AdminBroadcastMessage = () => {
   };
 
   return (
-    <div>
+    <div className="">
       <div className="mb-2 flex items-center">
         <h1 className="text-xl font-semibold tracking-wide text-gray-500 mr-2">Pesan Broadcast Mahasiswa</h1>
         <Tooltip
@@ -79,16 +73,12 @@ const AdminBroadcastMessage = () => {
           onEditorChange={(content) => {
             setMessage(content);
           }}
-          apiKey="drn189g37lqe8leioroz4nu0smerk0tj62w2xamggc6u4gf2"
+          apiKey={import.meta.env.VITE_TINY_MCE_API_KEY}
           init={{
             toolbar:
               "undo redo | blocks fontfamily fontsize | bold italic underline | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat",
             tinycomments_mode: "embedded",
             tinycomments_author: "ADMINISTRATOR",
-            mergetags_list: [
-              { value: "First.Name", title: "First Name" },
-              { value: "Email", title: "Email" },
-            ],
             ai_request: (request, respondWith) =>
               respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
           }}

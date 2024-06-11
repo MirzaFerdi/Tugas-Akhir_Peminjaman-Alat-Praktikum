@@ -1,13 +1,13 @@
 import RequestPengembalianTableData from "./RequestPengembalianTableData";
-import AdminPengembalianDialog from "../AdminTransaksiDialog";
 import AdminTransaksiInformation from "../AdminTransaksiInformation";
+import AdminRequestPengembalianDialog from "../AdminRequestPengembalianDialog";
 
 const AdminPengembalianScreen = () => {  
   return (
     <div className="mb-8">
       <RequestPengembalianTableData />
       <AdminTransaksiInformation />
-      <AdminPengembalianDialog />      
+      <AdminRequestPengembalianDialog />
     </div>
   );
 };
