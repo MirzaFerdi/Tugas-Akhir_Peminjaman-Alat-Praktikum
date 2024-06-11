@@ -11,8 +11,8 @@ import { useCallback } from "react";
 
 const AdminAddBarangDialog = ({ barangKategori }) => {
   const { isAdminAddBarangDialogOpen, closeAddBarangDialog } = useAdminAddBarangDialog();
-  const { openConfirmDialog, closeConfirmDialog } = useConfirmDialog();
-  const { openAlertComponent, closeAlertComponent } = useAlert();
+  const { openConfirmDialog } = useConfirmDialog();
+  const { openAlertComponent } = useAlert();
 
   const { fetchData: addBarangPraktikum } = useFetchOnClick();
 
@@ -29,17 +29,10 @@ const AdminAddBarangDialog = ({ barangKategori }) => {
           alertType: "success",
           alertTitle: "BERHASIL!",
           alertMessage: addBarangSuccessResponse?.message,
-        });
-
-        setTimeout(() => {
-          closeAlertComponent();
-          closeConfirmDialog();
-          closeAddBarangDialog();
-          window.location.reload();
-        }, 2000);
+        });        
       }
     },
-    [closeAddBarangDialog, closeAlertComponent, closeConfirmDialog, openAlertComponent]
+    [openAlertComponent]
   );
 
   const handleAddBarangErrorResponse = useCallback((addBarangErrorResponse) => {
@@ -71,7 +64,7 @@ const AdminAddBarangDialog = ({ barangKategori }) => {
   };
 
   return (
-    <Dialog open={isAdminAddBarangDialogOpen} onClose={() => closeAddBarangDialog()}>
+    <Dialog open={isAdminAddBarangDialogOpen} onClose={() => closeAddBarangDialog()} sx={{zIndex: 20}}>
       <div className="flex justify-between">
         <div className="py-3 px-6 bg-blue-400 w-full">
           <p className="text-lg font-semibold tracking-wider text-white">

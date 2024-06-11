@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import {
   Email,
   KeyboardDoubleArrowLeft,
@@ -14,14 +13,28 @@ import { useCallback, useState } from "react";
 import { useConfirmDialog } from "../../../hooks/useDialog";
 import { useAlert } from "../../../hooks/useAlert";
 import { useFetchOnClick } from "../../../hooks/useFetchOnClick";
+import { useAdminPageId } from "../../../hooks/usePage";
+import { useSidebar } from "../../../hooks/useSidebar";
+import { useFetchOnMount } from "../../../hooks/useFetchOnMount";
+import { useNavigate } from "react-router-dom";
 
-const AdminNavbar = ({ adminPageId, handleChangeAdminPageId, isSidebarOpen, handleToggleSidebar }) => {
+const AdminNavbar = () => {
+  const navigate = useNavigate();
+
+  const users = JSON?.parse(localStorage.getItem("user_payloads"));
+
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
-  const { openConfirmDialog, closeConfirmDialog } = useConfirmDialog();
-  const { openAlertComponent, closeAlertComponent } = useAlert();
-
-  const { fetchData: logout } = useFetchOnClick();
+  const { adminPageId, handleChangeAdminPageId } = useAdminPageId();
+  const { isSidebarDrawerOpen, openSidebar, closeSidebar } = useSidebar();
+  const { openConfirmDialog } = useConfirmDialog();
+  const { openAlertComponent } = useAlert();
+  
+  const { data: unreadNotif } = useFetchOnMount({
+    url: `/notifikasi/belumdibaca/${users?.userId}`,
+    method: "GET",
+  });
+  const { fetchData: logout } = useFetchOnClick();  
 
   const handleChangePageFromNavbar = (id) => {
     handleChangeAdminPageId(id);
@@ -39,14 +52,10 @@ const AdminNavbar = ({ adminPageId, handleChangeAdminPageId, isSidebarOpen, hand
           alertMessage: successLogoutResponse?.message,
         });
 
-        setTimeout(() => {
-          closeAlertComponent();
-          closeConfirmDialog();
-          window.location.reload();
-        }, 2000);
+        navigate("/login");
       }
     },
-    [closeAlertComponent, closeConfirmDialog, openAlertComponent]
+    [navigate, openAlertComponent]
   );
 
   const handleErrorLogoutResponse = useCallback((errorLogoutResponse) => {
@@ -72,16 +81,16 @@ const AdminNavbar = ({ adminPageId, handleChangeAdminPageId, isSidebarOpen, hand
     <div className="shadow-md flex flex-col justify-center h-full w-full top-0 bg-white z-10">
       <div className="relative grid grid-cols-2 items-center px-4 lg:mb-0 z-[1]">
         <div>
-          <button onClick={() => handleToggleSidebar()}>
-            {isSidebarOpen ? <KeyboardDoubleArrowLeft /> : <KeyboardDoubleArrowRight />}
+          <button onClick={isSidebarDrawerOpen ? () => closeSidebar() : () => openSidebar()}>
+            {isSidebarDrawerOpen ? <KeyboardDoubleArrowLeft /> : <KeyboardDoubleArrowRight />}
           </button>
         </div>
         <div className="flex items-center justify-end gap-3">
           <Tooltip placement="bottom-start" title="Pesan Pengumuman">
             <button
-              onClick={() => handleChangeAdminPageId(12)}
+              onClick={() => handleChangePageFromNavbar(14)}
               className={
-                adminPageId === 12
+                adminPageId === 14
                   ? "p-2 leading-none text-xs border-2 text-white bg-main rounded-full tracking-wide transition-all duration-100 hover:bg-main hover:text-white"
                   : "p-2 leading-none text-xs border-2 rounded-full text-zinc-600 tracking-wide transition-all duration-100 hover:bg-main hover:text-white"
               }>
@@ -89,8 +98,14 @@ const AdminNavbar = ({ adminPageId, handleChangeAdminPageId, isSidebarOpen, hand
             </button>
           </Tooltip>
           <Tooltip placement="bottom-start" title="Notifikasi" sx={{ position: "relative" }}>
-            <button className="p-2 leading-none text-xs border-2 rounded-full text-zinc-600 tracking-wide transition-all duration-100 hover:bg-main hover:text-white">
-              <Badge badgeContent={4} color="info">
+            <button
+              onClick={() => handleChangePageFromNavbar(16)}
+              className={
+                adminPageId === 16
+                  ? "p-2 leading-none text-xs border-2 text-white bg-main rounded-full tracking-wide transition-all duration-100 hover:bg-main hover:text-white"
+                  : "p-2 leading-none text-xs border-2 rounded-full text-zinc-600 tracking-wide transition-all duration-100 hover:bg-main hover:text-white"
+              }>
+              <Badge badgeContent={unreadNotif?.data?.length} color="info">
                 <Notifications />
               </Badge>
             </button>
@@ -111,18 +126,18 @@ const AdminNavbar = ({ adminPageId, handleChangeAdminPageId, isSidebarOpen, hand
                 width: 320,
                 maxWidth: "100%",
                 position: "absolute",
-                zIndex: 20,
+                zIndex: 50,
                 right: 20,
                 top: 60,
               }}>
               <MenuList>
-                <MenuItem onClick={() => handleChangePageFromNavbar(13)}>
+                <MenuItem onClick={() => handleChangePageFromNavbar(15)}>
                   <ListItemIcon>
                     <PersonRounded fontSize="small" />
                   </ListItemIcon>
                   <ListItemText>Profil</ListItemText>
                 </MenuItem>
-                <MenuItem onClick={() => handleChangePageFromNavbar(13)}>
+                <MenuItem onClick={() => handleChangePageFromNavbar(15)}>
                   <ListItemIcon>
                     <Settings fontSize="small" />
                   </ListItemIcon>
@@ -142,13 +157,6 @@ const AdminNavbar = ({ adminPageId, handleChangeAdminPageId, isSidebarOpen, hand
       </div>
     </div>
   );
-};
-
-AdminNavbar.propTypes = {
-  adminPageId: PropTypes.number,
-  handleChangeAdminPageId: PropTypes.func,
-  handleToggleSidebar: PropTypes.func,
-  isSidebarOpen: PropTypes.any,
 };
 
 export default AdminNavbar;

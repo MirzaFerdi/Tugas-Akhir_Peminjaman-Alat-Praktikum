@@ -1,8 +1,10 @@
-import PropTypes from "prop-types"
 import { KeyboardDoubleArrowLeft, KeyboardDoubleArrowRight } from "@mui/icons-material";
 import { logoImage } from "../../assets";
+import { useSidebar } from "../../hooks/useSidebar";
 
-const AppLogoBar = ({isSidebarOpen, handleToggleSidebar}) => {  
+const AppLogoBar = () => {
+  const { isSidebarDrawerOpen, openSidebar, closeSidebar } = useSidebar();
+
   return (
     <div className="flex justify-between items-center w-full h-full px-4 bg-main-hover shadow-md z-50">
       <button onClick={() => window.location.reload()} className="flex justify-start items-center w-fit">
@@ -24,16 +26,11 @@ const AppLogoBar = ({isSidebarOpen, handleToggleSidebar}) => {
         </div>
       </button>
 
-      <button onClick={() => handleToggleSidebar()} className="block lg:hidden text-white">
-        {isSidebarOpen ? <KeyboardDoubleArrowLeft /> : <KeyboardDoubleArrowRight />}
+      <button onClick={isSidebarDrawerOpen ? () => closeSidebar() : () => openSidebar()} className="block lg:hidden text-white">
+        {isSidebarDrawerOpen ? <KeyboardDoubleArrowLeft /> : <KeyboardDoubleArrowRight />}
       </button>
     </div>
   );
 };
-
-AppLogoBar.propTypes = {
-  handleToggleSidebar: PropTypes.any,
-  isSidebarOpen: PropTypes.any
-}
 
 export default AppLogoBar;

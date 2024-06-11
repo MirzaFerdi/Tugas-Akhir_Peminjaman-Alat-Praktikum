@@ -3,6 +3,7 @@ import AdminKelasInformation from "../AdminKelasInformation";
 import AdminKelasAddMahasiswaDialog from "../AdminKelasAddMahasiswaDialog";
 import AdminKelasEditMahasiswaDialog from "../AdminKelasEditMahasiswaDialog";
 import { useFetchOnMount } from "../../../../hooks/useFetchOnMount";
+import AdminEditKelasDialog from "../AdminEditKelasDialog";
 
 const Kelas2 = () => {
   const { data: dataInformasiKelas3 } = useFetchOnMount({
@@ -18,6 +19,7 @@ const Kelas2 = () => {
     <div className="mb-8">      
       <Kelas3TableData />
 
+      <AdminEditKelasDialog />
       <AdminKelasInformation dataKelas={dataInformasiKelas3} dataMahasiswa={dataMahasiswaKelas3} />
       <AdminKelasAddMahasiswaDialog kelas={dataInformasiKelas3} />
       <AdminKelasEditMahasiswaDialog />

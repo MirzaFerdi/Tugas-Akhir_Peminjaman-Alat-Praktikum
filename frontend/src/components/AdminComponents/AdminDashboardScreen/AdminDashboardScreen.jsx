@@ -1,6 +1,6 @@
+import { useState } from "react";
 import { InfoOutlined } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
-import { useState } from "react";
 import AdminDashboardScreenHeader from "./AdminDashboardScreenHeader";
 import AdminDashboardCharts from "./AdminDashboardCharts";
 import AdminDashboardCharts2 from "./AdminDashboardCharts2";
@@ -21,8 +21,7 @@ const AdminDashboardScreen = () => {
               <h1 className="text-sm text-gray-500 mr-2">Grafik Jumlah Transaksi</h1>
               <Tooltip
                 placement="bottom-start"
-                title="Melalui fitur ini administrator dapat
-                  melakukan pengecekan jumlah peminjaman dan pengembalian oleh mahasiswa pada hari ini.">
+                title="Melalui fitur ini administrator dapat melakukan pengecekan jumlah peminjaman dan pengembalian oleh mahasiswa pada hari ini.">
                 <IconButton>
                   <InfoOutlined />
                 </IconButton>
@@ -31,18 +30,15 @@ const AdminDashboardScreen = () => {
             <div className="flex justify-end">
               <select
                 className="p-2 border-2 hover:border-zinc-300 w-1/2 text-xs cursor-pointer focus:outline-none"
-                onChange={(event) => {
-                  setSortChartDataBy(event.target.value);
-                }}>
-                <option value="" disabled>
-                  Pilih Sortir Data
-                </option>
+                value={sortChartDataBy}
+                onChange={(event) => setSortChartDataBy(event.target.value)}>
                 <option value="hari">Hari</option>
                 <option value="bulan">Bulan</option>
               </select>
             </div>
           </div>
-          <AdminDashboardCharts sortChartDataBy={sortChartDataBy} />
+
+          {/* <AdminDashboardCharts sortChartDataBy={sortChartDataBy} /> */}
         </div>
         <div className="col-span-1 lg:col-span-2 p-3 bg-white rounded-md shadow-md">
           <div className="mb-5">
@@ -50,17 +46,17 @@ const AdminDashboardScreen = () => {
               <h1 className="text-sm text-gray-500 mr-2">Grafik Perbandingan Mahasiswa</h1>
               <Tooltip
                 placement="bottom-start"
-                title="Melalui fitur ini administrator dapat
-                  melakukan pengecekan jumlah peminjaman dan pengembalian oleh mahasiswa pada hari ini.">
+                title="Melalui fitur ini administrator dapat melakukan pengecekan jumlah peminjaman dan pengembalian oleh mahasiswa pada hari ini.">
                 <IconButton>
                   <InfoOutlined />
                 </IconButton>
               </Tooltip>
             </div>
           </div>
-          <AdminDashboardCharts2 sortChartDataBy={sortChartDataBy} />
+
+          {/* <AdminDashboardCharts2 sortChartDataBy={sortChartDataBy} /> */}
         </div>
-      </div>      
+      </div>
     </div>
   );
 };

@@ -1,30 +1,31 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { loginThumbnailImage, waveImage, waveImage2 } from "../../assets";
 import { useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 import { FormField } from "../../components";
 import { loginFormValidation } from "../../utils/validations";
-import { Alert, AlertTitle } from "@mui/material";
 import { useFetchOnClick } from "../../hooks/useFetchOnClick";
+import { useAlert } from "../../hooks/useAlert";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+
+  const { openAlertComponent } = useAlert();
 
   const initialValues = {
     username: "",
     password: "",
   };
 
-  const [alert, setAlert] = useState({
-    isShow: false,
-    alertType: "success",
-    alertTitle: "",
-    alertMessage: "",
-  });
-
   const handleSuccessLogin = useCallback(
     (loginSuccessResponse) => {
-      localStorage.setItem("user_payloads", JSON.stringify(loginSuccessResponse));
+      localStorage.setItem(
+        "user_payloads",
+        JSON.stringify({
+          token: loginSuccessResponse?.token,
+          userId: loginSuccessResponse?.user?.id,
+        })
+      );
 
       if (loginSuccessResponse?.user?.role?.id === 1) {
         navigate("/admin");
@@ -37,14 +38,16 @@ const LoginPage = () => {
     [navigate]
   );
 
-  const handleErrorLogin = useCallback((loginErrorResponse) => {
-    setAlert({
-      isShow: true,
-      alertType: "error",
-      alertTitle: "LOGIN ERROR!",
-      alertMessage: loginErrorResponse?.error,
-    });
-  }, []);
+  const handleErrorLogin = useCallback(
+    (loginErrorResponse) => {
+      openAlertComponent({
+        alertType: "error",
+        alertTitle: "ERROR!",
+        alertMessage: loginErrorResponse?.error,
+      });
+    },
+    [openAlertComponent]
+  );
 
   const handleSubmit = (values) => {
     fetchLogin({
@@ -60,12 +63,6 @@ const LoginPage = () => {
 
   return (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[98%] lg:w-[80%] shadow-md">
-      <div className={`${alert.isShow ? "block" : "hidden"} absolute -right-32 -top-5`}>
-        <Alert severity={alert.alertType} variant="filled">
-          <AlertTitle>{alert.alertTitle}</AlertTitle>
-          {alert.alertMessage}
-        </Alert>
-      </div>
       <div className="grid grid-cols-1 lg:grid-cols-5">
         <div className="hidden lg:block col-span-3">
           <img src={loginThumbnailImage} alt="Login Thumbnail Image" className="h-full" />

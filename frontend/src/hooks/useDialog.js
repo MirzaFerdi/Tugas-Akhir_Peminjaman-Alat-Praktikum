@@ -1,6 +1,20 @@
 import { create } from "zustand";
 
 // ADMIN DIALOG CONFIGURATION
+export const useAdminEditKelasDialog = create((set) => ({
+  isEditKelasDialogOpen: false,
+  kelasDataById: {},
+  openEditKelasDialog: (kelasDataById) =>
+    set({
+      kelasDataById: kelasDataById,
+      isEditKelasDialogOpen: true,
+    }),
+  closeEditKelasDialog: () =>
+    set({
+      isEditKelasDialogOpen: false,
+    }),
+}));
+
 export const useAdminAddMahasiswaDialog = create((set) => ({
   isAdminAddMahasiswaDialogOpen: false,
   openAddMahasiswaDialog: () =>
@@ -53,17 +67,31 @@ export const useAdminEditBarangDialog = create((set) => ({
     }),
 }));
 
-export const useAdminTransaksiDialog = create((set) => ({
-  isAdminTransaksiDialogOpen: false,
-  transaksiById: {},
-  openTransaksiDialog: (transaksiById) =>
+export const useAdminRequestPeminjamanDialog = create((set) => ({
+  isAdminRequestPeminjamanDialogOpen: false,
+  requestPeminjamanById: {},
+  openRequestPeminjamanDialog: (requestPeminjamanId) =>
     set({
-      transaksiById: transaksiById,
-      isAdminTransaksiDialogOpen: true,
+      requestPeminjamanById: requestPeminjamanId,
+      isAdminRequestPeminjamanDialogOpen: true,
     }),
-  closeTransaksiDialog: () =>
+  closeRequestPeminjamanDialog: () =>
     set({
-      isAdminTransaksiDialogOpen: false,
+      isAdminRequestPeminjamanDialogOpen: false,
+    }),
+}));
+
+export const useAdminRequestPengembalianDialog = create((set) => ({
+  isAdminRequestPengembalianDialogOpen: false,
+  requestPengembalianById: {},
+  openRequestPengembalianDialog: (requestPengembalianId) =>
+    set({
+      requestPengembalianById: requestPengembalianId,
+      isAdminRequestPengembalianDialogOpen: true,
+    }),
+  closeRequestPengembalianDialog: () =>
+    set({
+      isAdminRequestPengembalianDialogOpen: false,
     }),
 }));
 
@@ -115,6 +143,20 @@ export const useAdminBroadcastPreviewDialog = create((set) => ({
     }),
 }));
 
+export const useAdminPreviewPhotoDialog = create((set) => ({
+  isPreviewPhotoDialogOpen: false,
+  mahasiswaPhoto: "",
+  openPreviewPhoto: (mahasiswaPhoto) =>
+    set({
+      mahasiswaPhoto: mahasiswaPhoto,
+      isPreviewPhotoDialogOpen: true,
+    }),
+  closePreviewPhoto: () =>
+    set({
+      isPreviewPhotoDialogOpen: false,
+    }),
+}));
+
 // MAHASISWA DIALOG CONFIGURATION
 export const useMahasiswaPeminjamanDialog = create((set) => ({
   isMahasiswaPeminjamanDialogOpen: false,
@@ -132,7 +174,7 @@ export const useMahasiswaPeminjamanDialog = create((set) => ({
 
 export const useMahasiswaPengembalianDialog = create((set) => ({
   isMahasiswaPengembalianDialogOpen: false,
-  approvedDataPayloads: {},
+  approvedDataPayloads: "",
   openMahasiswaPengembalianDialog: (approvedDataPayloads) =>
     set({
       isMahasiswaPengembalianDialogOpen: true,
@@ -142,7 +184,19 @@ export const useMahasiswaPengembalianDialog = create((set) => ({
     set({
       isMahasiswaPengembalianDialogOpen: false,
     }),
-}))
+}));
+
+export const useEditPhotoDialog = create((set) => ({
+  isDialogEditPhotoOpen: false,
+  openEditPhoto: () =>
+    set({
+      isDialogEditPhotoOpen: true,
+    }),
+  closeEditPhoto: () =>
+    set({
+      isDialogEditPhotoOpen: false,
+    }),
+}));
 
 // DIALOGS CONFIGURATION
 export const useConfirmDialog = create((set) => ({

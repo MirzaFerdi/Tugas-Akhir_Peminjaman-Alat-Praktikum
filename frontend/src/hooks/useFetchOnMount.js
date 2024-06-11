@@ -45,7 +45,7 @@ export const useFetchOnMount = ({
     };
 
     fetchData();
-  }, [body, method, onError, onSuccess, url]);
+  }, [body, method, url]);
 
   return {
     data,

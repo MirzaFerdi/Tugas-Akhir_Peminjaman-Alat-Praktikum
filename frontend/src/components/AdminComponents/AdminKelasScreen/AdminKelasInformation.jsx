@@ -2,15 +2,20 @@ import PropTypes from "prop-types";
 import { Close } from "@mui/icons-material";
 import { Dialog } from "@mui/material";
 import { date } from "../../../utils/datetime";
-import { useAdminKelasInformationDialog } from "../../../hooks/useDialog";
+import { useAdminEditKelasDialog, useAdminKelasInformationDialog } from "../../../hooks/useDialog";
 
 const AdminKelasInformation = ({ dataKelas, dataMahasiswa }) => {
   const { isKelasInformationDialogOpen, closeKelasInformationDialog } = useAdminKelasInformationDialog();
+  const { openEditKelasDialog } = useAdminEditKelasDialog();
+
+  const handleOpenEditKelasDialog = () => {
+    openEditKelasDialog(dataKelas);
+  };
 
   return (
-    <Dialog open={isKelasInformationDialogOpen} onClose={() => closeKelasInformationDialog()}>
+    <Dialog open={isKelasInformationDialogOpen} onClose={() => closeKelasInformationDialog()} sx={{zIndex: 20}}>
       <div className="flex justify-between">
-        <div className="py-3 px-6 bg-green-600 w-full">
+        <div className="py-3 px-6 bg-main w-full">
           <p className="text-lg font-semibold tracking-wider text-white">Detail Informasi Kelas {dataKelas?.id}</p>
         </div>
 
@@ -19,7 +24,7 @@ const AdminKelasInformation = ({ dataKelas, dataMahasiswa }) => {
         </button>
       </div>
       <div className="p-6">
-        <table className="w-full">
+        <table className="w-full mb-4">
           <tbody>
             <tr>
               <th className="border-2 p-3 text-start text-sm font-semibold tracking-wide">Kelas</th>
@@ -45,6 +50,12 @@ const AdminKelasInformation = ({ dataKelas, dataMahasiswa }) => {
             </tr>
           </tbody>
         </table>
+
+        <button
+          onClick={() => handleOpenEditKelasDialog()}
+          className="bg-main hover:bg-main-hover cursor-pointer py-3 px-5 rounded-sm text-sm tracking-wide text-white leading-none">
+          Edit Informasi Kelas
+        </button>
       </div>
     </Dialog>
   );

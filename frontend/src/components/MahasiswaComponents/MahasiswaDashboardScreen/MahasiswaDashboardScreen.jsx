@@ -5,14 +5,18 @@ import { useFetchOnMount } from "../../../hooks/useFetchOnMount";
 import { welcomeMahasiswaImage } from "../../../assets";
 
 const MahasiswaDashboardScreen = () => {
-  const userPayloads = JSON.parse(localStorage.getItem("user_payloads"));
+  const {userId} = JSON.parse(localStorage.getItem("user_payloads"));
 
+  const { data: userPayloads } = useFetchOnMount({
+    url: `/user/${userId}`,
+    method: "GET",
+  });
   const { data: mahasiswaPeminjamanData } = useFetchOnMount({
-    url: `/peminjaman/user/${userPayloads?.user?.id}`,
+    url: `/peminjaman/user/${userId}`,
     method: "GET",
   });
   const { data: mahasiswaPengembalianData } = useFetchOnMount({
-    url: `/pengembalian/user/${userPayloads?.user?.id}`,
+    url: `/pengembalian/user/${userId}`,
     method: "GET",
   });
 
@@ -23,25 +27,25 @@ const MahasiswaDashboardScreen = () => {
           <div className="col-span-1 lg:col-span-3 p-6">
             <p className="text-zinc-300 text-md lg:text-lg tracking-wide">Selamat Datang,</p>
             <h1 className="text-white font-bold tracking-wider text-2xl lg:text-3xl mb-3 lg:mb-5">
-              {userPayloads?.user?.nama}
+              {userPayloads?.nama}
             </h1>
             <div className="flex justify-start items-center text-blue-300 tracking-wide mb-2">
               <Email fontSize="small" sx={{ mr: 1 }} />{" "}
-              <p className="text-sm text-zinc-100 tracking-wider">{userPayloads?.user?.email}</p>
+              <p className="text-sm text-zinc-100 tracking-wider">{userPayloads?.email}</p>
             </div>
             <div className="flex justify-start items-center text-blue-300 tracking-wide mb-2">
               <Person fontSize="small" sx={{ mr: 1 }} />{" "}
               <p className="text-sm text-zinc-100 tracking-wider">
-                {userPayloads?.user?.username} - {userPayloads?.user?.role?.nama}
+                {userPayloads?.username} - {userPayloads?.role?.nama}
               </p>
             </div>
             <div className="flex justify-start items-center text-blue-300 tracking-wide mb-2">
               <School fontSize="small" sx={{ mr: 1 }} />{" "}
-              <p className="text-sm text-zinc-100 tracking-wider">Kelas {userPayloads?.user?.kelas_id}</p>
+              <p className="text-sm text-zinc-100 tracking-wider">Kelas {userPayloads?.kelas_id}</p>
             </div>
             <div className="flex justify-start items-center text-blue-300 tracking-wide mb-2">
               <Phone fontSize="small" sx={{ mr: 1 }} />{" "}
-              <p className="text-sm text-zinc-100 tracking-wider">{userPayloads?.user?.nohp}</p>
+              <p className="text-sm text-zinc-100 tracking-wider">{userPayloads?.nohp}</p>
             </div>
           </div>
           <div className="hidden lg:block lg:col-span-2">
