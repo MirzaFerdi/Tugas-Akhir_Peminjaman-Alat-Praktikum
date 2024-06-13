@@ -17,11 +17,11 @@ const Home = () => {
       return navigate("/login");
     }
 
-    if (getUserData?.role?.id === 1) {
+    if (getUserData?.role?.id == 1) {
       return navigate("/admin");
     }
 
-    if (getUserData?.role?.id === 2) {
+    if (getUserData?.role?.id == 2) {
       return navigate("/mahasiswa");
     }
   }, [getUserData?.role?.id, navigate, users]);

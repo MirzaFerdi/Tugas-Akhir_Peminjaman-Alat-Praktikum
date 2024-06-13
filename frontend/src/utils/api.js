@@ -12,16 +12,18 @@ export const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const userPayloads = JSON.parse(localStorage.getItem("user_payloads"));
+
     if (userPayloads?.token) {
       config.headers.Authorization = `Bearer ${userPayloads?.token}`;
     }
+
     if (config.method === "put" || config.method === "PUT") {
       config.headers["Content-Type"] = "application/x-www-form-urlencoded";
     }
     return config;
   },
   (error) => {
-    return Promise.reject(error);
+    return Promise.reject("Error:", error);
   }
 );
 

@@ -21,7 +21,8 @@ const AlertComponent = () => {
           timer: 2000,
           customClass: "z-100",
           didClose: () => {
-            navigateTo == "" ? window.location.reload() : navigate(navigateTo);
+            // navigateTo ? window.location.reload() : navigate(navigateTo);
+            window.location.reload();
           },
         });
       } else {

@@ -195,7 +195,7 @@ const Kelas1TableData = () => {
             <tbody>
               {dataMahasiswaKelas1OnSearch?.data?.length > 0 ? (
                 dataMahasiswaKelas1OnSearch?.data?.map((values) => {
-                  const { id, nama, email, username, nohp, foto } = values;
+                  const { id, nama, email, username, nohp, foto } = values;                  
 
                   return (
                     <tr key={id}>

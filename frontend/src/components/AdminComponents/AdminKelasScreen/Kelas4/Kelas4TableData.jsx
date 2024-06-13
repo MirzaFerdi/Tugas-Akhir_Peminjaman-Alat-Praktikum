@@ -195,13 +195,13 @@ const Kelas1TableData = () => {
             <tbody>
               {dataMahasiswaKelas4OnSearch?.data?.length > 0 ? (
                 dataMahasiswaKelas4OnSearch?.data?.map((values) => {
-                  const { id, nama, email, foto, username, nohp } = values;
+                  const { id, nama, email, foto, username, nohp } = values;                  
 
                   return (
                     <tr key={id}>
                       <td className="border-b border-zinc-300 p-2">
                         <div className="w-full flex justify-start items-center">
-                        <img
+                          <img
                             onClick={() =>
                               openPreviewPhoto(
                                 `https://api.sipeminjam.indonesiadigitalsolutions.com/storage/foto/${foto}`
