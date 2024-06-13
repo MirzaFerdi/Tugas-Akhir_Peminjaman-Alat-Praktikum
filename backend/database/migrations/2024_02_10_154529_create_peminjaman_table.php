@@ -18,7 +18,9 @@ return new class extends Migration
             $table->foreignId('pengembalian_id')->nullable()->default(null);;
             $table->string('keterangan');
             $table->string('status');
+            $table->integer('jumlah_peminjaman');
             $table->timestamp('tanggal_peminjaman')->nullable()->default(null);
+            $table->timestamp('tenggat_peminjaman')->nullable()->default(null);
         });
     }
 

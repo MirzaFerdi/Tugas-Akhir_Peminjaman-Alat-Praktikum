@@ -22,7 +22,8 @@ class UserSeeder extends Seeder
             'password' => bcrypt('abdul123'),
             'nohp' => '081234567890',
             'kelas_id' => null,
-            'role_id' => 1
+            'role_id' => 1,
+            'foto' => null,
         ]);
         DB::table('users')->insert([
             'nama' => 'Budi Santoso',
@@ -31,7 +32,8 @@ class UserSeeder extends Seeder
             'password' => bcrypt('budi123'),
             'nohp' => '081234567890',
             'kelas_id' => 1,
-            'role_id' => 2
+            'role_id' => 2,
+            'foto' => null,
         ]);
         DB::table('users')->insert([
             'nama' => 'Cahyo Prasetyo',
@@ -40,7 +42,8 @@ class UserSeeder extends Seeder
             'password' => bcrypt('cahyo123'),
             'nohp' => '081234567890',
             'kelas_id' => 1,
-            'role_id' => 2
+            'role_id' => 2,
+            'foto' => null,
         ]);
         DB::table('users')->insert([
             'nama' => 'Gunawan Wijaya',
@@ -49,7 +52,8 @@ class UserSeeder extends Seeder
             'password' => bcrypt('wijaya123'),
             'nohp' => '081234567890',
             'kelas_id' => 2,
-            'role_id' => 2
+            'role_id' => 2,
+            'foto' => null,
         ]);
         DB::table('users')->insert([
             'nama' => 'Putri Ayu',
@@ -58,7 +62,8 @@ class UserSeeder extends Seeder
             'password' => bcrypt('putri123'),
             'nohp' => '081234567890',
             'kelas_id' => 2,
-            'role_id' => 2
+            'role_id' => 2,
+            'foto' => null,
         ]);
         DB::table('users')->insert([
             'nama' => 'Dewi Lestari',
@@ -67,7 +72,8 @@ class UserSeeder extends Seeder
             'password' => bcrypt('dewi123'),
             'nohp' => '081234567890',
             'kelas_id' => 3,
-            'role_id' => 2
+            'role_id' => 2,
+            'foto' => null,
         ]);
         DB::table('users')->insert([
             'nama' => 'Very Setiawan',
@@ -76,7 +82,8 @@ class UserSeeder extends Seeder
             'password' => bcrypt('very123'),
             'nohp' => '081234567890',
             'kelas_id' => 3,
-            'role_id' => 2
+            'role_id' => 2,
+            'foto' => null,
         ]);
         DB::table('users')->insert([
             'nama' => 'Eko Prasetyo',
@@ -85,7 +92,8 @@ class UserSeeder extends Seeder
             'password' => bcrypt('eko123'),
             'nohp' => '081234567890',
             'kelas_id' => 4,
-            'role_id' => 2
+            'role_id' => 2,
+            'foto' => null,
         ]);
         DB::table('users')->insert([
             'nama' => 'Rudi Santo',
@@ -94,7 +102,8 @@ class UserSeeder extends Seeder
             'password' => bcrypt('rudi123'),
             'nohp' => '081234567890',
             'kelas_id' => 4,
-            'role_id' => 2
+            'role_id' => 2,
+            'foto' => null,
         ]);
         DB::table('users')->insert([
             'nama' => 'Boris',
@@ -103,7 +112,8 @@ class UserSeeder extends Seeder
             'password' => bcrypt('boris123'),
             'nohp' => '081234567890',
             'kelas_id' => 4,
-            'role_id' => 2
+            'role_id' => 2,
+            'foto' => null,
         ]);
         DB::table('users')->insert([
             'nama' => 'Rafly Dioniswara Pramono',
@@ -112,7 +122,8 @@ class UserSeeder extends Seeder
             'password' => bcrypt('skodsa123'),
             'nohp' => '081234567890',
             'kelas_id' => 4,
-            'role_id' => 2
+            'role_id' => 2,
+            'foto' => null,
         ]);
 
     }

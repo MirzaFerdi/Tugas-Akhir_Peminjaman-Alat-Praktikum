@@ -5,24 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Peminjaman extends Model
+class KondisiBarang extends Model
 {
     use HasFactory;
 
     public $timestamps = false;
 
-    protected $table = 'peminjaman';
+    protected $table = 'kondisi_barang';
 
     protected $fillable = [
         'user_id',
         'barang_id',
-        'keterangan',
-        'status',
-        'jumlah_peminjaman',
-        'tanggal_peminjaman',
-        'tenggat_peminjaman',
+        'pengembalian_id',
+        'kondisi_barang',
+        'jumlah_kondisi',
     ];
-
 
     public function user(){
         return $this->belongsTo(User::class);
@@ -33,6 +30,6 @@ class Peminjaman extends Model
     }
 
     public function pengembalian(){
-        return $this->hasOne(Pengembalian::class);
+        return $this->belongsTo(Pengembalian::class);
     }
 }

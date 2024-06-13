@@ -8,10 +8,11 @@ use Illuminate\Http\Request;
 
 class KelasController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $kelas = Kelas::all();
 
-        if(!$kelas){
+        if (!$kelas) {
             return response()->json([
                 'success' => false,
                 'message' => 'Data kelas tidak ditemukan!',
@@ -21,10 +22,11 @@ class KelasController extends Controller
         return response()->json($kelas);
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $kelas = Kelas::find($id);
 
-        if(!$kelas){
+        if (!$kelas) {
             return response()->json([
                 'success' => false,
                 'message' => 'Data kelas tidak ditemukan!',
@@ -34,10 +36,11 @@ class KelasController extends Controller
         return response()->json($kelas);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $cekKelas = Kelas::where('kelas', $request->kelas)->exists();
 
-        if($cekKelas){
+        if ($cekKelas) {
             return response()->json([
                 'success' => false,
                 'message' => 'Kelas sudah ada!',
@@ -51,13 +54,13 @@ class KelasController extends Controller
         $kelas->tahun_ajaran = $request->tahun_ajaran;
         $kelas->save();
 
-        if($kelas){
+        if ($kelas) {
             return response()->json([
                 'success' => true,
                 'message' => 'Kelas berhasil ditambahkan!',
                 'data' => $kelas
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Kelas gagal ditambahkan!',
@@ -65,17 +68,18 @@ class KelasController extends Controller
         }
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         $kelas = Kelas::find($id);
 
-        if(!$kelas){
+        if (!$kelas) {
             return response()->json([
                 'success' => false,
                 'message' => 'kelas tidak ditemukan!',
             ]);
         }
 
-        if($request->kelas == $kelas->kelas){
+        if ($request->kelas == $kelas->kelas) {
             $kelas->dpa = $request->dpa;
             $kelas->tahun_ajaran = $request->tahun_ajaran;
             $kelas->save();
@@ -85,15 +89,15 @@ class KelasController extends Controller
                 'message' => 'Kelas berhasil diupdate!',
                 'data' => $kelas
             ]);
-        }else{
+        } else {
             $cekKelas = Kelas::where('kelas', $request->kelas)->where('id', '!=', $id)->exists();
 
-            if($cekKelas){
+            if ($cekKelas) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Kelas sudah ada!',
                 ]);
-            }else{
+            } else {
                 $kelas->kelas = $request->kelas;
                 $kelas->dpa = $request->dpa;
                 $kelas->tahun_ajaran = $request->tahun_ajaran;
@@ -108,18 +112,19 @@ class KelasController extends Controller
         }
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $kelas = Kelas::find($id);
         $kelas->delete();
 
-        if($kelas){
+        if ($kelas) {
             $kelas = Kelas::find($id);
             return response()->json([
                 'success' => true,
                 'message' => 'Kelas berhasil dihapus!',
                 'data' => $kelas
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Kelas gagal dihapus!',
@@ -127,14 +132,15 @@ class KelasController extends Controller
         }
     }
 
-    public function naikKelas(Request $request) {
+    public function naikKelas(Request $request)
+    {
         $userIds = $request->input('id');
 
 
         foreach ($userIds as $userId) {
             $userKelas = User::find($userId);
 
-            if(!$userKelas) {
+            if (!$userKelas) {
                 return response()->json([
                     'success' => false,
                     'message' => "User dengan ID $userId tidak ditemukan!",

@@ -19,7 +19,9 @@ class PeminjamanSeeder extends Seeder
             'pengembalian_id' => null,
             'keterangan' => 'Peminjaman barang untuk keperluan tugas akhir',
             'status' => 'Pending',
-            'tanggal_peminjaman' => '2024-02-12 14:53:53',
+            'jumlah_peminjaman' => 1,
+            'tanggal_peminjaman' => '2024-05-22',
+            'tenggat_peminjaman' => null,
         ]);
         DB::table('peminjaman')->insert([
             'user_id' => 2,
@@ -27,23 +29,29 @@ class PeminjamanSeeder extends Seeder
             'pengembalian_id' => null,
             'keterangan' => 'Peminjaman barang untuk keperluan tugas akhir',
             'status' => 'Pending',
-            'tanggal_peminjaman' => '2024-02-15 14:53:53',
-        ]);
-        DB::table('peminjaman')->insert([
-            'user_id' => 2,
-            'barang_id' => 1,
-            'pengembalian_id' => null,
-            'keterangan' => 'Peminjaman barang untuk keperluan tugas akhir',
-            'status' => 'Pending',
-            'tanggal_peminjaman' => '2024-02-09 14:53:53',
+            'jumlah_peminjaman' => 1,
+            'tanggal_peminjaman' => '2023-02-12',
+            'tenggat_peminjaman' => null,
         ]);
         DB::table('peminjaman')->insert([
             'user_id' => 3,
+            'barang_id' => 4,
+            'pengembalian_id' => null,
+            'keterangan' => 'Peminjaman barang untuk keperluan tugas akhir',
+            'status' => 'Pending',
+            'jumlah_peminjaman' => 1,
+            'tanggal_peminjaman' => '2023-12-10',
+            'tenggat_peminjaman' => null,
+        ]);
+        DB::table('peminjaman')->insert([
+            'user_id' => 5,
             'barang_id' => 2,
             'pengembalian_id' => null,
-            'keterangan' => 'Peminjaman barang untuk keperluan praktikum',
+            'keterangan' => 'Peminjaman barang untuk keperluan tugas akhir',
             'status' => 'Pending',
-            'tanggal_peminjaman' => '2024-05-15 10:50:00',
+            'jumlah_peminjaman' => 1,
+            'tanggal_peminjaman' => '2024-02-12',
+            'tenggat_peminjaman' => null,
         ]);
     }
 }

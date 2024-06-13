@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Broadcast;
+use App\Events\BroadcastNotification;
 use Illuminate\Http\Request;
 
 class BroadcastController extends Controller
@@ -11,14 +12,18 @@ class BroadcastController extends Controller
     {
         $broadcast = Broadcast::orderByDesc('id')->limit(2)->get();
 
-        if (!$broadcast) {
+        if ($broadcast) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Broadcast berhasil ditemukan!',
+                'data' => $broadcast
+            ]);
+        } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Data broadcast tidak ditemukan!',
+                'message' => 'Broadcast gagal ditambahkan!',
             ]);
         }
-
-        return response()->json($broadcast);
     }
     public function show($id)
     {
@@ -42,6 +47,16 @@ class BroadcastController extends Controller
         $broadcast->save();
 
         if ($broadcast) {
+
+            $message = response()->json([
+                'success' => true,
+                'id' => 2,
+                'message' => 'Pengumuman Baru!',
+                'data' => $broadcast
+            ]);
+
+            event(new BroadcastNotification($message));
+
             return response()->json([
                 'success' => true,
                 'message' => 'Broadcast berhasil ditambahkan!',
