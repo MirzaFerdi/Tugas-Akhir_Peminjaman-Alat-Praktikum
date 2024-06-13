@@ -259,6 +259,7 @@ class PengembalianController extends Controller
         $pengembalian->save();
 
         $barang = Barang::find($pengembalian->barang_id);
+        $barang->stok_tersedia + $pengembalian->jumlah_pengembalian;
         $barang->stok_tersedia = $barang->stok_tersedia - $jumlahKondisi->jumlah_kondisi;
         $barang->stok_awal = $barang->stok_awal - $jumlahKondisi->jumlah_kondisi;
         $barang->save();

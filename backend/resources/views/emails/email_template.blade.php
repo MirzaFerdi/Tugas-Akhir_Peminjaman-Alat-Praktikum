@@ -60,7 +60,7 @@
         <div class="content">
             <p>Halo {{ $nama }},</p>
             <p>Kami menerima permintaan untuk mengatur ulang kata sandi Anda. Klik tombol dibawah ini untuk reset kata sandi anda:</p>
-            <p ><a href="http://localhost:5173/reset-password/{{$email}}/token/{{$token}}" class="button">Reset Password</a></p>
+            <p ><a href="http://sipeminjam.indonesiadigitalsolutions.com/reset-password/{{$email}}/token/{{$token}}" class="button">Reset Password</a></p>
             <p>Jika Anda tidak meminta pengaturan ulang kata sandi, abaikan email ini.</p>
             <p>Jika Anda memiliki pertanyaan, silahkan balas email ini. Kami di sini untuk membantu!</p>
         </div>
