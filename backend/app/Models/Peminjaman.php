@@ -35,4 +35,8 @@ class Peminjaman extends Model
     public function pengembalian(){
         return $this->hasOne(Pengembalian::class);
     }
+
+    public function notifikasi(){
+        return $this->hasOne(Notifikasi::class);
+    }
 }
