@@ -17,9 +17,20 @@ class Notifikasi extends Model
         'user_id',
         'pesan',
         'dibaca',
+        'tanggal',
+        'peminjaman_id',
+        'pengembalian_id',
     ];
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function peminjaman(){
+        return $this->belongsTo(Peminjaman::class);
+    }
+
+    public function pengembalian(){
+        return $this->belongsTo(Pengembalian::class);
     }
 }

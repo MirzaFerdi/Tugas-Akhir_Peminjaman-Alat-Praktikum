@@ -10,7 +10,7 @@ class NotifikasiController extends Controller
 
     public function notifikasiByUser($userId)
     {
-        $notifikasi = Notifikasi::with('user')->where('user_id', $userId)->orderByDesc('id')->get();
+        $notifikasi = Notifikasi::with('user')->where('user_id', $userId)->orderByDesc('id')->paginate(6);
 
         if (!$notifikasi) {
             return response()->json([
@@ -30,6 +30,9 @@ class NotifikasiController extends Controller
         $notifikasi->user_id = $request->user_id;
         $notifikasi->pesan = $request->pesan;
         $notifikasi->dibaca = '0';
+        $notifikasi->tanggal = $request->tanggal;
+        $notifikasi->peminjaman_id = $request->peminjaman_id;
+        $notifikasi->pengembalian_id = $request->pengembalian_id;
         $notifikasi->save();
 
         return response()->json([

@@ -36,4 +36,7 @@ class Pengembalian extends Model
     public function kondisiBarang(){
         return $this->hasMany(KondisiBarang::class);
     }
+    public function notifikasi(){
+        return $this->hasOne(Notifikasi::class);
+    }
 }
