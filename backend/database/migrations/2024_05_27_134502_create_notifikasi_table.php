@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('pesan', 1000);
             $table->boolean('dibaca')->default(false);
             $table->dateTime('tanggal');
-            $table->foreignId('peminjaman_id')->nullable()->default(null);
-            $table->foreignId('pengembalian_id')->nullable()->default(null);
+            $table->foreignId('peminjaman_id')->nullable()->constrained('peminjaman')->onDelete('cascade');
+            $table->foreignId('pengembalian_id')->nullable()->constrained('pengembalian')->onDelete('cascade');
         });
     }
 

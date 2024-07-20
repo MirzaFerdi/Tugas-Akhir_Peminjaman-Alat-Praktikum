@@ -8,9 +8,41 @@ use Illuminate\Http\Request;
 class NotifikasiController extends Controller
 {
 
+    public function byPeminjamanId($peminjamanId)
+    {
+        $notifikasi = Notifikasi::where('peminjaman_id', $peminjamanId)->first();
+
+        if (!$notifikasi) {
+            return response()->json([
+                'message' => 'Notifikasi tidak ditemukan!',
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Notifikasi ditemukan!',
+            'data' => $notifikasi
+        ]);
+    }
+
+    public function byPengembalianId($pengembalianId)
+    {
+        $notifikasi = Notifikasi::where('pengembalian_id', $pengembalianId)->first();
+
+        if (!$notifikasi) {
+            return response()->json([
+                'message' => 'Notifikasi tidak ditemukan!',
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Notifikasi ditemukan!',
+            'data' => $notifikasi
+        ]);
+    }
+
     public function notifikasiByUser($userId)
     {
-        $notifikasi = Notifikasi::with('user')->where('user_id', $userId)->orderByDesc('id')->paginate(6);
+        $notifikasi = Notifikasi::with('user')->where('user_id', $userId)->orderByDesc('id')->paginate(8);
 
         if (!$notifikasi) {
             return response()->json([
@@ -55,7 +87,7 @@ class NotifikasiController extends Controller
 
     public function belumDibaca($userId)
     {
-        $notifikasi = Notifikasi::where('user_id', $userId)->where('dibaca', '0')->get();
+        $notifikasi = Notifikasi::where('user_id', $userId)->where('dibaca', '0')->paginate(8);
 
         if (!$notifikasi) {
             return response()->json([

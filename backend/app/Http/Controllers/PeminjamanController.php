@@ -76,7 +76,7 @@ class PeminjamanController extends Controller
                 'data' => $peminjaman
             ]);
 
-            event(new MyNotificationEvent($message, 1, $peminjaman->user_id));
+            event(new MyNotificationEvent($message, 1, 1));
 
             return response()->json([
                 'success' => true,

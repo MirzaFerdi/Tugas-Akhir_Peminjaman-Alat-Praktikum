@@ -51,6 +51,7 @@ Route::middleware('auth:api', 'role:Admin')->group(function () {
     Route::get('/user/search/mahasiswa/{kelasId}/{keywords}', [UserController::class, 'searchMahasiswaKelas'])->name('user.searchMahasiswa');
     Route::get('/user/mahasiswa/{kelasId}/{id}', [UserController::class, 'mahasiswaByKelasId'])->name('user.mahasiswaByKelasId');
     Route::post('/user', [UserController::class, 'store'])->name('user.store');
+    Route::post('/user/importmahasiswa', [UserController::class, 'importMahasiswa'])->name('user.importMahasiswa');
     Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 
 
@@ -78,6 +79,8 @@ Route::middleware('auth:api', 'role:Admin')->group(function () {
 
     //Barang
     Route::post('/barang', [BarangController::class, 'store'])->name('barang.store');
+    Route::post('/barang/importbahan', [BarangController::class, 'importBahan'])->name('barang.importBahan');
+    Route::post('/barang/importalat', [BarangController::class, 'importAlat'])->name('barang.importAlat');
     Route::put('/barang/{id}', [BarangController::class, 'update'])->name('barang.update');
     Route::delete('/barang/{id}', [BarangController::class, 'destroy'])->name('barang.destroy');
 
@@ -115,6 +118,8 @@ Route::middleware('auth:api', 'role:Admin|Mahasiswa')->group(function () {
     //Notifikasi
     Route::get('/notifikasi/{userId}', [NotifikasiController::class, 'notifikasiByUser'])->name('notifikasi.notifikasiByUser');
     Route::get('/notifikasi/belumdibaca/{userId}', [NotifikasiController::class, 'belumDibaca'])->name('notifikasi.belumDibaca');
+    Route::get('notifikasi/peminjaman/{peminjamanId}', [NotifikasiController::class, 'byPeminjamanId'])->name('notifikasi.notifikasiByPeminjaman');
+    Route::get('notifikasi/pengembalian/{pengembalianId}', [NotifikasiController::class, 'byPengembalianId'])->name('notifikasi.notifikasiByPengembalian');
     Route::post('/notifikasi', [NotifikasiController::class, 'store'])->name('notifikasi.store');
     Route::put('/notifikasi/{userId}/{id}', [NotifikasiController::class, 'dibaca'])->name('notifikasi.update');
     Route::delete('/notifikasi/{userId}', [NotifikasiController::class, 'destroy'])->name('notifikasi.destroy');

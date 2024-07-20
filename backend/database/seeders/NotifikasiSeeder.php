@@ -18,88 +18,24 @@ class NotifikasiSeeder extends Seeder
             'pesan' => 'Selamat datang di aplikasi ini',
             'dibaca' => 0,
             'tanggal' => '2024-05-27',
-            'peminjaman_id' => null,
-            'pengembalian_id' => null,
+            'peminjaman_id' => 1,
+            'pengembalian_id' => 1,
         ]);
         DB::table('notifikasi')->insert([
             'user_id' => 2,
             'pesan' => 'Selamat datang di aplikasi ini',
             'dibaca' => 0,
             'tanggal' => '2024-05-27',
-            'peminjaman_id' => null,
-            'pengembalian_id' => null,
+            'peminjaman_id' => 2,
+            'pengembalian_id' => 2,
         ]);
         DB::table('notifikasi')->insert([
             'user_id' => 2,
             'pesan' => 'Selamat datang di aplikasi ini',
             'dibaca' => 0,
             'tanggal' => '2024-05-27',
-            'peminjaman_id' => null,
-            'pengembalian_id' => null,
-        ]);
-        DB::table('notifikasi')->insert([
-            'user_id' => 2,
-            'pesan' => 'Selamat datang di aplikasi ini',
-            'dibaca' => 0,
-            'tanggal' => '2024-05-27',
-            'peminjaman_id' => null,
-            'pengembalian_id' => null,
-        ]);
-        DB::table('notifikasi')->insert([
-            'user_id' => 2,
-            'pesan' => 'Selamat datang di aplikasi ini',
-            'dibaca' => 0,
-            'tanggal' => '2024-05-27',
-            'peminjaman_id' => null,
-            'pengembalian_id' => null,
-        ]);
-        DB::table('notifikasi')->insert([
-            'user_id' => 2,
-            'pesan' => 'Selamat datang di aplikasi ini',
-            'dibaca' => 0,
-            'tanggal' => '2024-05-27',
-            'peminjaman_id' => null,
-            'pengembalian_id' => null,
-        ]);
-        DB::table('notifikasi')->insert([
-            'user_id' => 2,
-            'pesan' => 'Selamat datang di aplikasi ini',
-            'dibaca' => 0,
-            'tanggal' => '2024-05-27',
-            'peminjaman_id' => null,
-            'pengembalian_id' => null,
-        ]);
-        DB::table('notifikasi')->insert([
-            'user_id' => 2,
-            'pesan' => 'Selamat datang di aplikasi ini',
-            'dibaca' => 0,
-            'tanggal' => '2024-05-27',
-            'peminjaman_id' => null,
-            'pengembalian_id' => null,
-        ]);
-        DB::table('notifikasi')->insert([
-            'user_id' => 2,
-            'pesan' => 'Selamat datang di aplikasi ini',
-            'dibaca' => 0,
-            'tanggal' => '2024-05-27',
-            'peminjaman_id' => null,
-            'pengembalian_id' => null,
-        ]);
-        DB::table('notifikasi')->insert([
-            'user_id' => 2,
-            'pesan' => 'Selamat datang di aplikasi ini',
-            'dibaca' => 0,
-            'tanggal' => '2024-05-27',
-            'peminjaman_id' => null,
-            'pengembalian_id' => null,
-        ]);
-        DB::table('notifikasi')->insert([
-            'user_id' => 2,
-            'pesan' => 'Selamat datang di aplikasi ini',
-            'dibaca' => 0,
-            'tanggal' => '2024-05-27',
-            'peminjaman_id' => null,
-            'pengembalian_id' => null,
+            'peminjaman_id' => 3,
+            'pengembalian_id' => 3,
         ]);
     }
 }

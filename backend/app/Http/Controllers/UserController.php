@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Models\Barang;
 use App\Models\Peminjaman;
 use App\Models\Pengembalian;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\MahasiswaImport;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
@@ -198,6 +200,30 @@ class UserController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'User gagal ditambahkan!',
+            ]);
+        }
+    }
+
+    public function importMahasiswa(Request $request)
+    {
+        try {
+            $request->validate([
+                'file' => 'required|mimes:xlsx,xls'
+            ]);
+
+            $file = $request->file('file');
+
+            Excel::import(new MahasiswaImport, $file);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Data mahasiswa berhasil diimport!',
+            ]);
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Data mahasiswa gagal diimport: ' . $e->getMessage(),
             ]);
         }
     }

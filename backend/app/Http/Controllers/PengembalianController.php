@@ -92,7 +92,7 @@ class PengembalianController extends Controller
                 'data' => $pengembalian
             ]);
 
-            event(new MyNotificationEvent($message, 1, $pengembalian->user_id));
+            event(new MyNotificationEvent($message, 1, 1));
 
             return response()->json([
                 'success' => true,

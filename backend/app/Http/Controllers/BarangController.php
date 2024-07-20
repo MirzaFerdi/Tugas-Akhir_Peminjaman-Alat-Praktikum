@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use Illuminate\Http\Request;
+use App\Imports\BahanImport;
+use App\Imports\AlatImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BarangController extends Controller
 {
@@ -107,6 +110,52 @@ class BarangController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Barang gagal ditambahkan!',
+            ]);
+        }
+    }
+
+    public function importBahan(Request $request)
+    {
+        try{
+            $request->validate([
+                'file' => 'required|mimes:xlsx,xls'
+            ]);
+
+            $file = $request->file('file');
+
+            Excel::import(new BahanImport, $file);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Data barang berhasil diimport!'
+            ]);
+        }catch(\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message' => 'Data barang gagal diimport: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    public function importAlat(Request $request)
+    {
+        try{
+            $request->validate([
+                'file' => 'required|mimes:xlsx,xls'
+            ]);
+
+            $file = $request->file('file');
+
+            Excel::import(new AlatImport, $file);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Data alat berhasil diimport!'
+            ]);
+        }catch(\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message' => 'Data alat gagal diimport: ' . $e->getMessage()
             ]);
         }
     }
