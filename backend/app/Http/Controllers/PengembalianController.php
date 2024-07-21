@@ -13,7 +13,7 @@ class PengembalianController extends Controller
 {
     public function index()
     {
-        $pengembalian = Pengembalian::with('user', 'barang')->orderByDesc('tanggal_pengembalian')->paginate(8);
+        $pengembalian = Pengembalian::with('user', 'barang')->orderByDesc('tanggal_pengembalian')->paginate(6);
 
         if (!$pengembalian) {
             return response()->json([
@@ -329,7 +329,7 @@ class PengembalianController extends Controller
 
     public function pengembalianByUserId($userId)
     {
-        $pengembalian = Pengembalian::with('user', 'barang')->where('user_id', $userId)->orderByDesc('tanggal_pengembalian')->paginate(8);
+        $pengembalian = Pengembalian::with('user', 'barang')->where('user_id', $userId)->orderByDesc('tanggal_pengembalian')->paginate(6);
 
         if ($pengembalian) {
             return response()->json([

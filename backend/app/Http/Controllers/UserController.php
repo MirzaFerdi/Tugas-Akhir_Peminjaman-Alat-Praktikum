@@ -44,7 +44,7 @@ class UserController extends Controller
 
     public function showByKelas($kelasId)
     {
-        $user = User::where('kelas_id', $kelasId)->with('kelas')->paginate(8);
+        $user = User::where('kelas_id', $kelasId)->with('kelas')->paginate(6);
 
         if (!$user) {
             return response()->json([
@@ -79,7 +79,7 @@ class UserController extends Controller
 
     public function mahasiswaAll()
     {
-        $user = User::where('role_id', 2)->paginate(8);
+        $user = User::where('role_id', 2)->paginate(6);
 
         if ($user->isEmpty()) {
             return response()->json([
