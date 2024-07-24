@@ -21,7 +21,7 @@ class BroadcastController extends Controller
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Broadcast gagal ditambahkan!',
+                'message' => 'Data broadcast tidak ditemukan!',
             ]);
         }
     }

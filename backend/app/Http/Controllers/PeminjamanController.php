@@ -13,7 +13,7 @@ class PeminjamanController extends Controller
 {
     public function index()
     {
-        $peminjaman = Peminjaman::with('user', 'barang')->orderByDesc('tanggal_peminjaman')->paginate(6);
+        $peminjaman = Peminjaman::with('user', 'barang', 'notifikasi')->orderByDesc('tanggal_peminjaman')->paginate(6);
         ;
 
         if (!$peminjaman) {
@@ -28,7 +28,7 @@ class PeminjamanController extends Controller
 
     public function show($id)
     {
-        $peminjaman = Peminjaman::with('user', 'barang')->find($id);
+        $peminjaman = Peminjaman::with('user', 'barang', 'notifikasi')->find($id);
 
         if (!$peminjaman) {
             return response()->json([
@@ -255,7 +255,7 @@ class PeminjamanController extends Controller
 
     public function peminjamanByUserId($userId)
     {
-        $peminjaman = Peminjaman::with('user', 'barang', 'pengembalian')->where('user_id', $userId)->orderByDesc('tanggal_peminjaman')->paginate(6);
+        $peminjaman = Peminjaman::with('user', 'barang', 'pengembalian', 'notifikasi')->where('user_id', $userId)->orderByDesc('tanggal_peminjaman')->paginate(6);
 
         if ($peminjaman) {
             return response()->json([
@@ -274,7 +274,7 @@ class PeminjamanController extends Controller
 
     public function searchPeminjaman($keywords)
     {
-        $peminjaman = Peminjaman::with(['user', 'barang'])
+        $peminjaman = Peminjaman::with(['user', 'barang', 'notifikasi'])
             ->where(function ($query) use ($keywords) {
                 $query->whereHas('user', function ($query) use ($keywords) {
                     $query->where('nama', 'like', "%$keywords%");
@@ -301,7 +301,7 @@ class PeminjamanController extends Controller
     public function peminjamanApproved($userId)
     {
 
-        $peminjaman = Peminjaman::with('user', 'barang', 'pengembalian')
+        $peminjaman = Peminjaman::with('user', 'barang', 'pengembalian', 'notifikasi')
             ->where('status', 'Diterima')
             ->where('user_id', $userId)
             ->orderByDesc('tanggal_peminjaman')
@@ -374,6 +374,26 @@ class PeminjamanController extends Controller
                 'message' => 'Data peminjaman ditemukan!',
                 'peminjaman' => $peminjaman,
                 'pengembalian' => $pengembalian
+            ]);
+        }
+    }
+
+    public function updateNotifikasiPeminjaman(Request $request, $id)
+    {
+        $peminjaman = Peminjaman::find($id);
+        $peminjaman->notifikasi_id = $request->notifikasi_id;
+        $peminjaman->save();
+
+        if ($peminjaman) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Notifikasi peminjaman berhasil diupdate!',
+                'data' => $peminjaman
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Notifikasi peminjaman gagal diupdate!',
             ]);
         }
     }

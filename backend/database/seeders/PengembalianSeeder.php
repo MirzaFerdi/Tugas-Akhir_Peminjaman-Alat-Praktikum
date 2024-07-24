@@ -31,5 +31,15 @@ class PengembalianSeeder extends Seeder
             'jumlah_pengembalian' => 1,
             'tanggal_pengembalian' => '2024-05-11 05:10:23',
         ]);
+        DB::table('pengembalian')->insert([
+            'user_id' => 4,
+            'barang_id' => 3,
+            'peminjaman_id' => null,
+            'keterangan' => 'keadaan baik',
+            'status' => 'Pending',
+            'jumlah_pengembalian' => 1,
+            'tanggal_pengembalian' => '2024-07-24 18:52:28',
+        ]);
+
     }
 }

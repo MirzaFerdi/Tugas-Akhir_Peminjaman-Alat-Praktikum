@@ -13,7 +13,7 @@ class PengembalianController extends Controller
 {
     public function index()
     {
-        $pengembalian = Pengembalian::with('user', 'barang')->orderByDesc('tanggal_pengembalian')->paginate(6);
+        $pengembalian = Pengembalian::with('user', 'barang', 'notifikasi')->orderByDesc('tanggal_pengembalian')->paginate(6);
 
         if (!$pengembalian) {
             return response()->json([
@@ -27,7 +27,7 @@ class PengembalianController extends Controller
 
     public function show($id)
     {
-        $pengembalian = Pengembalian::with('user', 'barang')->find($id);
+        $pengembalian = Pengembalian::with('user', 'barang', 'notifikasi')->find($id);
 
         if (!$pengembalian) {
             return response()->json([
@@ -329,7 +329,7 @@ class PengembalianController extends Controller
 
     public function pengembalianByUserId($userId)
     {
-        $pengembalian = Pengembalian::with('user', 'barang')->where('user_id', $userId)->orderByDesc('tanggal_pengembalian')->paginate(6);
+        $pengembalian = Pengembalian::with('user', 'barang', 'notifikasi')->where('user_id', $userId)->orderByDesc('tanggal_pengembalian')->paginate(6);
 
         if ($pengembalian) {
             return response()->json([
@@ -348,7 +348,7 @@ class PengembalianController extends Controller
 
     public function searchPengembalian($keywords)
     {
-        $pengembalian = Pengembalian::with(['user', 'barang'])
+        $pengembalian = Pengembalian::with(['user', 'barang', 'notifikasi'])
             ->where(function ($query) use ($keywords) {
                 $query->whereHas('user', function ($query) use ($keywords) {
                     $query->where('nama', 'like', "%$keywords%");
@@ -373,7 +373,7 @@ class PengembalianController extends Controller
 
     public function pengembalianApproved($userId)
     {
-        $pengembalian = Pengembalian::with('user', 'barang')->where('status', 'Diterima')->where('user_id', $userId)->get();
+        $pengembalian = Pengembalian::with('user', 'barang', 'notifikasi')->where('status', 'Diterima')->where('user_id', $userId)->get();
 
         if ($pengembalian->isEmpty()) {
             return response()->json([
@@ -385,6 +385,26 @@ class PengembalianController extends Controller
                 'success' => true,
                 'message' => 'Data pengembalian ditemukan!',
                 'data' => $pengembalian
+            ]);
+        }
+    }
+
+    public function updateNotifikasiPengembalian(Request $request, $id)
+    {
+        $pengembalian = Pengembalian::find($id);
+        $pengembalian->notifikasi_id = $request->notifikasi_id;
+        $pengembalian->save();
+
+        if ($pengembalian) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Notifikasi pengembalian berhasil diupdate!',
+                'data' => $pengembalian
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Notifikasi pengembalian gagal diupdate!',
             ]);
         }
     }
