@@ -17,7 +17,6 @@ class Pengembalian extends Model
         'user_id',
         'barang_id',
         'peminjaman_id',
-        'notifikasi_id',
         'keterangan',
         'status',
         'jumlah_pengembalian',

@@ -388,24 +388,4 @@ class PengembalianController extends Controller
             ]);
         }
     }
-
-    public function updateNotifikasiPengembalian(Request $request, $id)
-    {
-        $pengembalian = Pengembalian::find($id);
-        $pengembalian->notifikasi_id = $request->notifikasi_id;
-        $pengembalian->save();
-
-        if ($pengembalian) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Notifikasi pengembalian berhasil diupdate!',
-                'data' => $pengembalian
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Notifikasi pengembalian gagal diupdate!',
-            ]);
-        }
-    }
 }

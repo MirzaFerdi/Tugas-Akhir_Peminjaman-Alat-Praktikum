@@ -24,11 +24,11 @@ class DatabaseSeeder extends Seeder
             KelasSeeder::class,
             UserSeeder::class,
             KategoriSeeder::class,
-            BarangSeeder::class,
-            PeminjamanSeeder::class,
-            PengembalianSeeder::class,
+            // BarangSeeder::class,
+            // PeminjamanSeeder::class,
+            // PengembalianSeeder::class,
             // BroadcastSeeder::class,
-            NotifikasiSeeder::class,
+            // NotifikasiSeeder::class,
             // KondisiBarangSeeder::class,
         ]);
     }

@@ -377,24 +377,4 @@ class PeminjamanController extends Controller
             ]);
         }
     }
-
-    public function updateNotifikasiPeminjaman(Request $request, $id)
-    {
-        $peminjaman = Peminjaman::find($id);
-        $peminjaman->notifikasi_id = $request->notifikasi_id;
-        $peminjaman->save();
-
-        if ($peminjaman) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Notifikasi peminjaman berhasil diupdate!',
-                'data' => $peminjaman
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Notifikasi peminjaman gagal diupdate!',
-            ]);
-        }
-    }
 }
