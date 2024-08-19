@@ -11,7 +11,7 @@ class AlatImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         return new Barang([
-            'kategori_id' => 2,
+            'kategori_id' => 1,
             'kode_barang' => $row['kode_barang'],
             'nama_barang' => $row['nama_barang'],
             'stok_awal' => $row['stok_awal'],
